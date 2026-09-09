@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# 발행 계획 §5.1 게이트 3단계 — 자동 스캔.
+set -e
+exec ./scripts/scan-secrets.sh

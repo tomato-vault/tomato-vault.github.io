@@ -1,0 +1,17 @@
+---
+import HeaderLink from './HeaderLink.astro';
+import { SITE_TITLE, TRACK_META } from '../consts';
+import { TRACKS } from '../content.config';
+---
+
+<header>
+	<nav>
+		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<div class="internal-links">
+			{TRACKS.map((track) => (
+				<HeaderLink href={`/${track}/`}>{TRACK_META[track].label}</HeaderLink>
+			))}
+			<HeaderLink href="/about/">소개</HeaderLink>
+		</div>
+	</nav>
+</header>

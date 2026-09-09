@@ -1,0 +1,53 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, TRACK_META } from '../consts';
+import { getPosts, slugOf } from '../lib/posts';
+
+// 랜딩은 기술 섹션 상단 — 최신 기술 글이 먼저, 나머지 트랙은 아래 (§0.5.3).
+const tech = (await getPosts({ track: 'tech' })).slice(0, 5);
+const others = await Promise.all(
+	(['notes', 'essays', 'log'] as const).map(async (track) => ({
+		track,
+		posts: (await getPosts({ track })).slice(0, 3),
+	})),
+);
+---
+
+<html lang="ko">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<h2><a href="/tech/">{TRACK_META.tech.label}</a></h2>
+				<p>{TRACK_META.tech.blurb}</p>
+				{tech.length === 0 && <p><em>아직 발행한 글이 없습니다.</em></p>}
+				<ul>
+					{tech.map((post) => (
+						<li>
+							<a href={`/tech/${slugOf(post)}/`}>{post.data.title}</a>
+							{' — '}<FormattedDate date={post.data.pubDate} />
+						</li>
+					))}
+				</ul>
+			</section>
+
+			{others.map(({ track, posts }) => (
+				<section>
+					<h2><a href={`/${track}/`}>{TRACK_META[track].label}</a></h2>
+					<ul>
+						{posts.map((post) => (
+							<li><a href={`/${track}/${slugOf(post)}/`}>{post.data.title}</a></li>
+						))}
+					</ul>
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>
