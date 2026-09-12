@@ -26,6 +26,28 @@ npm run dev          # draft: true 도 dev 에서는 보인다
 
 발행: frontmatter 의 `draft` 를 `false` 로. 그 전에는 프로덕션 빌드에 나가지 않는다.
 
+## 이미지
+
+본문 이미지는 **글 파일과 같은 곳**에 두고 상대경로로 참조한다. Astro 가 빌드 시 webp 변환·리사이즈하고 `width`/`height` 를 박아 준다(레이아웃 시프트 방지).
+
+```
+src/content/posts/ko/images/{글슬러그}-01.png
+```
+
+```markdown
+![캡션](./images/my-post-01.png)
+```
+
+frontmatter 의 대표 이미지도 같은 방식.
+
+```yaml
+heroImage: ./images/my-post-01.png
+```
+
+**`public/` 은 최적화가 안 된다.** 파비콘·OG 이미지처럼 **URL 이 고정돼야 하는 것만** 넣고, 본문 이미지는 위 경로를 쓴다.
+
+> git 은 한 번 커밋한 바이너리를 영구히 보관한다. 스크린샷은 **커밋 전에 폭 1600px 이하로 줄이고**, 사진이면 webp/jpg 로 변환한다. PNG 원본 수 MB 를 그대로 올리면 되돌릴 수 없다.
+
 ## 발행 게이트 (§5.1) — 협상 불가
 
 1. **소재 게이트** — 회사 정보를 걷어내도 글이 성립하는가? 안 되면 발행하지 않는다
