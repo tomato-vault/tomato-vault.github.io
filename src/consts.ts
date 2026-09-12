@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'tomato-data';
+export const SITE_TITLE = 'tomato-vault';
 export const SITE_DESCRIPTION = '백엔드·인프라, 그리고 읽고 본 것들.';
 
 /**
@@ -7,7 +7,7 @@ export const SITE_DESCRIPTION = '백엔드·인프라, 그리고 읽고 본 것�
  *  2) 커스텀 도메인 구입 후 → https://{도메인}
  * astro.config.mjs 의 site 도 같이 바꾼다 (sitemap·RSS 절대경로가 여기서 나온다).
  */
-export const SITE_URL = 'https://example.pages.dev';
+export const SITE_URL = 'https://tomato-vault.github.io';
 
 /** 트랙별 표시 이름과 한 줄 설명 (§0.5.2) */
 export const TRACK_META = {
