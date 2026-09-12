@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # 로컬 초안 — 발행 준비 전 글은 여기에 둔다
 src/content/posts/**/_drafts/
+
+# 익명화 금칙어 목록 — 목록 자체가 유출원이므로 커밋하지 않는다
+scripts/.scan-patterns

@@ -1,41 +1,39 @@
 #!/usr/bin/env bash
-# 익명화 게이트 — 발행 계획 §5.3. 하나라도 걸리면 커밋/발행 중단.
-# 이 스크립트는 협상 대상이 아니다. 한 번 새어 나가면 되돌릴 수 없다.
+# 익명화 게이트 — 하나라도 걸리면 커밋/발행 중단.
+#
+# 패턴 목록은 저장소에 넣지 않는다. 목록 자체가 「무엇을 가리려 했는지」의
+# 인벤토리라서, 공개 저장소에 올리면 가리려던 것을 도리어 알려주게 된다.
+#   목록 파일: scripts/.scan-patterns  (gitignored · 한 줄에 하나)
+#   덮어쓰기:  SCAN_PATTERNS=/path/to/file
+#
+# 목록이 없으면 통과가 아니라 중단이다 — 빈 게이트로 조용히 발행되는 것이 최악이다.
 set -u
 
+HERE="$(cd "$(dirname "$0")" && pwd)"
+PATTERN_FILE="${SCAN_PATTERNS:-$HERE/.scan-patterns}"
 TARGET="${1:-src/content/posts}"
 
-PATTERNS=(
-  # ── 조직·제품 식별자
-  'BNV' 'bnvs' 'bnvsrnd' 'ipsispace' 'e-project' 'duoacademy' 'duocodi' 'buridge'
-  '종로엠'
-  # ── 도메인 용어 (§5.2 치환 사전 참조)
-  '원비' '성취평가' '학습 플래너' '강의평가' '학생부'
-  # ── 인프라 식별자
-  'arn:aws' 'AKIA' 'db\.t4g' 'E3MW57Z3RAUMHI'
-  '\b[0-9]{12}\b'            # AWS 계정 ID
-  '[a-z0-9.-]+\.co\.kr'      # 사내 도메인
-  '@[a-z0-9.-]+\.co\.kr'     # 사내 이메일
-  # ── 실제 엔드포인트
-  '/api/v1/my/' 'tuition' 'billings' 'staff/performance'
-  # ── 일반 크리덴셜
-  'BEGIN [A-Z ]*PRIVATE KEY' 'xox[baprs]-' 'sk-[A-Za-z0-9]{20,}' 'ghp_[A-Za-z0-9]{20,}'
-)
+if [ ! -f "$PATTERN_FILE" ]; then
+  echo "🚫 패턴 파일이 없다: $PATTERN_FILE"
+  echo "   게이트가 비어 있으면 통과가 아니라 중단이다. 목록을 복원한 뒤 다시 시도한다."
+  exit 1
+fi
 
-fail=0
 [ -d "$TARGET" ] || { echo "대상 없음: $TARGET (스캔 생략)"; exit 0; }
 
-for p in "${PATTERNS[@]}"; do
+fail=0
+while IFS= read -r p; do
+  case "$p" in ''|'#'*) continue ;; esac
   if grep -rniE "$p" "$TARGET" 2>/dev/null; then
     echo "🚫 금칙어 감지: $p"
     fail=1
   fi
-done
+done < "$PATTERN_FILE"
 
 if [ $fail -eq 1 ]; then
   echo
-  echo "발행 중단 — 발행 계획 §5.2 치환 사전으로 바꾼 뒤 재시도한다."
-  echo "정말 오탐이면 scripts/scan-secrets.sh 의 PATTERNS 를 고친다. --no-verify 로 우회하지 않는다."
+  echo "발행 중단 — 치환 사전으로 바꾼 뒤 재시도한다."
+  echo "정말 오탐이면 $PATTERN_FILE 을 고친다. --no-verify 로 우회하지 않는다."
   exit 1
 fi
 

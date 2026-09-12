@@ -53,6 +53,9 @@ heroImage: ./images/my-post-01.png
 1. **소재 게이트** — 회사 정보를 걷어내도 글이 성립하는가? 안 되면 발행하지 않는다
 2. **치환** — 도메인 용어 → 일반 용어 (§5.2 치환 사전)
 3. **자동 스캔** — `npm run scan`. pre-commit 훅이 자동 실행한다
+   - **금칙어 목록은 저장소에 없다.** 목록 자체가 「무엇을 가리려 했는지」의 인벤토리라, 공개 저장소에 올리면 가리려던 것을 도리어 알려준다
+   - 목록 파일: `scripts/.scan-patterns` (gitignored · 한 줄에 하나 · `grep -E`)
+   - **목록이 없으면 통과가 아니라 중단이다.** 빈 게이트로 조용히 발행되는 것이 최악이라 그렇게 만들었다
 4. **육안** — 발행 전 전체 통독
 
 클론 직후 한 번:
@@ -60,7 +63,11 @@ heroImage: ./images/my-post-01.png
 ```bash
 npm install
 git config core.hooksPath .githooks
+# 금칙어 목록 복원 — 없으면 스캔이 중단된다 (저장소에 없는 파일)
+cp {백업처}/.scan-patterns scripts/.scan-patterns
 ```
+
+> `scripts/.scan-patterns` 는 **이 저장소에 없다.** 새 머신에서 클론하면 반드시 복원해야 한다. 복원 전에는 커밋이 막힌다.
 
 ## 배포
 
