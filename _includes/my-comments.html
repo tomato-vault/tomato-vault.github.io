@@ -28,10 +28,10 @@
   {% assign utterances = site.utterances %}
   {% if utterances.repo %}
     <script src="https://utteranc.es/client.js"        
-            repo="Espebaum/blog-comments"        
-            issue-term="pathname"        
-            label="Comments"        
-            theme="github-light"        
+            repo="{{ utterances.repo }}"        
+            issue-term="{{ utterances.issue-term | default: 'pathname' }}"        
+            label="{{ utterances.label | default: 'Comments' }}"        
+            theme="{{ utterances.theme | default: 'github-light' }}"        
             crossorigin="anonymous"        
             async>
     </script>
