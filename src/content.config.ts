@@ -35,7 +35,7 @@ const posts = defineCollection({
 
 			// 연재물
 			series: z.string().optional(),
-			seriesOrder: z.number().int().positive().optional(),
+			seriesOrder: z.number().int().nonnegative().optional(),
 
 			// 크로스포스팅 시 원문을 가리킨다 (velog·dev.to·Zenn)
 			canonical: z.string().url().optional(),
