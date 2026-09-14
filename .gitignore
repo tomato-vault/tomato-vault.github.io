@@ -1,30 +1,26 @@
-# build output
-dist/
-# generated types
-.astro/
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
-# dependencies
+# Dependencies
 node_modules/
+vendor/
+.bundle/
 
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-
-# environment variables
+# Environment variables
 .env
 .env.production
 
 # macOS-specific files
 .DS_Store
 
-# jetbrains setting folder
+# JetBrains setting folder
 .idea/
 
 # 로컬 초안 — 발행 준비 전 글은 여기에 둔다
-src/content/posts/**/_drafts/
+_drafts/
 
 # 익명화 금칙어 목록 — 목록 자체가 유출원이므로 커밋하지 않는다
 scripts/.scan-patterns

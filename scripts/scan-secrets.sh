@@ -11,7 +11,7 @@ set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 PATTERN_FILE="${SCAN_PATTERNS:-$HERE/.scan-patterns}"
-TARGET="${1:-src/content/posts}"
+TARGET="${1:-_posts}"
 
 if [ ! -f "$PATTERN_FILE" ]; then
   echo "🚫 패턴 파일이 없다: $PATTERN_FILE"

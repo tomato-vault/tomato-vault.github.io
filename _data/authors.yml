@@ -1,0 +1,13 @@
+# The primary author of this blog.
+# Must be the same as `author` in `_config.yml`.
+author1:
+  name:              토마토
+  about:             |
+    기록의 악마와 코딩하는 기계들.
+  picture:
+    path:            /assets/img/logo.png
+    srcset:
+      1x:            /assets/img/logo.png
+      2x:            /assets/img/logo.png
+  social:
+    github:          https://github.com/tomato-vault

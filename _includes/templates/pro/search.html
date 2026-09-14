@@ -1,0 +1,19 @@
+<template id="_search-template">
+    <button id="_search" class="nav-btn no-hover">
+        <label class="sr-only" for="_search-input">Search</label>
+        <span class="icon-search"></span>
+      </button>
+      <div id="_search-box" class="">
+        <div class="nav-btn">
+          <span class="icon-search"></span>
+        </div>
+        <input id="_search-input" type="search" class="form-control form-control-lg nav-btn" placeholder="Type something…">
+        <button type="reset" class="nav-btn no-hover" id="reset-btn">
+          <span class="sr-only">Close</span>
+          <span class="icon-cross"></span>
+        </button>
+      </div>
+      <div id="_hits" style="display: none;">
+        <ul id="search-results"></ul>
+      </div>
+  </template>

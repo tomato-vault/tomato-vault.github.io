@@ -1,22 +1,22 @@
 ## Development
 
-When starting the dev server, use background mode:
+블로그 개발 서버 실행:
 
+```bash
+# rbenv 환경에서 실행
+bundle exec jekyll serve --livereload
+# 또는 npm script 사용
+npm run dev
 ```
-astro dev --background
-```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+## Production Build & Deploy
 
-## Documentation
+- 빌드: `bundle exec jekyll build`
+- 익명화 검사: `./scripts/scan-secrets.sh` (또는 `npm run scan`)
+- 배포: GitHub Actions(`.github/workflows/deploy.yml`)를 통해 `main` 브랜치 푸시 시 자동 배포됩니다.
 
-Full documentation: https://docs.astro.build
+## Content Management
 
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+- 글 작성: `_posts/tech/YYYY-MM-DD-title.md`
+- 이미지 저장: `assets/img/posts/`
+- 마크다운 이미지 참조: `![설명](/assets/img/posts/파일명.png)`
