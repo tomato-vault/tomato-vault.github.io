@@ -1,0 +1,21 @@
+record-devil:
+  title: "기록의 악마와 코딩하는 기계들"
+  slug: "record-devil"
+  url: "/tag-record-devil/"
+  description: "비전공자 신입 개발자가 1년여간 AI 에이전트와 협업하며 워크플로우를 정립해나간 실전 연재기"
+  posts:
+    - order: 0
+      title: "AI에게 욕하던 신입이 선생님을 위한 교칙을 만들기까지"
+      url: "/tech/0-ground-rules/"
+    - order: 1
+      title: "토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다"
+    - order: 2
+      title: "객체지향을 배웠으니 AI 선생님부터 가르쳐보겠습니다"
+    - order: 3
+      title: "테스트는 전부 통과했습니다. 그런데 첫 화면이 비었습니다"
+    - order: 4
+      title: "역시 내 테스트 스위트는 잘못됐다"
+    - order: 5
+      title: "합격률 100%의 검토자를 해고했습니다"
+    - order: 6
+      title: "에이전트가 여럿이라면 방도 여러 개여야 하지 않을까"

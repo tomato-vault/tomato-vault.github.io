@@ -1,0 +1,11 @@
+{% assign series_key = include.post.series_key | default: "record-devil" %}
+{% assign series_info = site.data.series[series_key] %}
+{% if series_info %}
+<div class="series-header-banner">
+  <span class="series-header-badge">SERIES</span>
+  <span class="series-header-text">
+    <a href="{{ series_info.url | relative_url }}" class="series-header-link">{{ series_info.title }}</a>
+    <span class="series-header-num">#{{ include.post.series_order | default: 0 }}</span>
+  </span>
+</div>
+{% endif %}

@@ -4,9 +4,10 @@ title: "AI에게 욕하던 신입이 선생님을 위한 교칙을 만들기까�
 description: "기록의 악마의 배경, 첫 프로젝트 실패, 그리고 AI 에이전트와 일하는 환경을 고쳐나간 첫걸음"
 date: 2026-09-09
 categories: [tech]
-tags: ["AI", "Agent", "Workflow", "회고"]
+tags: ["record-devil", "AI", "Agent", "Workflow", "회고"]
 permalink: /tech/0-ground-rules/
 series: "기록의 악마와 코딩하는 기계들"
+series_key: "record-devil"
 series_order: 0
 ---
 
