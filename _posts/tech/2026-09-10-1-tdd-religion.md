@@ -28,7 +28,7 @@ TDD의 도입은 여러 방면으로 코드의 퀄리티를 높여줬는데 그 
 
 ![주니어 백엔드 개발자가 반드시 알아야 할 실무 지식 표지](/assets/img/posts/ai-agent-architecture-1-book-cover.webp){:width="400" loading="lazy"}
 
-[캡션을 입력해주세요]
+주니어 백엔드 개발자가 반드시 알아야 할 실무 지식 표지.
 {:.figcaption}
 
 읽게 된 계기는 직장 동료의 추천이었다. 처음 추천 받았을 때는 그 외에도 알아야 할 지식들이 너무 많아서 인지만 하고 있다가 어느 순간 큰 마음가짐 없이 공부를 하자는 생각으로 일단 알라딘으로 주문해서 받은 그날부터, 집에 돌아와서 쉬는 게 아니라 그 책을 읽고 있는 나를 발견했다. 지금 생각해도 그 당시 나는 정말 열정이 넘쳤던 것 같다.
@@ -39,12 +39,12 @@ TDD의 도입은 여러 방면으로 코드의 퀄리티를 높여줬는데 그 
 
 ![옵시디언에 필사해둔 도서 디렉토리](/assets/img/posts/ai-agent-architecture-1-obsidian-book-directory.webp){:width="400" loading="lazy"}
 
-[캡션을 입력해주세요]
+Obsidian의 책들을 필사해놓은 디렉토리 모습.
 {:.figcaption}
 
 ![도서 기반으로 모듈화한 SKILL 디렉토리 구조](/assets/img/posts/ai-agent-architecture-1-skill-directory.webp){:width="450" loading="lazy"}
 
-[캡션을 입력해주세요]
+모듈화된 SKILL의 디렉토리의 구조.
 {:.figcaption}
 
 한 때 이렇게 SKILL화 하는 것에 맛들려서 책을 마구마구 md로 필사하고 그것을 스킬로 만드는 것에 몰두했었다. 당연한 얘기이지만 자연스럽게 도태되는 스킬도 있었고 유의미해서 계속해서 관리하게 되는 스킬로 나뉘었다. 지금은 아예 레포지토리를 파서 이러한 스킬들을 관리하고 있다. 이 중 worth noticing한 것은, 위 책에 더해 **『오브젝트 디자인 스타일 가이드』**와 **『TDD with Python』** 두 책이다. 전자는 OOP에 대한 개념을 확실히 잡을 수 있었으며 그것을 TDD 워크플로우에 적절히 도입하였고 후자는 영상으로 먼저 접했던 TDD를 확실히 이해하게 도와준 책이다.
