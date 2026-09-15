@@ -1,7 +1,7 @@
-record-devil:
-  title: "기록의 악마와 코딩하는 기계들"
-  slug: "record-devil"
-  url: "/tag-record-devil/"
+ai-agent-architecture:
+  title: "AI 에이전트 협업 아키텍처 변천사"
+  slug: "ai-agent-architecture"
+  url: "/tag-ai-agent-architecture/"
   description: "비전공자 신입 개발자가 1년여간 AI 에이전트와 협업하며 워크플로우를 정립해나간 실전 연재기"
   posts:
     - order: 0
@@ -9,8 +9,10 @@ record-devil:
       url: "/tech/0-ground-rules/"
     - order: 1
       title: "토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다"
+      url: "/tech/1-tdd-religion/"
     - order: 2
       title: "객체지향을 배웠으니 AI 선생님부터 가르쳐보겠습니다"
+      url: "/tech/2-teach-object-design/"
     - order: 3
       title: "테스트는 전부 통과했습니다. 그런데 첫 화면이 비었습니다"
     - order: 4

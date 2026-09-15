@@ -1,8 +1,8 @@
 ---
 layout: tag-list
 type: tag
-title: "기록의 악마와 코딩하는 기계들"
-slug: record-devil
+title: "AI 에이전트 협업 아키텍처 변천사"
+slug: ai-agent-architecture
 category: tech
 sidebar: true
 order: 1
