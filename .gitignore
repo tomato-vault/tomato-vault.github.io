@@ -24,3 +24,8 @@ _drafts/
 
 # 익명화 금칙어 목록 — 목록 자체가 유출원이므로 커밋하지 않는다
 scripts/.scan-patterns
+
+# AI Agent 지침 문서 (로컬 전용)
+AGENTS.md
+CLAUDE.md
+claude.md
