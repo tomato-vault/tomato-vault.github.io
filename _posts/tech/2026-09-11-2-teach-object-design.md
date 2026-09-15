@@ -11,6 +11,9 @@ series_key: "ai-agent-architecture"
 series_order: 2
 ---
 
+- table of contents
+{:toc}
+
 ## TDD 워크플로우의 진화
 
 1번 글에서 TDD에 OOP를 도입한 이야기를 살짝 했었다. 이번 글부터는 그것을 포함하여 어떤 내용들을 어떤 경위로 넣게 되었는지에 대해서 설명을 해볼까 한다.
