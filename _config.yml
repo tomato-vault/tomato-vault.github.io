@@ -8,20 +8,22 @@ baseurl:               ''
 # ---------------------------------------------------------------------------------------
 
 lang:                  ko-KR
-title:                 토마토 볼트
+title:                 기록의 악마와 코딩하는 기계들
 timezone:              Asia/Seoul
 
 description:           >
-  기록의 악마와 코딩하는 기계들 — AI 협업, 워크플로우, 개발 일지
+  기록의 악마와 코딩하는 기계들 — 토마토의 엔지니어링, AI 워크플로우, 그리고 라이프 아카이브
 
-tagline:               기록의 악마와 코딩하는 기계들
+tagline:               토마토의 엔지니어링 & 라이프 아카이브
 keywords:              ["AI", "Agent", "Workflow", "TDD", "Obsidian", "Python"]
-# logo:                  /assets/img/logo.png
+logo:                  /assets/img/profile.png
 
 author:
   name:                토마토
+  picture:             /assets/img/profile.png
   social:
     github:            tomato-vault
+    linkedin:          junyoung-choi-34bbbb258
 
 legal:
   - title:             LICENSE
