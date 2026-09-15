@@ -19,16 +19,10 @@ module Jekyll
         end
       end.compact 
 
-      root_output_file = File.join(site.source, 'posts.json')
-      site_output_file = File.join(site.dest, 'posts.json')
-
-      File.write(root_output_file, JSON.pretty_generate(posts))
-
-      FileUtils.mkdir_p(File.dirname(site_output_file))
-      File.write(site_output_file, JSON.pretty_generate(posts))
-
-      site.keep_files ||= []
-      site.keep_files << 'posts.json'
+      page = PageWithoutAFile.new(site, site.source, "", "posts.json")
+      page.content = JSON.pretty_generate(posts)
+      page.data['layout'] = nil
+      site.pages << page
     end
   end
 end
