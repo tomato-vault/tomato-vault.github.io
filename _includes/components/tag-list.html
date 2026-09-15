@@ -11,11 +11,14 @@
   {%- for tag_slug in tags -%}
     {%- capture iter_separator -%}{% if forloop.last %}{{ end_with }}{% else %}{{ separator }}{% endif %}{%- endcapture -%}
 
-    {%- if major >= 4 and minor >= 1 %}
-      {%- assign tag = meta | find: "slug", tag_slug -%}
-    {%- else -%}
-      {%- assign tag = meta | where: "slug", tag_slug | first -%}
-    {%- endif -%}
+    {%- assign tag = meta | where: "slug", tag_slug | first -%}
+    {%- unless tag -%}
+      {%- assign tag_slug_lower = tag_slug | downcase -%}
+      {%- assign tag = meta | where: "slug", tag_slug_lower | first -%}
+    {%- endunless -%}
+    {%- unless tag -%}
+      {%- assign tag = meta | where: "title", tag_slug | first -%}
+    {%- endunless -%}
 
     {%- if tag -%}
       {%- capture content_temp -%}{{ content }}<a href="{{ tag.url | relative_url }}" class="flip-title">{{ tag.title }}</a>{{ iter_separator }}{%- endcapture -%}

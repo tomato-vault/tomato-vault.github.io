@@ -18,8 +18,20 @@ layout: page
 ---
 
 {{ content }}
-
 {% assign posts = site.tags[page.slug] %}
+{% unless posts and posts.size > 0 %}
+  {% assign posts = site.tags[page.title] %}
+{% endunless %}
+{% unless posts and posts.size > 0 %}
+  {% for tag_pair in site.tags %}
+    {% assign tag_name_down = tag_pair[0] | downcase %}
+    {% assign page_slug_down = page.slug | downcase %}
+    {% if tag_name_down == page_slug_down %}
+      {% assign posts = tag_pair[1] %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endunless %}
 
 {% assign date_formats  = site.data.strings.date_formats               %}
 {% assign list_group_by = date_formats.list_group_by | default:"%Y"    %}
