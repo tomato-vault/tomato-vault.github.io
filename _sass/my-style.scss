@@ -337,3 +337,115 @@ pre {
   }
 }
 
+// ==========================================================================
+// Keyword Highlight Styles (키워드 하이라이트 스타일)
+// ==========================================================================
+
+// 1. 기본/옵시디언 마커: 텍스트 하단 소프트 틸 형광펜 (블로그 메인 컬러 기반)
+mark,
+.kw-marker,
+.kw-teal {
+  background: linear-gradient(180deg, transparent 55%, rgba(79, 177, 186, 0.35) 55%);
+  color: inherit;
+  font-weight: 600;
+  padding: 0 0.15rem;
+  border-radius: 2px;
+}
+
+// 컬러 프리셋 (자유롭게 골라 쓸 수 있는 형광펜 색상들)
+.kw-yellow { // 클래식 형광 노랑 (눈에 잘 띄는 하이라이트)
+  background: linear-gradient(180deg, transparent 55%, rgba(250, 204, 21, 0.42) 55%);
+}
+
+.kw-coral { // 따뜻한 코랄/오렌지 (주의, 경고, 활기찬 강조)
+  background: linear-gradient(180deg, transparent 55%, rgba(251, 146, 60, 0.4) 55%);
+}
+
+.kw-purple { // 차분하고 세련된 라벤더/퍼플
+  background: linear-gradient(180deg, transparent 55%, rgba(167, 139, 250, 0.38) 55%);
+}
+
+.kw-pink { // 산뜻한 로즈 핑크
+  background: linear-gradient(180deg, transparent 55%, rgba(244, 114, 182, 0.38) 55%);
+}
+
+.kw-green { // 부드러운 민트/그린
+  background: linear-gradient(180deg, transparent 55%, rgba(52, 211, 153, 0.38) 55%);
+}
+
+// 2. 소프트 키워드 칩: 라운드 박스 뱃지
+.kw-chip {
+  background-color: rgba(79, 177, 186, 0.12);
+  border: 1px solid rgba(79, 177, 186, 0.35);
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 0.95em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: 1.35;
+}
+
+// 3. '기록의 악마' 전용 마커 (체인소 크림슨 레드 - 민트와 완벽한 보색 대비)
+.kw-devil,
+.kw-crimson {
+  background: linear-gradient(180deg, transparent 55%, rgba(244, 63, 94, 0.42) 55%);
+  color: inherit;
+  font-weight: 700;
+  padding: 0 0.18rem;
+  border-radius: 2px;
+}
+
+// 체인소 오렌지 마커 (체인소맨 포치타 오렌지)
+.kw-orange {
+  background: linear-gradient(180deg, transparent 55%, rgba(249, 115, 22, 0.42) 55%);
+  color: inherit;
+  font-weight: 700;
+  padding: 0 0.18rem;
+  border-radius: 2px;
+}
+
+// 4. 글로우 언더라인: 볼드 + 네온 포인트 라인
+.kw-glow {
+  font-weight: 700;
+  color: var(--body-color);
+  border-bottom: 2px solid var(--accent-color);
+  text-shadow: 0 0 10px rgba(79, 177, 186, 0.3);
+  padding-bottom: 1px;
+}
+
+// ==========================================================================
+// Inline Code Styling (개발자 표준 인라인 코드 블록 디자인)
+// ==========================================================================
+
+:not(pre) > code {
+  font-family: var(--code-font-family);
+  font-size: 0.86em;
+  font-weight: 500;
+  padding: 0.15em 0.36em;
+  margin: 0 0.12em;
+  border-radius: 3px;
+  border: none;
+  background-color: rgba(79, 177, 186, 0.14);
+  color: #0d7685;
+  vertical-align: baseline;
+  box-shadow: none;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :not(pre) > code {
+    background-color: rgba(79, 177, 186, 0.18);
+    border: none;
+    color: var(--accent-color);
+  }
+}
+
+body.dark-mode :not(pre) > code {
+  background-color: rgba(79, 177, 186, 0.18);
+  border: none;
+  color: var(--accent-color);
+}
+
+
+

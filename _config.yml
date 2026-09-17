@@ -55,6 +55,11 @@ font:                  Fira Code
 font_heading:          Fira Code
 font_code:             Fira Code
 
+# Auto Highlight Keywords (본문 자동 하이라이트 키워드 목록)
+highlight_keywords:
+  - text: "기록의 악마"
+    class: "kw-devil"
+
 defaults:
   - scope:
       path:            assets/**
@@ -129,7 +134,7 @@ hydejack:
   cookies_banner:      false
   advertise:           false
   hide_dates:          false
-  hide_last_modified:  false
+  hide_last_modified:  true
   dark_mode:
     always:            false
     dynamic:           false

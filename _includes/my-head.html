@@ -21,3 +21,34 @@
 <script type="text/javascript" async
 src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
+
+<style>
+  /* Inline Code - 테두리 없는 깔끔하고 플랫한 인라인 코드블록 */
+  :not(pre) > code {
+    font-family: var(--code-font-family, monospace) !important;
+    font-size: 0.86em !important;
+    font-weight: 500 !important;
+    padding: 0.15em 0.36em !important;
+    margin: 0 0.12em !important;
+    border-radius: 3px !important;
+    border: none !important;
+    background-color: rgba(79, 177, 186, 0.14) !important;
+    color: #0d7685 !important;
+    vertical-align: baseline !important;
+    box-shadow: none !important;
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    :not(pre) > code {
+      background-color: rgba(79, 177, 186, 0.18) !important;
+      border: none !important;
+      color: var(--accent-color, #4fb1ba) !important;
+    }
+  }
+
+  body.dark-mode :not(pre) > code {
+    background-color: rgba(79, 177, 186, 0.18) !important;
+    border: none !important;
+    color: var(--accent-color, #4fb1ba) !important;
+  }
+</style>

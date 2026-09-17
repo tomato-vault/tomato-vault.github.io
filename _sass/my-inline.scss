@@ -127,3 +127,34 @@ input[type=checkbox]:checked~ul {
   // This line forces the browser to set the opacity to 1 after executing/finishing the animation
   opacity: 1;
 }
+
+// Inline Code Styling (HTML 인라인 삽입으로 캐시 무시 강제 적용)
+:not(pre) > code {
+  font-family: var(--code-font-family) !important;
+  font-size: 0.86em !important;
+  font-weight: 500 !important;
+  padding: 0.15em 0.36em !important;
+  margin: 0 0.12em !important;
+  border-radius: 3px !important;
+  border: none !important;
+  background-color: rgba(79, 177, 186, 0.14) !important;
+  color: #0d7685 !important;
+  vertical-align: baseline !important;
+  box-shadow: none !important;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :not(pre) > code {
+    background-color: rgba(79, 177, 186, 0.18) !important;
+    border: none !important;
+    color: var(--accent-color, #4fb1ba) !important;
+  }
+}
+
+body.dark-mode :not(pre) > code {
+  background-color: rgba(79, 177, 186, 0.18) !important;
+  border: none !important;
+  color: var(--accent-color, #4fb1ba) !important;
+}
+
+
