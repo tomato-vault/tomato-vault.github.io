@@ -16,13 +16,13 @@ ai-agent-architecture:
     - order: 3
       title: "테스트는 전부 통과했는데 첫 화면이 비어 있었습니다"
     - order: 4
-      title: "콘솔 클릭에서 ECS까지: 1인이 감당하는 클라우드 인프라와 배포의 진화"
-    - order: 5
       title: "에이전트가 여럿이라면 방도 여러 개여야 하지 않을까"
-    - order: 6
+    - order: 5
       title: "에이전트에게 기억이 없다면 저장소가 기억하면 된다"
-    - order: 7
+    - order: 6
       title: "규칙을 지키기 위해 규칙부터 버리기로 했다"
+    - order: 7
+      title: "콘솔 클릭에서 ECS까지: 1인이 감당하는 클라우드 인프라와 배포의 진화"
     - order: 8
       title: "기록의 악마는 고립된 노트의 꿈을 꾸지 않는다"
     - order: 9
