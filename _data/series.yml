@@ -15,6 +15,7 @@ ai-agent-architecture:
       url: "/tech/2-teach-object-design/"
     - order: 3
       title: "테스트는 전부 통과했는데 첫 화면이 비어 있었습니다"
+      url: "/tech/3-all-passed-empty-screen/"
     - order: 4
       title: "에이전트가 여럿이라면 방도 여러 개여야 하지 않을까"
     - order: 5
