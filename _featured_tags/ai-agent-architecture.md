@@ -1,11 +1,11 @@
 ---
 layout: tag-list
 type: tag
-title: "AI 에이전트 협업 아키텍처 변천사"
+title: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 slug: ai-agent-architecture
 category: tech
 sidebar: true
 order: 1
 description: >
-  비전공자 신입 개발자가 1년여간 AI 에이전트와 협업하며 워크플로우를 정립해나간 실전 연재기
+  사수 없는 환경에서 TDD 품질 엔진부터 클라우드 인프라, 병렬 에이전트와 저장소 거버넌스까지 구축해낸 1인 풀사이클 실전 기록
 ---
