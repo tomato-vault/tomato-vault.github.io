@@ -406,6 +406,16 @@ mark,
   border-radius: 2px;
 }
 
+// 4. '의도(Intent)' 전용 마커 (웜 앰버 골드 옐로우 - 틸 테마와 조화로운 고대비 하이라이트)
+.kw-intent,
+.kw-gold {
+  background: linear-gradient(180deg, transparent 55%, rgba(251, 191, 36, 0.48) 55%);
+  color: inherit;
+  font-weight: 700;
+  padding: 0 0.18rem;
+  border-radius: 2px;
+}
+
 // 4. 글로우 언더라인: 볼드 + 네온 포인트 라인
 .kw-glow {
   font-weight: 700;
@@ -413,6 +423,40 @@ mark,
   border-bottom: 2px solid var(--accent-color);
   text-shadow: 0 0 10px rgba(79, 177, 186, 0.3);
   padding-bottom: 1px;
+}
+
+// 5. '전문 용어·특정 명사(Term)' 전용 풀 하이라이트 (글자 전체를 감싸는 소프트 풀 필)
+mark.kw-term,
+.kw-term {
+  background-color: rgba(167, 139, 250, 0.22); // 세련된 소프트 바이올렛 (기본)
+  color: inherit;
+  font-weight: 700;
+  padding: 0.12em 0.38em;
+  margin: 0 0.08em;
+  border-radius: 4px;
+  border: 1px solid rgba(167, 139, 250, 0.32);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  display: inline;
+
+  // 컬러 옵션
+  &.kw-blue,
+  &-blue {
+    background-color: rgba(96, 165, 250, 0.22);
+    border-color: rgba(96, 165, 250, 0.32);
+  }
+
+  &.kw-coral,
+  &-coral {
+    background-color: rgba(251, 146, 60, 0.22);
+    border-color: rgba(251, 146, 60, 0.32);
+  }
+
+  &.kw-emerald,
+  &-emerald {
+    background-color: rgba(52, 211, 153, 0.22);
+    border-color: rgba(52, 211, 153, 0.32);
+  }
 }
 
 // ==========================================================================
