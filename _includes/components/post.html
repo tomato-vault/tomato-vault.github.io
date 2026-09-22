@@ -77,7 +77,7 @@
 
   {% if no_excerpt %}
     {% if post.series %}
-      {% include components/series-banner.html post=post %}
+      {% include components/series-box.html post=post %}
     {% endif %}
     {{ post.content }}
   {% else %}

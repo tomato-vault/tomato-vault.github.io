@@ -157,4 +157,144 @@ body.dark-mode :not(pre) > code {
   color: var(--accent-color, #4fb1ba) !important;
 }
 
+// ==========================================================================
+// Keyword Highlight Styles (단일 통일 하이라이트 시스템)
+// bold 상위 레이어로 동작하며, 본문 텍스트 색상을 해치지 않는 형광펜 스타일
+// ==========================================================================
+
+// 1. 전체 블로그 관통 상징어 (시그니처 컬러 유지)
+mark.kw-devil,
+.kw-devil,
+mark.kw-crimson,
+.kw-crimson {
+  background: linear-gradient(180deg, transparent 55%, rgba(244, 63, 94, 0.42) 55%) !important;
+  color: inherit !important;
+  font-weight: 700 !important;
+  padding: 0 0.18rem !important;
+  border-radius: 2px !important;
+  border: none !important;
+  display: inline !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+mark.kw-intent,
+.kw-intent,
+mark.kw-gold,
+.kw-gold {
+  background: linear-gradient(180deg, transparent 55%, rgba(251, 191, 36, 0.48) 55%) !important;
+  color: inherit !important;
+  font-weight: 700 !important;
+  padding: 0 0.18rem !important;
+  border-radius: 2px !important;
+  border: none !important;
+  display: inline !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+// 2. 주요 명사/기술 용어 단일 통일 하이라이트 (메인 하늘색 톤 형광펜)
+//    - 글자 색상은 본문 텍스트 색상(inherit) 그대로 유지하여 가독성 100% 확보
+//    - bold 상위 레이어로서 font-weight: 700 + 하단 소프트 시안/스카이블루 마킹
+mark.kw-term,
+.kw-term,
+mark.kw-harness,
+.kw-harness,
+mark.kw-deterministic,
+.kw-deterministic,
+mark.kw-isolation,
+.kw-isolation,
+mark.kw-ssot,
+.kw-ssot,
+mark.kw-marker,
+.kw-marker,
+mark:not([class]) {
+  background: linear-gradient(180deg, transparent 55%, rgba(79, 177, 186, 0.35) 55%) !important;
+  color: inherit !important;
+  font-weight: 700 !important;
+  padding: 0 0.15rem !important;
+  border-radius: 2px !important;
+  border: none !important;
+  display: inline !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+// 다크모드 대응
+@media screen and (prefers-color-scheme: dark) {
+  mark.kw-devil,
+  .kw-devil,
+  mark.kw-crimson,
+  .kw-crimson {
+    background: linear-gradient(180deg, transparent 55%, rgba(244, 63, 94, 0.45) 55%) !important;
+  }
+
+  mark.kw-intent,
+  .kw-intent,
+  mark.kw-gold,
+  .kw-gold {
+    background: linear-gradient(180deg, transparent 55%, rgba(251, 191, 36, 0.42) 55%) !important;
+  }
+
+  mark.kw-term,
+  .kw-term,
+  mark.kw-harness,
+  .kw-harness,
+  mark.kw-deterministic,
+  .kw-deterministic,
+  mark.kw-isolation,
+  .kw-isolation,
+  mark.kw-ssot,
+  .kw-ssot,
+  mark.kw-marker,
+  .kw-marker,
+  mark:not([class]) {
+    background: linear-gradient(180deg, transparent 55%, rgba(79, 177, 186, 0.42) 55%) !important;
+  }
+}
+
+body.dark-mode {
+  mark.kw-devil,
+  .kw-devil,
+  mark.kw-crimson,
+  .kw-crimson {
+    background: linear-gradient(180deg, transparent 55%, rgba(244, 63, 94, 0.45) 55%) !important;
+  }
+
+  mark.kw-intent,
+  .kw-intent,
+  mark.kw-gold,
+  .kw-gold {
+    background: linear-gradient(180deg, transparent 55%, rgba(251, 191, 36, 0.42) 55%) !important;
+  }
+
+  mark.kw-term,
+  .kw-term,
+  mark.kw-harness,
+  .kw-harness,
+  mark.kw-deterministic,
+  .kw-deterministic,
+  mark.kw-isolation,
+  .kw-isolation,
+  mark.kw-ssot,
+  .kw-ssot,
+  mark.kw-marker,
+  .kw-marker,
+  mark:not([class]) {
+    background: linear-gradient(180deg, transparent 55%, rgba(79, 177, 186, 0.42) 55%) !important;
+  }
+}
+
+// 목차(TOC) 내부에서는 하이라이트 및 패딩 무효화 (가독성 보호)
+#markdown-toc,
+.table-of-contents {
+  mark {
+    background: transparent !important;
+    color: inherit !important;
+    font-weight: inherit !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
 

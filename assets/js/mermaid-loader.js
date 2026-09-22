@@ -76,6 +76,13 @@
         wrapper.className = "mermaid-wrapper";
         wrapper.innerHTML = svg;
 
+        // Sequence diagram note-lifeline overlay fix: ensure notes render above lines
+        const svgEl = wrapper.querySelector("svg");
+        if (svgEl) {
+          const notes = svgEl.querySelectorAll("g[data-et='note'], g.note");
+          notes.forEach(note => svgEl.appendChild(note));
+        }
+
         container.parentNode.replaceChild(wrapper, container);
         if (typeof bindFunctions === "function") {
           bindFunctions(wrapper);

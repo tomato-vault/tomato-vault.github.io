@@ -20,7 +20,7 @@ ai-agent-architecture:
       title: "[4편] 역시 내 테스트 스위트는 잘못됐다"
       url: "/tech/4-all-passed-empty-screen/"
     - order: 5
-      title: "[5편] 에이전트가 여럿이라면 방도 여러 개여야 하지 않을까"
+      title: "[5편] 같은 브랜치에서 에이전트끼리 사이좋게 코딩할 리가 없어"
       url: "/tech/5-cmux-parallel-worktree/"
     - order: 6
       title: "[6편] 에이전트에게 기억이 없다면 저장소가 기억하면 된다"

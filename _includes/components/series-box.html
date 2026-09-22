@@ -1,9 +1,11 @@
-{% assign series_key = page.series_key | default: "ai-agent-architecture" %}
+{% assign current_post = include.post | default: page %}
+{% assign series_key = current_post.series_key | default: page.series_key | default: "ai-agent-architecture" %}
+{% assign current_order = current_post.series_order | default: page.series_order %}
 {% assign series_info = site.data.series[series_key] %}
 {% if series_info %}
 <aside class="series-box" role="navigation" aria-label="시리즈 목록">
   <div class="series-box-header">
-    <div class="series-box-icon">📚</div>
+    <div class="series-box-icon">&gt;_</div>
     <div class="series-box-info">
       <h3 class="series-box-title">
         <a href="{{ series_info.url | relative_url }}">{{ series_info.title }}</a>
@@ -16,7 +18,7 @@
   <ol class="series-box-list">
     {% for item in series_info.posts %}
       {% assign is_current = false %}
-      {% if page.series_order == item.order %}
+      {% if current_order == item.order %}
         {% assign is_current = true %}
       {% endif %}
 
@@ -30,14 +32,14 @@
 
       <li class="series-box-item{% if is_current %} current{% endif %}">
         {% if is_current %}
-          <span class="series-item-marker">👉</span>
+          <span class="series-item-marker current">&gt;</span>
           <span class="series-item-title-text current">{{ item.title }}</span>
           <span class="series-item-badge current">현재 글</span>
         {% elsif post_link %}
-          <span class="series-item-marker">✓</span>
+          <span class="series-item-marker"></span>
           <a href="{{ post_link | relative_url }}" class="series-item-title-link">{{ item.title }}</a>
         {% else %}
-          <span class="series-item-marker">·</span>
+          <span class="series-item-marker"></span>
           <span class="series-item-title-text upcoming">{{ item.title }}</span>
           <span class="series-item-badge upcoming">발행 예정</span>
         {% endif %}
