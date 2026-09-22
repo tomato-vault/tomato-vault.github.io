@@ -3,6 +3,8 @@
 {% if site.lightbox %}
   <script src="/assets/js/lightbox.js"></script>
 {% endif %}
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" defer></script>
+<script src="/assets/js/mermaid-loader.js" defer></script>
 
 <script>
   document
@@ -10,5 +12,8 @@
     .addEventListener("hy-push-state-load", function () {
       get_clap_count();
       apply_lightbox();
+      if (window.renderMermaid) {
+        window.renderMermaid();
+      }
     });
 </script>
