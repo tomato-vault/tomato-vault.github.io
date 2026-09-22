@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "[0편] AI에게 욕하던 신입이 선생님을 위한 교칙을 만들기까지"
+title: "[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지"
 description: "기록의 악마의 배경, 첫 프로젝트 실패, 그리고 AI 에이전트와 일하는 환경을 고쳐나간 첫걸음"
 date: 2026-09-09
 categories: [tech]
 tags: ["ai-agent-architecture", "AI", "Agent", "Workflow", "회고"]
-permalink: /tech/0-ground-rules/
+permalink: /tech/1-ground-rules/
 series: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 series_key: "ai-agent-architecture"
-series_order: 0
+series_order: 1
 ---
 
 - table of contents
@@ -97,4 +97,4 @@ Obsidian으로 이사한 후의 내 '월기' 디렉토리 모습.
 
 ---
 
-다음 글인 [[1편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다](/tech/1-tdd-religion/)부터는 이런 식으로 차츰차츰 내가 일하는 환경을 개선해나간 이야기(TDD 도입과 커스텀 스킬화)를 본격적으로 다뤄보겠다.
+다음 글인 [[2편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다](/tech/2-tdd-religion/)부터는 이런 식으로 차츰차츰 내가 일하는 환경을 개선해나간 이야기(TDD 도입과 커스텀 스킬화)를 본격적으로 다뤄보겠다.

@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "[1편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다"
+title: "[2편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다"
 description: "토큰 낭비라 여겼던 TDD의 도입부터 책·영상·경험을 흡수한 모듈형 SKILL 시스템, 그리고 개발 프로세스인 TDD와 검진 스킬 구축에 대하여"
 date: 2026-09-10
 categories: [tech]
 tags: ["ai-agent-architecture", "AI", "Agent", "TDD", "Workflow"]
-permalink: /tech/1-tdd-religion/
+permalink: /tech/2-tdd-religion/
 series: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 series_key: "ai-agent-architecture"
-series_order: 1
+series_order: 2
 ---
 
 - table of contents
@@ -18,7 +18,7 @@ series_order: 1
 
 ### 과천 모임과 TDD의 첫 만남
 
-지난 [[0편]](/tech/0-ground-rules/)에서 소개했듯 나는 부트캠프 출신이다. 해당 부트캠프가 끝난 후에 NIPA 실무형 프로젝트와 그 이후에 이어진 '빅테크 해커톤'에서 각각 대상을 수여하는 영광을 누리기도 했다.
+지난 [[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지](/tech/1-ground-rules/)에서 소개했듯 나는 부트캠프 출신이다. 해당 부트캠프가 끝난 후에 NIPA 실무형 프로젝트와 그 이후에 이어진 '빅테크 해커톤'에서 각각 대상을 수여하는 영광을 누리기도 했다.
 
 ![NIPA 실무형 프로젝트 대상 수여식](/assets/img/posts/ai-agent-architecture-1-nipa-award.webp){:width="700" loading="lazy"}
 
@@ -146,4 +146,4 @@ SKILL 시스템을 구축하면서 내 워크플로우를 진화시킨 지식의
 
 ---
 
-다음 글인 [[2편] 객체지향을 배웠으니 선생님을 가르쳐보겠습니다](/tech/2-teach-object-design/)에서는 이러한 TDD 엔진과 검진 스킬을 구성함에 있어서 가장 핵심적인 프로그래밍 철학이 되어준 『오브젝트 디자인 스타일 가이드』를 바탕으로, 객체 분류(Service·Entity·VO·DTO), CQS, 단위 테스트 설계 원칙을 `tdd-plan` 계획 단계에 어떻게 강제하고 녹여냈는지를 본격적으로 다뤄보겠다.
+다음 글인 [[3편] 객체지향을 배웠으니 선생님을 가르쳐보겠습니다](/tech/3-teach-object-design/)에서는 이러한 TDD 엔진과 검진 스킬을 구성함에 있어서 가장 핵심적인 프로그래밍 철학이 되어준 『오브젝트 디자인 스타일 가이드』를 바탕으로, 객체 분류(Service·Entity·VO·DTO), CQS, 단위 테스트 설계 원칙을 `tdd-plan` 계획 단계에 어떻게 강제하고 녹여냈는지를 본격적으로 다뤄보겠다.
