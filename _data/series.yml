@@ -32,7 +32,7 @@ ai-agent-architecture:
       title: "[8편] 어차피 도커인데 앤서블은 왜 썼을까"
       url: "/tech/8-cloud-infra-evolution/"
     - order: 9
-      title: "[9편] AI가 쏟아낸 UI 스파게티를 FSD로 썰어내기까지"
+      title: "[9편] 어차피 프론트엔드인데 아키텍처가 왜 필요해?"
       url: "/tech/9-frontend-fsd/"
     - order: 10
       title: "[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다"
