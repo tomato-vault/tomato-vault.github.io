@@ -26,7 +26,7 @@ ai-agent-architecture:
       title: "[6편] 에이전트가 기억상실증입니다만, 문제라도?"
       url: "/tech/6-repo-governance/"
     - order: 7
-      title: "[7편] 규칙을 지키기 위해 규칙부터 버리기로 했다"
+      title: "[7편] 규칙이 64개나 있는데 왜 코드를 못 짜니"
       url: "/tech/7-rule-pruning/"
     - order: 8
       title: "[8편] 콘솔 클릭에서 ECS까지: 1인이 감당하는 클라우드 인프라와 배포의 진화"
