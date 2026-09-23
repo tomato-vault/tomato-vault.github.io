@@ -24,11 +24,28 @@
 {% endif %}
 {% assign sizes = sizes | strip_newlines %}
 
+{% assign card_image = post.image %}
+{% unless card_image %}
+  {% if post.content contains '<img' %}
+    {% assign first_img = post.content | split:'<img' | slice:1 | first %}
+    {% if first_img contains 'src="' %}
+      {% assign card_image = first_img | split:'src="' | slice:1 | first | split:'"' | first %}
+    {% elsif first_img contains "src='" %}
+      {% assign card_image = first_img | split:"src='" | slice:1 | first | split:"'" | first %}
+    {% endif %}
+  {% elsif post.content contains '![' %}
+    {% assign first_md = post.content | split:'![' | slice:1 | first %}
+    {% if first_md contains '](' %}
+      {% assign card_image = first_md | split:'](' | slice:1 | first | split:')' | first | split:' ' | first %}
+    {% endif %}
+  {% endif %}
+{% endunless %}
+
 <article class="project-card">
   <a href="{{ post.url | relative_url }}" class="no-hover no-print-link {% unless post.hide_image %}flip-project{% endunless %}" tabindex="-1">
-    <div class="project-card-img aspect-ratio sixteen-nine {% if post.image %}flip-project-img{% else %}fallback-img{% endif %}">
-      {% if post.image %}
-        {% include_cached components/hy-img.html img=post.image alt=post.title sizes=sizes width=864 height=486 %}
+    <div class="project-card-img aspect-ratio sixteen-nine {% if card_image %}flip-project-img{% else %}fallback-img{% endif %}">
+      {% if card_image %}
+        {% include_cached components/hy-img.html img=card_image alt=post.title sizes=sizes width=864 height=486 %}
       {% endif %}
     </div>
   </a>

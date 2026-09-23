@@ -25,16 +25,84 @@ layout: page
 {% assign list_group_by = date_formats.list_group_by | default:"%Y"    %}
 {% assign list_entry    = date_formats.list_entry    | default:"%d %b" %}
 
-{% assign prev_date = 0 %}
-{% if page.no_groups %}<ul class="related-posts">{% endif %}
+{% assign has_series = false %}
 {% for post in posts %}
-  {% assign current_date = post.date | date:list_group_by %}
-  {% unless page.no_groups %}{% if current_date != prev_date %}
-    {% unless forloop.first %}</ul>{% endunless %}
-    <h2 id="{{ list_group_by | slugify }}-{{ current_date | slugify }}" class="hr-bottom">{{ current_date }}</h2>
-    <ul class="related-posts">
-    {% assign prev_date = current_date %}
-  {% endif %}{% endunless %}
-  {% include_cached components/post-list-item.html post=post format=list_entry %}
-  {% if forloop.last %}</ul>{% endif %}
+  {% if post.series %}
+    {% assign has_series = true %}
+    {% break %}
+  {% endif %}
 {% endfor %}
+
+{% if has_series and site.data.series %}
+  <div class="series-nav-bar my-4 p-3" style="background: rgba(79, 177, 186, 0.08); border-radius: 8px; border: 1px solid rgba(79, 177, 186, 0.25);">
+    <div class="fine faded mb-2 font-weight-bold" style="letter-spacing: 0.05em; font-size: 0.8rem;">기획 시리즈 바로가기</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      {% for series_item in site.data.series %}
+        {% assign s_key = series_item[0] %}
+        {% assign s_meta = series_item[1] %}
+        {% assign s_posts = posts | where_exp:"item", "item.series_key == s_key" %}
+        {% if s_posts.size > 0 %}
+          <a href="#{{ s_key }}" class="badge" style="background: #193747; color: #fff; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.85rem;">
+            {{ s_meta.title }} <span style="opacity: 0.7;">({{ s_posts.size }}편)</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  {% for series_item in site.data.series %}
+    {% assign s_key = series_item[0] %}
+    {% assign s_meta = series_item[1] %}
+    {% assign s_posts = posts | where_exp:"item", "item.series_key == s_key" | sort:"series_order" %}
+    {% if s_posts.size > 0 %}
+      <section class="series-block mb-5" id="{{ s_key }}" style="margin-top: 2.5rem;">
+        <div class="hr-bottom pb-2 mb-3" style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+          <h2 class="h2 mb-0" style="margin-top: 0; border-bottom: none;">
+            <a href="{{ s_meta.url | relative_url }}">{{ s_meta.title }}</a>
+            <span class="faded fine" style="font-size: 0.6em; vertical-align: middle;">({{ s_posts.size }}편)</span>
+          </h2>
+          <a href="{{ s_meta.url | relative_url }}" class="fine" style="color: var(--accent-color, #4fb1ba); text-decoration: none;">시리즈 전체 모아보기 ➔</a>
+        </div>
+        {% if s_meta.description %}
+          <p class="faded" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+            {{ s_meta.description }}
+          </p>
+        {% endif %}
+        <ul class="related-posts">
+          {% for post in s_posts %}
+            {% include components/post-list-item.html post=post format=list_entry %}
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  {% endfor %}
+
+  {% assign standalone_posts = posts | where_exp:"item", "item.series == nil" %}
+  {% if standalone_posts.size > 0 %}
+    <section class="standalone-block mb-5" style="margin-top: 2.5rem;">
+      <h2 class="hr-bottom pb-2 mb-3">단편 기술 아티클</h2>
+      <ul class="related-posts">
+        {% for post in standalone_posts %}
+          {% include components/post-list-item.html post=post format=list_entry %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+{% else %}
+
+  {% assign prev_date = 0 %}
+  {% if page.no_groups %}<ul class="related-posts">{% endif %}
+  {% for post in posts %}
+    {% assign current_date = post.date | date:list_group_by %}
+    {% unless page.no_groups %}{% if current_date != prev_date %}
+      {% unless forloop.first %}</ul>{% endunless %}
+      <h2 id="{{ list_group_by | slugify }}-{{ current_date | slugify }}" class="hr-bottom">{{ current_date }}</h2>
+      <ul class="related-posts">
+        {% assign prev_date = current_date %}
+      {% endif %}{% endunless %}
+    {% include_cached components/post-list-item.html post=post format=list_entry %}
+    {% if forloop.last %}</ul>{% endif %}
+  {% endfor %}
+
+{% endif %}

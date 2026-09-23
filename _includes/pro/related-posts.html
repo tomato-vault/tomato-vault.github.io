@@ -1,36 +1,97 @@
 {% assign post = page %}
 
-{% if page.related_posts %}
-  {% if major >= 4 and minor >= 1 %}
-    {% assign related_posts = site.posts | where_exp:"post", "page.related_posts contains post.path or page.related_posts contains post.url" %}
-  {% else %}
-    {% assign related_posts_1 = site.posts | where_exp:"post", "page.related_posts contains post.path" %}
-    {% assign related_posts_2 = site.posts | where_exp:"post", "page.related_posts contains post.url" %}
-    {% assign related_posts = related_posts_1 | concat:related_posts_2 %}
+{% assign is_series = false %}
+{% if page.series and page.series_order != nil %}
+  {% assign series_posts = site.posts | where_exp:"item", "item.series == page.series" | sort:"series_order" %}
+  {% if series_posts.size > 1 %}
+    {% assign is_series = true %}
+    {% assign series_size = series_posts.size %}
+    {% assign last_index = series_size | minus: 1 %}
+    {% assign current_index = -1 %}
+    {% for p in series_posts %}
+      {% if p.url == page.url %}
+        {% assign current_index = forloop.index0 %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% assign target_1 = -1 %}
+    {% assign target_2 = -1 %}
+
+    {% if series_size >= 3 %}
+      {% if current_index == 0 %}
+        {% assign target_1 = 1 %}
+        {% assign target_2 = 2 %}
+      {% elsif current_index == last_index %}
+        {% assign target_1 = series_size | minus: 3 %}
+        {% assign target_2 = series_size | minus: 2 %}
+      {% else %}
+        {% assign target_1 = current_index | minus: 1 %}
+        {% assign target_2 = current_index | plus: 1 %}
+      {% endif %}
+    {% elsif series_size == 2 %}
+      {% if current_index == 0 %}
+        {% assign target_1 = 1 %}
+      {% else %}
+        {% assign target_1 = 0 %}
+      {% endif %}
+    {% endif %}
+
+    {% assign p1 = series_posts[target_1] %}
+    {% if target_2 >= 0 %}
+      {% assign p2 = series_posts[target_2] %}
+    {% else %}
+      {% assign p2 = nil %}
+    {% endif %}
   {% endif %}
-{% elsif site.hydejack.use_lsi or site.use_lsi %}
-  {% assign related_posts = site.related_posts %}
-{% elsif post.categories.first %}
-  {% assign related_posts = site.categories[post.categories.first] | where_exp:"post", "post.url != page.url" %}
-{% elsif post.tags.first %}
-  {% assign related_posts = site.tags[post.tags.first] | where_exp:"post", "post.url != page.url" %}
-{% else %}
-  {% assign related_posts = site.related_posts %}
 {% endif %}
 
-{% if related_posts.size > 0 %}
+{% unless is_series %}
+  {% if page.related_posts %}
+    {% if major >= 4 and minor >= 1 %}
+      {% assign related_posts = site.posts | where_exp:"post", "page.related_posts contains post.path or page.related_posts contains post.url" %}
+    {% else %}
+      {% assign related_posts_1 = site.posts | where_exp:"post", "page.related_posts contains post.path" %}
+      {% assign related_posts_2 = site.posts | where_exp:"post", "page.related_posts contains post.url" %}
+      {% assign related_posts = related_posts_1 | concat:related_posts_2 %}
+    {% endif %}
+  {% elsif site.hydejack.use_lsi or site.use_lsi %}
+    {% assign related_posts = site.related_posts %}
+  {% elsif post.categories.first %}
+    {% assign related_posts = site.categories[post.categories.first] | where_exp:"post", "post.url != page.url" %}
+  {% elsif post.tags.first %}
+    {% assign related_posts = site.tags[post.tags.first] | where_exp:"post", "post.url != page.url" %}
+  {% else %}
+    {% assign related_posts = site.related_posts %}
+  {% endif %}
+{% endunless %}
+
+{% if is_series or related_posts.size > 0 %}
 <aside class="other-projects related mb0" role="complementary">
   <h2>{{ site.data.strings.related_posts | default:"Related Posts" }}</h2>
   <div class="columns">
-    {% for post in related_posts limit:2 %}
-      <div class="column column-1-2">
-        {% if post %}
-          {% include_cached pro/post-card.html post=post %}
-        {% else %}
-          Post with path <code>{{ post_path }}</code> not found.
-        {% endif %}
-      </div>
-    {% endfor %}
+    {% if is_series %}
+      {% if p1 %}
+        <div class="column column-1-2">
+          {% include_cached pro/post-card.html post=p1 %}
+        </div>
+      {% endif %}
+      {% if p2 %}
+        <div class="column column-1-2">
+          {% include_cached pro/post-card.html post=p2 %}
+        </div>
+      {% endif %}
+    {% else %}
+      {% for post in related_posts limit:2 %}
+        <div class="column column-1-2">
+          {% if post %}
+            {% include_cached pro/post-card.html post=post %}
+          {% else %}
+            Post with path <code>{{ post_path }}</code> not found.
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
 </aside>
 {% endif %}

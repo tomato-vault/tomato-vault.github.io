@@ -40,3 +40,23 @@ ai-agent-architecture:
     - order: 11
       title: "[11편] 우리는 이미 각자의 운영체제를 짜고 있었다"
       url: "/tech/11-external-workflow-and-ai-os/"
+
+repo-ontology:
+  title: "팔란티어식 코드베이스 실행 온톨로지"
+  slug: "repo-ontology"
+  url: "/tag-repo-ontology/"
+  description: "ERD와 정적 문서를 넘어 행동과 비즈니스 불변식을 코드로 바인딩하고 0.01초 만에 컨텍스트를 복원하는 엔터프라이즈 코드 온톨로지 구축기"
+  posts:
+    - order: 0
+      title: "[0편] 대시보드는 무의미하다, 팔란티어가 깨워준 진짜 온톨로지"
+      url: "/tech/0-palantir-awakening/"
+    - order: 1
+      title: "[1편] 명사에서 동사로, 4대 프리미티브 아키텍처"
+      url: "/tech/1-four-primitives/"
+    - order: 2
+      title: "[2편] 0.01초의 기적, otlg trace와 기억상실증 에이전트"
+      url: "/tech/2-otlg-trace/"
+    - order: 3
+      title: "[3편] 엔터프라이즈의 척추, 4대 핵심 도메인 안착과 거버넌스 5각 분업"
+      url: "/tech/3-enterprise-governance/"
+
