@@ -29,7 +29,7 @@ ai-agent-architecture:
       title: "[7편] 규칙이 64개나 있는데 왜 코드를 못 짜니"
       url: "/tech/7-rule-pruning/"
     - order: 8
-      title: "[8편] 콘솔 클릭에서 ECS까지: 1인이 감당하는 클라우드 인프라와 배포의 진화"
+      title: "[8편] 어차피 도커인데 앤서블은 왜 썼을까"
       url: "/tech/8-cloud-infra-evolution/"
     - order: 9
       title: "[9편] AI가 쏟아낸 UI 스파게티를 FSD로 썰어내기까지"
