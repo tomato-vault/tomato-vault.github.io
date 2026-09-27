@@ -33,7 +33,7 @@ layout: page
   {% endfor %}
 {% endunless %}
 
-{% if site.data.series[page.slug] %}
+{% if site.data.series[page.slug] and posts and posts.size > 0 %}
   {% assign posts = posts | sort: "series_order" %}
 {% endif %}
 

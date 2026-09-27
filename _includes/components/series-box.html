@@ -22,13 +22,11 @@
         {% assign is_current = true %}
       {% endif %}
 
-      {% assign post_link = item.url %}
-      {% unless post_link %}
-        {% assign found_post = site.posts | where: "series_key", series_key | where: "series_order", item.order | first %}
-        {% if found_post %}
-          {% assign post_link = found_post.url %}
-        {% endif %}
-      {% endunless %}
+      {% assign found_post = site.posts | where: "series_key", series_key | where: "series_order", item.order | first %}
+      {% assign post_link = nil %}
+      {% if found_post %}
+        {% assign post_link = found_post.url | default: item.url %}
+      {% endif %}
 
       <li class="series-box-item{% if is_current %} current{% endif %}">
         {% if is_current %}

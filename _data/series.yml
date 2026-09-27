@@ -41,22 +41,35 @@ ai-agent-architecture:
       title: "[11편] 우리는 이미 각자의 운영체제를 짜고 있었다"
       url: "/tech/11-external-workflow-and-ai-os/"
 
-repo-ontology:
-  title: "팔란티어식 코드베이스 실행 온톨로지"
-  slug: "repo-ontology"
-  url: "/tag-repo-ontology/"
-  description: "ERD와 정적 문서를 넘어 행동과 비즈니스 불변식을 코드로 바인딩하고 0.01초 만에 컨텍스트를 복원하는 엔터프라이즈 코드 온톨로지 구축기"
+ontology-engineering:
+  title: "온톨로지 엔지니어링: 지식 그래프에서 AI Agent OS까지"
+  slug: "ontology-engineering"
+  url: "/tag-ontology-engineering/"
+  description: "팔란티어의 엔터프라이즈 온톨로지 철학을 1인 개발자의 지식 베이스(Vault)와 코드베이스(Repo)에 이식하여, 지식 엔트로피를 통제하고 에이전트의 코드 파괴를 막아내는 실전 온톨로지 구축기"
   posts:
     - order: 0
-      title: "[0편] 대시보드는 무의미하다, 팔란티어가 깨워준 진짜 온톨로지"
-      url: "/tech/0-palantir-awakening/"
+      title: "[0편] 온톨로지는 어떻게 시스템의 척추가 되는가"
+      url: "/tech/0-ontology-engineering-intro/"
     - order: 1
-      title: "[1편] 명사에서 동사로, 4대 프리미티브 아키텍처"
-      url: "/tech/1-four-primitives/"
+      title: "[1편] 팔란티어는 왜 20년을 온톨로지에 바쳤는가"
+      url: "/tech/1-palantir-3rd-generation-platform/"
     - order: 2
-      title: "[2편] 0.01초의 기적, otlg trace와 기억상실증 에이전트"
-      url: "/tech/2-otlg-trace/"
+      title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다: Vault 지식 온톨로지"
+      url: "/tech/2-vault-knowledge-ontology/"
     - order: 3
-      title: "[3편] 엔터프라이즈의 척추, 4대 핵심 도메인 안착과 거버넌스 5각 분업"
-      url: "/tech/3-enterprise-governance/"
+      title: "[3편] 지식은 명사지만 코드는 동사다: Vault에서 Repo로의 패러다임 전환"
+      url: "/tech/3-nouns-to-verbs-paradigm-shift/"
+    - order: 4
+      title: "[4편] 기억상실증 에이전트에게 0.01초 만에 뇌를 주입하다: Repo Ontology (otlg)"
+      url: "/tech/4-repo-ontology-primitives-and-trace/"
+    - order: 5
+      title: "[5편] 온톨로지는 헌법이고 에이전트는 집행관이다: AIP 액션 철학과 SDLC 하네스"
+      url: "/tech/5-aip-action-and-sdlc-harness/"
+    - order: 6
+      title: "[6편] 문서는 스스로 숨 쉰다: Living Wiki Engine과 메타데이터 저널링"
+      url: "/tech/6-living-wiki-and-metadata-journaling/"
+    - order: 7
+      title: "[7편] 마치며: 전사 운영체제와 조직 저항, 그리고 1인 개발자의 미래"
+      url: "/tech/7-enterprise-os-and-solo-developer/"
+
 

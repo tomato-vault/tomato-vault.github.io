@@ -9,6 +9,7 @@ permalink: /tech/2-tdd-religion/
 series: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 series_key: "ai-agent-architecture"
 series_order: 2
+published: true
 ---
 
 - table of contents
