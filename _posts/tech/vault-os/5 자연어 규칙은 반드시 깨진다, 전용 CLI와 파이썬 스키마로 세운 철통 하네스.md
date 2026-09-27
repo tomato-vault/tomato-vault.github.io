@@ -5,7 +5,7 @@ description: "프롬프트 가이드라인의 한계를 넘어 전용 CLI(vault 
 date: 2026-09-24
 categories: [tech]
 tags: ["vault-os", "Obsidian", "Ontology", "CLI", "Python", "SQLite", "Harness"]
-permalink: /tech/5-mechanical-harness-and-code-ontology/
+permalink: /tag-vault-os/5-mechanical-harness-and-code-ontology/
 series: "Vault OS: 제텔카스텐과 PARA를 넘어 기계적 하네스로 지은 지식의 성채"
 series_key: "vault-os"
 series_order: 5

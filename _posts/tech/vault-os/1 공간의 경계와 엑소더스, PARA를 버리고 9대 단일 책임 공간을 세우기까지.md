@@ -5,7 +5,7 @@ description: "티아고 포르테의 PARA 시스템이 6개월 만에 붕괴한 
 date: 2026-09-24
 categories: [tech]
 tags: ["vault-os", "Obsidian", "PARA", "Johnny-Decimal", "PKM", "Architecture"]
-permalink: /tech/1-spatial-boundaries-and-exodus/
+permalink: /tag-vault-os/1-spatial-boundaries-and-exodus/
 series: "Vault OS: 제텔카스텐과 PARA를 넘어 기계적 하네스로 지은 지식의 성채"
 series_key: "vault-os"
 series_order: 1
@@ -144,4 +144,4 @@ flowchart LR
 ---
 
 ### [시리즈의 다음 이야기]
-다음 글인 **[[2편] 백과사전, 작업대, 그리고 캡스톤: 실측 데이터로 갈라낸 지식의 세 층위](/tech/2-three-tiers-of-knowledge/)**에서는, 단순한 기술 메모가 어떻게 24.3회의 수정을 거쳐 타협할 수 없는 실천 원칙(`299 Principles`)으로 완성되는지, 실측 데이터를 바탕으로 지식의 3층위 구조를 해부한다.
+다음 글인 **[[2편] 백과사전, 작업대, 그리고 캡스톤: 실측 데이터로 갈라낸 지식의 세 층위](/tag-vault-os/2-three-tiers-of-knowledge/)**에서는, 단순한 기술 메모가 어떻게 24.3회의 수정을 거쳐 타협할 수 없는 실천 원칙(`299 Principles`)으로 완성되는지, 실측 데이터를 바탕으로 지식의 3층위 구조를 해부한다.

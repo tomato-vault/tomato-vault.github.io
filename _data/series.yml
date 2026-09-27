@@ -49,28 +49,28 @@ ontology-engineering:
   posts:
     - order: 0
       title: "[0편] 온톨로지는 어떻게 시스템의 척추가 되는가"
-      url: "/tech/0-ontology-engineering-intro/"
+      url: "/tag-ontology-engineering/0-ontology-engineering-intro/"
     - order: 1
       title: "[1편] 팔란티어는 왜 20년을 온톨로지에 바쳤는가"
-      url: "/tech/1-palantir-3rd-generation-platform/"
+      url: "/tag-ontology-engineering/1-palantir-3rd-generation-platform/"
     - order: 2
       title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다: Vault 지식 온톨로지"
-      url: "/tech/2-vault-knowledge-ontology/"
+      url: "/tag-ontology-engineering/2-vault-knowledge-ontology/"
     - order: 3
       title: "[3편] 지식은 명사지만 코드는 동사다: Vault에서 Repo로의 패러다임 전환"
-      url: "/tech/3-nouns-to-verbs-paradigm-shift/"
+      url: "/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/"
     - order: 4
       title: "[4편] 기억상실증 에이전트에게 0.01초 만에 뇌를 주입하다: Repo Ontology (otlg)"
-      url: "/tech/4-repo-ontology-primitives-and-trace/"
+      url: "/tag-ontology-engineering/4-repo-ontology-primitives-and-trace/"
     - order: 5
       title: "[5편] 온톨로지는 헌법이고 에이전트는 집행관이다: AIP 액션 철학과 SDLC 하네스"
-      url: "/tech/5-aip-action-and-sdlc-harness/"
+      url: "/tag-ontology-engineering/5-aip-action-and-sdlc-harness/"
     - order: 6
       title: "[6편] 문서는 스스로 숨 쉰다: Living Wiki Engine과 메타데이터 저널링"
-      url: "/tech/6-living-wiki-and-metadata-journaling/"
+      url: "/tag-ontology-engineering/6-living-wiki-and-metadata-journaling/"
     - order: 7
       title: "[7편] 마치며: 전사 운영체제와 조직 저항, 그리고 1인 개발자의 미래"
-      url: "/tech/7-enterprise-os-and-solo-developer/"
+      url: "/tag-ontology-engineering/7-enterprise-os-and-solo-developer/"
 
 vault-os:
   title: "Vault OS: 제텔카스텐과 PARA를 넘어 기계적 하네스로 지은 지식의 성채"
@@ -80,21 +80,21 @@ vault-os:
   posts:
     - order: 0
       title: "[0편] 지식은 왜 썩는가: 6,000개 마크다운 노트가 쓰레기통이 된 날"
-      url: "/tech/0-vault-os-intro/"
+      url: "/tag-vault-os/0-vault-os-intro/"
     - order: 1
       title: "[1편] 공간의 경계와 엑소더스: PARA를 버리고 9대 단일 책임 공간을 세우기까지"
-      url: "/tech/1-spatial-boundaries-and-exodus/"
+      url: "/tag-vault-os/1-spatial-boundaries-and-exodus/"
     - order: 2
       title: "[2편] 백과사전, 작업대, 그리고 캡스톤: 실측 데이터로 갈라낸 지식의 세 층위"
-      url: "/tech/2-three-tiers-of-knowledge/"
+      url: "/tag-vault-os/2-three-tiers-of-knowledge/"
     - order: 3
       title: "[3편] 결정과 성찰의 컴파일러: 45쌍의 논리 대장과 도발하는 AI"
-      url: "/tech/3-compiler-of-decision-and-reflection/"
+      url: "/tag-vault-os/3-compiler-of-decision-and-reflection/"
     - order: 4
       title: "[4편] 지식은 흐르지 않으면 썩는다: 매일, 매주, 매월의 3대 신진대사 루프"
-      url: "/tech/4-knowledge-metabolism-loops/"
+      url: "/tag-vault-os/4-knowledge-metabolism-loops/"
     - order: 5
       title: "[5편] 자연어 규칙은 반드시 깨진다: 전용 CLI와 파이썬 스키마로 세운 철통 하네스"
-      url: "/tech/5-mechanical-harness-and-code-ontology/"
+      url: "/tag-vault-os/5-mechanical-harness-and-code-ontology/"
 
 
