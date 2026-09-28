@@ -2,7 +2,16 @@
 {% assign series_key = current_post.series_key | default: page.series_key | default: "ai-agent-architecture" %}
 {% assign current_order = current_post.series_order | default: page.series_order %}
 {% assign series_info = site.data.series[series_key] %}
-{% if series_info %}
+
+{% assign show_box = true %}
+{% if current_order == 0 or current_post.series_box == false or current_post.hide_series_box == true %}
+  {% assign show_box = false %}
+{% endif %}
+{% if current_post.series_box == true %}
+  {% assign show_box = true %}
+{% endif %}
+
+{% if series_info and show_box %}
 <aside class="series-box" role="navigation" aria-label="시리즈 목록">
   <div class="series-box-header">
     <div class="series-box-icon">&gt;_</div>
