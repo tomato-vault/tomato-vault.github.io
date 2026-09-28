@@ -48,16 +48,16 @@ ontology-engineering:
   description: "팔란티어의 엔터프라이즈 온톨로지 철학을 1인 개발자의 지식 베이스(Vault)와 코드베이스(Repo)에 이식하여, 지식 엔트로피를 통제하고 에이전트의 코드 파괴를 막아내는 실전 온톨로지 구축기"
   posts:
     - order: 0
-      title: "[0편] 온톨로지는 어떻게 시스템의 척추가 되는가"
+      title: "[0편] 온톨로지를 활용한 레포지토리 방법론에 대하여"
       url: "/tag-ontology-engineering/0-ontology-engineering-intro/"
     - order: 1
-      title: "[1편] 팔란티어는 왜 20년을 온톨로지에 바쳤는가"
+      title: "[1편] 2천 년 전 그리스 철학이 현대 기업의 엑셀 지옥을 구원할 리가 없어"
       url: "/tag-ontology-engineering/1-palantir-3rd-generation-platform/"
     - order: 2
       title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다: Vault 지식 온톨로지"
       url: "/tag-ontology-engineering/2-vault-knowledge-ontology/"
     - order: 3
-      title: "[3편] 지식은 명사지만 코드는 동사다: Vault에서 Repo로의 패러다임 전환"
+      title: "[3편] 테스형? 형이 만든 게 왜 내 레포지토리에서 터지고 있어: 명사에서 동사로"
       url: "/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/"
     - order: 4
       title: "[4편] 기억상실증 에이전트에게 0.01초 만에 뇌를 주입하다: Repo Ontology (otlg)"
