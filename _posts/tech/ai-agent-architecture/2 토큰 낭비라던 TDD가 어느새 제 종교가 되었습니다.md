@@ -5,7 +5,9 @@ description: "토큰 낭비라 여겼던 TDD의 도입부터 책·영상·경험
 date: 2026-09-10
 categories: [tech]
 tags: ["ai-agent-architecture", "AI", "Agent", "TDD", "Workflow"]
-permalink: /tech/2-tdd-religion/
+permalink: /tag-ai-agent-architecture/2-tdd-religion/
+redirect_from:
+  - /tech/2-tdd-religion/
 series: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 series_key: "ai-agent-architecture"
 series_order: 2
@@ -19,7 +21,7 @@ published: true
 
 ### 과천 모임과 TDD의 첫 만남
 
-지난 [[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지](/tech/1-ground-rules/)에서 소개했듯 나는 부트캠프 출신이다. 해당 부트캠프가 끝난 후에 <mark class="kw-term">NIPA 실무형 프로젝트</mark>와 그 이후에 이어진 <mark class="kw-term">빅테크 해커톤</mark>에서 각각 대상을 수여하는 영광을 누리기도 했다.
+지난 [[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지](/tag-ai-agent-architecture/1-ground-rules/)에서 소개했듯 나는 부트캠프 출신이다. 해당 부트캠프가 끝난 후에 <mark class="kw-term">NIPA 실무형 프로젝트</mark>와 그 이후에 이어진 <mark class="kw-term">빅테크 해커톤</mark>에서 각각 대상을 수여하는 영광을 누리기도 했다.
 
 ![NIPA 실무형 프로젝트 대상 수여식](/assets/img/posts/ai-agent-architecture-1-nipa-award.webp){:width="700" loading="lazy"}
 
@@ -44,7 +46,7 @@ NIPA 실무형 프로젝트 대상 수여식.
 
 ### Plan과의 결합: 커스텀 스킬 /tdd-plan
 
-나는 지난 [[0편] 1인 개발자는 어떻게 자신만의 운영체계를 만드는가](/tech/0-engineering-os/)에서 설명했듯이 Plan을 세우고 나서 읽고 승인을 하는 프로세스를 사용 중이었다. 그런데 내가 봤던 영상과 그 영상에서 제공한 SKILL 파일들에는 Plan에 대한 부분은 없었고 `red`, `green`, `refactor`과 그것을 자동화하여 진행하는 `go`라는 SKILL들만 제공이 되었다. 그래서 나는 내 나름 가꿔본 Plan 단계를 도입했다. 그 후에 기능개발에 대해서는 벤더사에서 제공되는 기능인 Plan은 전혀 사용 안하고, 내가 만든 커스텀 스킬인 <mark class="kw-term">/tdd-plan</mark>만을 사용하게 되었다. 이렇게 단계를 나눈 것은 추후에 내가 다양한 지식들을 워크플로우에 도입하는 데에 유리한 구조이기도 했다.
+나는 지난 [[0편] 1인 개발자는 어떻게 자신만의 운영체계를 만드는가](/tag-ai-agent-architecture/0-engineering-os/)에서 설명했듯이 Plan을 세우고 나서 읽고 승인을 하는 프로세스를 사용 중이었다. 그런데 내가 봤던 영상과 그 영상에서 제공한 SKILL 파일들에는 Plan에 대한 부분은 없었고 `red`, `green`, `refactor`과 그것을 자동화하여 진행하는 `go`라는 SKILL들만 제공이 되었다. 그래서 나는 내 나름 가꿔본 Plan 단계를 도입했다. 그 후에 기능개발에 대해서는 벤더사에서 제공되는 기능인 Plan은 전혀 사용 안하고, 내가 만든 커스텀 스킬인 <mark class="kw-term">/tdd-plan</mark>만을 사용하게 되었다. 이렇게 단계를 나눈 것은 추후에 내가 다양한 지식들을 워크플로우에 도입하는 데에 유리한 구조이기도 했다.
 
 ![커스텀 스킬 /tdd-plan으로 작성된 실제 계획서의 패턴 신호 진단 화면](/assets/img/posts/ai-agent-architecture-1-tdd-plan-forces-analysis.webp){:width="700" loading="lazy"}
 
@@ -152,4 +154,4 @@ SKILL 시스템을 구축하면서 내 워크플로우를 진화시킨 지식의
 
 ---
 
-다음 글인 [[3편] 객체지향을 배웠으니 선생님을 가르쳐보겠습니다](/tech/3-teach-object-design/)에서는 이러한 TDD 엔진과 검진 스킬을 구성함에 있어서 가장 핵심적인 프로그래밍 철학이 되어준 『오브젝트 디자인 스타일 가이드』를 바탕으로, 객체 분류(Service·Entity·VO·DTO), CQS, 단위 테스트 설계 원칙을 `tdd-plan` 계획 단계에 어떻게 강제하고 녹여냈는지를 본격적으로 다뤄보겠다.
+다음 글인 [[3편] 객체지향을 배웠으니 선생님을 가르쳐보겠습니다](/tag-ai-agent-architecture/3-teach-object-design/)에서는 이러한 TDD 엔진과 검진 스킬을 구성함에 있어서 가장 핵심적인 프로그래밍 철학이 되어준 『오브젝트 디자인 스타일 가이드』를 바탕으로, 객체 분류(Service·Entity·VO·DTO), CQS, 단위 테스트 설계 원칙을 `tdd-plan` 계획 단계에 어떻게 강제하고 녹여냈는지를 본격적으로 다뤄보겠다.

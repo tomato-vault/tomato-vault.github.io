@@ -6,40 +6,40 @@ ai-agent-architecture:
   posts:
     - order: 0
       title: "[0편] 1인 개발자는 어떻게 자신만의 운영체계를 만드는가"
-      url: "/tech/0-engineering-os/"
+      url: "/tag-ai-agent-architecture/0-engineering-os/"
     - order: 1
       title: "[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지"
-      url: "/tech/1-ground-rules/"
+      url: "/tag-ai-agent-architecture/1-ground-rules/"
     - order: 2
       title: "[2편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다"
-      url: "/tech/2-tdd-religion/"
+      url: "/tag-ai-agent-architecture/2-tdd-religion/"
     - order: 3
       title: "[3편] 객체지향을 배웠으니 선생님을 가르쳐보겠습니다"
-      url: "/tech/3-teach-object-design/"
+      url: "/tag-ai-agent-architecture/3-teach-object-design/"
     - order: 4
       title: "[4편] 역시 내 테스트 스위트는 잘못됐다"
-      url: "/tech/4-all-passed-empty-screen/"
+      url: "/tag-ai-agent-architecture/4-all-passed-empty-screen/"
     - order: 5
       title: "[5편] 같은 브랜치에서 에이전트끼리 사이좋게 코딩할 리가 없어"
-      url: "/tech/5-cmux-parallel-worktree/"
+      url: "/tag-ai-agent-architecture/5-cmux-parallel-worktree/"
     - order: 6
       title: "[6편] 에이전트가 기억상실증입니다만, 문제라도?"
-      url: "/tech/6-repo-governance/"
+      url: "/tag-ai-agent-architecture/6-repo-governance/"
     - order: 7
       title: "[7편] 규칙이 64개나 있는데 왜 코드를 못 짜니"
-      url: "/tech/7-rule-pruning/"
+      url: "/tag-ai-agent-architecture/7-rule-pruning/"
     - order: 8
       title: "[8편] 어차피 도커인데 앤서블은 왜 썼을까"
-      url: "/tech/8-cloud-infra-evolution/"
+      url: "/tag-ai-agent-architecture/8-cloud-infra-evolution/"
     - order: 9
       title: "[9편] 어차피 프론트엔드인데 아키텍처가 왜 필요해?"
-      url: "/tech/9-frontend-fsd/"
+      url: "/tag-ai-agent-architecture/9-frontend-fsd/"
     - order: 10
       title: "[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다"
-      url: "/tech/10-knowledge-ontology/"
+      url: "/tag-ai-agent-architecture/10-knowledge-ontology/"
     - order: 11
       title: "[11편] 우리는 이미 각자의 운영체제를 짜고 있었다"
-      url: "/tech/11-external-workflow-and-ai-os/"
+      url: "/tag-ai-agent-architecture/11-external-workflow-and-ai-os/"
 
 ontology-engineering:
   title: "온톨로지 엔지니어링: 지식 그래프에서 AI Agent OS까지"

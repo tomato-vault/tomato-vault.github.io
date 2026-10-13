@@ -5,7 +5,10 @@ description: "기록의 악마의 배경, 첫 프로젝트 실패, 그리고 AI 
 date: 2026-09-09
 categories: [tech]
 tags: ["ai-agent-architecture", "AI", "Agent", "Workflow", "회고"]
-permalink: /tech/1-ground-rules/
+permalink: /tag-ai-agent-architecture/1-ground-rules/
+redirect_from:
+  - /tech/1-ground-rules/
+  - /tech/1-agent-rules/
 series: "1인 개발자의 프로덕션 엔지니어링 운영체계"
 series_key: "ai-agent-architecture"
 series_order: 1
@@ -38,7 +41,7 @@ published: true
 Obsidian으로 이사한 후의 내 '월기' 디렉토리 모습.
 {:.figcaption}
 
-나는 나만의 시스템을 만드는 것을 참 좋아하는데 `Obsidian`의 자유도 덕분에 흔히들 말하는 Second Brain/Personal Knowledge Management(PKM) System을 온전히 나의 스타일로 적응시켜서 운용중이고 최근에는 Ontology 개념까지도 도입 중에 있다(이 독창적인 지식 온톨로지 시스템과 CLI 거버넌스 구축기는 이번 시리즈의 **[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tech/10-knowledge-ontology/)**에서 자세히 다룬다). 각설하고, **나는 일을 하면서도 중요하다고 판단되는 모든 것을 기록한다**라는 설명을 하고싶어서 이 이야기로 운을 띄워봤다.
+나는 나만의 시스템을 만드는 것을 참 좋아하는데 `Obsidian`의 자유도 덕분에 흔히들 말하는 Second Brain/Personal Knowledge Management(PKM) System을 온전히 나의 스타일로 적응시켜서 운용중이고 최근에는 Ontology 개념까지도 도입 중에 있다(이 독창적인 지식 온톨로지 시스템과 CLI 거버넌스 구축기는 이번 시리즈의 **[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tag-ai-agent-architecture/10-knowledge-ontology/)**에서 자세히 다룬다). 각설하고, **나는 일을 하면서도 중요하다고 판단되는 모든 것을 기록한다**라는 설명을 하고싶어서 이 이야기로 운을 띄워봤다.
 
 ### 군대 위병소에서 시작된 첫 코딩
 
@@ -106,4 +109,4 @@ Obsidian으로 이사한 후의 내 '월기' 디렉토리 모습.
 
 ---
 
-다음 글인 [[2편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다](/tech/2-tdd-religion/)부터는 본격적으로 내가 일하는 환경을 개선해나간 이야기를 다뤄보겠다.
+다음 글인 [[2편] 토큰 낭비라던 TDD가 어느새 제 종교가 되었습니다](/tag-ai-agent-architecture/2-tdd-religion/)부터는 본격적으로 내가 일하는 환경을 개선해나간 이야기를 다뤄보겠다.
