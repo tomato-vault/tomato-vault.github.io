@@ -12,7 +12,7 @@ title:                 기록의 악마와 코딩하는 기계들
 timezone:              Asia/Seoul
 
 description:           >
-  기록의 악마와 코딩하는 기계들 — 토마토의 엔지니어링, AI 워크플로우, 그리고 라이프 아카이브
+  기록의 악마와 코딩하는 기계들: 토마토의 엔지니어링, AI 워크플로우, 그리고 라이프 아카이브
 
 tagline:               토마토의 엔지니어링 & 라이프 아카이브
 keywords:              ["AI", "Agent", "Workflow", "TDD", "Obsidian", "Python"]
@@ -34,7 +34,7 @@ legal:
 copyright:             © 2026. All rights reserved.
 
 permalink:             /:categories/:title
-paginate:              5
+paginate:              6
 paginate_path:         /:num/
 excerpt_separator:     <!--more-->
 

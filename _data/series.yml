@@ -1,4 +1,15 @@
+# ========================================================================================
+# 홈 화면 상단 '기획 시리즈 쇼케이스(Featured Series)' 카드 설정 가이드
+# - featured: true 로 설정된 시리즈만 홈 화면 상단 카드로 노출됩니다.
+#   (단, published: true 인 실제 발행 포스트가 1개 이상 존재할 때만 자동 렌더링됩니다.)
+# - featured_order: 홈 화면 카드 배치 순서 (숫자가 작을수록 먼저 배치됩니다.)
+# - badge: 카드 상단에 표시될 도메인 식별 라벨
+# ========================================================================================
+
 ai-agent-architecture:
+  featured: true
+  featured_order: 2
+  badge: "SERIES 01 · AI AGENT OS"
   title: "1인 개발자의 프로덕션 엔지니어링 운영체계"
   slug: "ai-agent-architecture"
   url: "/tag-ai-agent-architecture/"
@@ -42,6 +53,9 @@ ai-agent-architecture:
       url: "/tag-ai-agent-architecture/11-external-workflow-and-ai-os/"
 
 ontology-engineering:
+  featured: true
+  featured_order: 1
+  badge: "SERIES 02 · ONTOLOGY & AIP"
   title: "온톨로지 엔지니어링: 지식 그래프에서 AI Agent OS까지"
   slug: "ontology-engineering"
   url: "/tag-ontology-engineering/"
@@ -54,25 +68,28 @@ ontology-engineering:
       title: "[1편] 2천 년 전 그리스 철학이 현대 기업의 엑셀 지옥을 구원할 리가 없어"
       url: "/tag-ontology-engineering/1-palantir-3rd-generation-platform/"
     - order: 2
-      title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다: Vault 지식 온톨로지"
+      title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다"
       url: "/tag-ontology-engineering/2-vault-knowledge-ontology/"
     - order: 3
-      title: "[3편] 테스형? 형이 만든 게 왜 내 레포지토리에서 터지고 있어: 명사에서 동사로"
+      title: "[3편] 테스형? 형이 만든 게 왜 내 레포지토리에서 터지고 있어"
       url: "/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/"
     - order: 4
-      title: "[4편] 기억상실증 에이전트에게 0.01초 만에 뇌를 주입하다: Repo Ontology (otlg)"
+      title: "[4편] 에이전트에게 매번 설명하기 귀찮다면 레포지토리가 직접 말하게 하면 되지 않을까"
       url: "/tag-ontology-engineering/4-repo-ontology-primitives-and-trace/"
     - order: 5
-      title: "[5편] 온톨로지는 헌법이고 에이전트는 집행관이다: AIP 액션 철학과 SDLC 하네스"
+      title: "[5편] 아무리 똑똑한 알바생이라도 금고 열쇠를 통째로 맡기는 사장님은 없다"
       url: "/tag-ontology-engineering/5-aip-action-and-sdlc-harness/"
     - order: 6
-      title: "[6편] 문서는 스스로 숨 쉰다: Living Wiki Engine과 메타데이터 저널링"
+      title: "[6편] 문서는 스스로 숨 쉰다"
       url: "/tag-ontology-engineering/6-living-wiki-and-metadata-journaling/"
     - order: 7
-      title: "[7편] 마치며: 전사 운영체제와 조직 저항, 그리고 1인 개발자의 미래"
+      title: "[7편] 결국 온톨로지란 어제의 나와 내일의 에이전트가 나누는 약속이었다"
       url: "/tag-ontology-engineering/7-enterprise-os-and-solo-developer/"
 
 vault-os:
+  featured: true
+  featured_order: 3
+  badge: "SERIES 03 · VAULT OS"
   title: "Vault OS: 제텔카스텐과 PARA를 넘어 기계적 하네스로 지은 지식의 성채"
   slug: "vault-os"
   url: "/tag-vault-os/"
