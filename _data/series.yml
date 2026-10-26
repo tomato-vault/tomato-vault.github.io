@@ -71,7 +71,7 @@ ontology-engineering:
       title: "[2편] 4,400개의 흩어진 생각에 척추를 세우다"
       url: "/tag-ontology-engineering/2-vault-knowledge-ontology/"
     - order: 3
-      title: "[3편] 테스형? 형이 만든 게 왜 내 레포지토리에서 터지고 있어"
+      title: "[3편] 문서는 명사로 정리되지만 코드는 동사로 움직인다"
       url: "/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/"
     - order: 4
       title: "[4편] 에이전트에게 매번 설명하기 귀찮다면 레포지토리가 직접 말하게 하면 되지 않을까"
