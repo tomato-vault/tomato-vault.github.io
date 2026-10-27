@@ -65,7 +65,7 @@ published: false
 100 Private Log        (감정과 자아의 격리실, AI 접근 불가 성역)
 200 Dev Knowledge Base (보편적 개발 지식과 299 Principles 원칙)
 300 Runtime            (지금 살아있는 실행 작업대, Day Notes, 프로젝트)
-400 Logic Forge        (재현 가능한 의사결정 대장 ADR)
+400 Logic Forge        (재현 가능한 의사결정 관리 문서 ADR)
 500 Mind Compiler      (가치 성찰 컴파일러, 파인만 6문)
 600 Content Observatory(외부 지혜와 도서, 질문의 반증 관측소)
 700 Life Stack         (생활 인프라, 세무, 건강, 잡학 격리)
