@@ -4,14 +4,14 @@ title: "심화 | TRPG의 실행과 World Canon"
 description: "TRPG Ontology의 Action Layer와 fsync 저널(v0.12.1), 7.5MB World Canon YAML-First 통합과 대화형 2d6 파훼 전투·3조건 시뮬레이션·핀포인트 캐시 22개 반례(v0.14.0), 그리고 Project-Before-Match 의미 감사(v0.15.0) 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/trpg-world-canon/
 deep_dive_for: ontology-engineering
-related_main_orders: [7, 10, 11]
+related_main_orders: [7, 9, 10]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 온톨로지 엔지니어링 시리즈 **[7편](/tag-ontology-engineering/7-trpg-kinetic-action-layer/)**, **[10편](/tag-ontology-engineering/10-code-on-graph-and-epilogue/)**, **[11편](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)** 본문에서 다룬 `trpg-ontology`(`v0.12.1` ~ `v0.15.0`)의 상세 도메인 패키지 구조, `fsync` Undo Journal 원장 프로토콜, 7.5MB `World Canon` YAML-First 통합과 3조건 격리 시뮬레이션, 22개 캐시 적대적 반례 방어, 그리고 `TC-01~09` 의미 모형 감사 영수증을 수록한 심화 레퍼런스입니다.
+> 이 문서는 온톨로지 엔지니어링 시리즈 **[7편](/tag-ontology-engineering/7-trpg-kinetic-action-layer/)**, **[9편](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)**, **[10편](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)** 본문에서 다룬 `trpg-ontology`(`v0.12.1` ~ `v0.15.0`)의 상세 도메인 패키지 구조, `fsync` Undo Journal 원장 프로토콜, 7.5MB `World Canon` YAML-First 통합과 3조건 격리 시뮬레이션, 22개 캐시 적대적 반례 방어, 그리고 `TC-01~09` 의미 모형 감사 영수증을 수록한 심화 레퍼런스입니다.
 
 ---
 
@@ -98,9 +98,9 @@ trpg_ontology/
 
 ### 대화형 2d6 파훼·연금 전투 계산기 (`domains/combat/conversation.py`)
 
-세션의 대화형 서사 몰입을 끊던 외부 `LÖVE 11.5` 그래픽 창과 JSON-RPC 브리지를 폐기하고, 『Octopath Traveler II』 역공학 코퍼스에서 추출한 약점 파훼(`Break`)와 자원 집중 메커니즘을 테이블탑 대화형 호흡에 맞게 재설계한 순수 파이썬 계산기(`domains/combat/conversation.py`)로 일원화했다.
+세션의 대화형 서사 몰입을 끊던 외부 `LÖVE 11.5` 그래픽 창과 JSON-RPC 브리지를 폐기하고, 고전 JRPG의 약점 파훼(`Break`)와 자원 집중 메커니즘을 테이블탑 대화형 호흡에 맞게 재설계한 순수 파이썬 계산기(`domains/combat/conversation.py`)로 일원화했다.
 
-| 전투 상태 및 메커니즘 | `domains/combat/conversation.py` 동작 명세 | 설계 의도 (Octopath II 역공학 및 수평 밸런싱 반영) |
+| 전투 상태 및 메커니즘 | `domains/combat/conversation.py` 동작 명세 | 설계 의도 (약점 파훼 전술 및 수평 밸런싱 반영) |
 |:---|:---|:---|
 | **`hp / max_hp` & `shield`** | 등록된 생명력과 별개로 피해 흡수 보호막(`shield`) 작동 | 단순 체력 깎기 대신 보호막과 약점 게이지의 이중 전술 구조 형성 |
 | **`break_shield / max_break_shield`** | 등록된 원소·연금 `weaknesses` 또는 `gimmick_counter` 적중 시 `1` 차감 | 무지성 평타 대신 사전 정보 수집과 연금술 아이템 조합을 강제 |
@@ -176,7 +176,7 @@ trpg canon recommend --place muelden --limit 3 --json
 | **High** | 빠른 CLI 경로가 Registry를 우회해 캠페인의 `world_binding` 해시 고정을 검사하지 않음 | 경량 캠페인 설정을 직접 검증하여 `revision`/`dataset_hash` 고정을 모든 `canon` 하위 명령에 일관되게 강제 |
 | **Medium** | 조상 경로 추측으로 다른 워크스페이스를 열거나, 최상위 제국을 현재 장소 추천 기준으로 선택, 비정상 `kind`/`limit`/중복 ID 통과 | 등록 워크스페이스 루트만 사용, 최하위 현재 장소 기준 탐색, `kind`·`section`·`tier` 및 `limit`(1~50) 엄격 검증, 모든 인덱스의 NFC 정규화 중복 ID 즉시 거부 |
 
-- [10편 본문으로 돌아가기](/tag-ontology-engineering/10-code-on-graph-and-epilogue/)
+- [9편 본문으로 돌아가기](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)
 
 ---
 
@@ -276,4 +276,4 @@ flowchart TB
 
 감사 및 구현 전 과정에서 실제 플레이 중인 세계관·캠페인 보호 파일 **275개**의 매니페스트 `SHA-256` 해시(`b7802d38a24b...`)는 단 1바이트의 변경도 없이 보존되었으며, 측정하지 않은 의미 품질 점수(`E/S/P`, `ESBI`)는 가짜 정량 수치를 부여하지 않고 `null`(`N/A`)로 정직하게 기록했다.
 
-- [11편 본문으로 돌아가기](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)
+- [10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)

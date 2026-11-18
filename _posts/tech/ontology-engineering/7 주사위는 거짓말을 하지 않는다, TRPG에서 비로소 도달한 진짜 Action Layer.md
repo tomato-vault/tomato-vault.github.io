@@ -101,11 +101,11 @@ trpg act CraftAlchemyItem --id EVT-CRAFT \
 
 - [심화 근거: TRPG 10개 도메인 패키지, 3·3·3 연금술 토폴로지, Action 핸들러 및 fsync 저널 상세 명세 보러가기](/tag-ontology-engineering/deep-dive/trpg-world-canon/#action-layer)
 
-이 글에서 다룬 `v0.12.1`까지는 전투 시 독립된 네이티브 `LÖVE 11.5` 그래픽 창을 띄웠으나, 이후 **[[10편] 고정된 CLI를 넘어 코드를 합성하는 그래프로, Code-on-Graph와 어제의 내가 내일의 에이전트에게 남기는 약속](/tag-ontology-engineering/10-code-on-graph-and-epilogue/)**에서 `Code-on-Graph` 논문과 『Octopath Traveler II』 역공학 인사이트를 결합해 `v0.14.0`으로 진화하면서 과감한 탈피를 거치게 된다. 대화형 몰입을 끊던 `LÖVE` 창과 마크다운 스텁 의존성을 덜어내고, 1,701건의 카탈로그를 담은 YAML-first `World Canon` 핀포인트 캐시 조회와 대화형 2d6 파훼(`break_shield`)·저력(`latent_power`) 전투 계산기, 창발적 조우(`EncounterDraft`)의 3조건 격리 시뮬레이션 게이트로 거듭난 이야기는 10편과 [TRPG 심화편](/tag-ontology-engineering/deep-dive/trpg-world-canon/#three-condition-simulation)에서 이어진다.
+이 글에서 다룬 `v0.12.1`까지는 전투 시 독립된 네이티브 `LÖVE 11.5` 그래픽 창을 띄웠으나, 이후 **[[9편] 고정된 CLI를 넘어 코드를 합성하는 그래프로, Code-on-Graph와 어제의 내가 내일의 에이전트에게 남기는 약속](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)**에서 `Code-on-Graph` 논문과 고전 JRPG의 약점 파훼(`Break`) 전술을 결합해 `v0.14.0`으로 진화하면서 과감한 탈피를 거치게 된다. 대화형 몰입을 끊던 `LÖVE` 창과 마크다운 스텁 의존성을 덜어내고, 1,701건의 카탈로그를 담은 YAML-first `World Canon` 핀포인트 캐시 조회와 대화형 2d6 파훼(`break_shield`)·저력(`latent_power`) 전투 계산기, 창발적 조우(`EncounterDraft`)의 3조건 격리 시뮬레이션 게이트로 거듭난 이야기는 9편과 [TRPG 심화편](/tag-ontology-engineering/deep-dive/trpg-world-canon/#three-condition-simulation)에서 이어진다.
 {:.note title="여담: v0.14.0 대화형 파훼 전투와 Code-on-Graph로의 진화"}
 
 ---
 
 ### [시리즈의 다음 이야기]
 
-직접 주사위 판정 엔진과 전투 루프, 연금술 조합 트리를 만들어 보며 게임 시스템의 매력에 빠지다 보니, 자연스럽게 내 시선은 평소 사랑해 마지않던 명작 상용 게임들로 향했다. 과연 『Octopath Traveler II』 같은 명작들은 어떻게 그토록 절묘한 브레이크·부스트 밸런스와 손끝에 감기는 타격감(Juice & Feel)을 구현해 냈을까? 그리고 그 게임들을 역공학(REA) 도구로 뜯어보며 얻은 지식을 일회성 감상문으로 날려버리지 않고, 미래에 내가 만들 게임을 위한 엔진 중립적 빌딩 블록으로 축적하려면 어떤 온톨로지가 필요할까? 다음 글인 **[[8편] 명작 게임의 손맛을 온톨로지로 해부한다는 것, 관찰된 증거와 추론의 분리](/tag-ontology-engineering/8-game-dev-evidence-ontology/)**에서는 네 번째 도메인인 게임 개발 지식 온톨로지(`game-dev-ontology`)와 값 앵커(`source_checks`), 『Octopath Traveler II』와 『Balatro』를 해부하며 완성한 99레코드 코퍼스의 이야기를 이어가 보겠다.
+이렇게 지식 베이스(`Vault`), 실무 코드 저장소(`Repo`), 그리고 살아 움직이는 캠페인 런타임(`TRPG`)까지 세 개의 서로 다른 영역에 온톨로지를 세우고 나자, 머릿속에서 한 가지 거대한 공학적 유혹이 고개를 들기 시작했다. 과연 이 온톨로지들을 모두 아우르는 단 하나의 만능 스키마나 통합 프레임워크를 만들 수는 없을까? 그리고 새 도메인을 만났을 때 어디까지 온톨로지로 묶고 어디서 과잉 설계를 멈추어야 할까? 다음 글인 **[[8편] 네 개의 온톨로지를 만들고 나서야 알게 된 것, 메타 청사진과 과잉 규율의 경계](/tag-ontology-engineering/8-meta-ontology-workbench-and-redteam/)**에서는 도메인들을 관통하는 메타 설계 공방(`ontology-workbench`)과 `Negative Gate`, 두 AI를 맞붙인 적대적 검수의 6대 원칙, 그리고 1인 개발자의 시스템 주권에 대한 이야기를 이어가 보겠다.

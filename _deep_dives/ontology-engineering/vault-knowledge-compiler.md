@@ -4,14 +4,14 @@ title: "심화 | Vault의 지식·성찰 컴파일러"
 description: "Vault Ontology의 13종 타입·7종 의미 관계·SQLite/SHACL 계약, v0.1.1 적대적 검수 19개 반례(V-01~M-05), v0.5.0 블로그 초안 파이프라인과 Mind Compiler, 그리고 v0.6.0 의미 모형 감사(V060-01~16) 전수 기록"
 permalink: /tag-ontology-engineering/deep-dive/vault-knowledge-compiler/
 deep_dive_for: ontology-engineering
-related_main_orders: [2, 11]
+related_main_orders: [2, 10]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 **[[2편] 4,400개의 흩어진 생각에 척추를 세우고 도구의 착각까지 도려내다](/tag-ontology-engineering/2-vault-knowledge-ontology/)**와 **[[11편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)** 본편의 호흡을 해치지 않기 위해 분리한 심화 레퍼런스다. `vault-ontology`(`v0.1.0 ~ v0.6.0`)와 `vault-vector`(`v0.1.0`)의 정본 스키마, SQLite·RDF·SHACL 이중 검증 계약, 적대적 운영 감사 19건(`V-01~M-05`), 블로그 초안 및 `Mind Compiler` 파이프라인 규격, 그리고 의미 모형 감사 16건(`V060-01~16`)의 전수 판정 기록을 담고 있다.
+> 이 문서는 **[[2편] 4,400개의 흩어진 생각에 척추를 세우고 도구의 착각까지 도려내다](/tag-ontology-engineering/2-vault-knowledge-ontology/)**와 **[[10편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)** 본편의 호흡을 해치지 않기 위해 분리한 심화 레퍼런스다. `vault-ontology`(`v0.1.0 ~ v0.6.0`)와 `vault-vector`(`v0.1.0`)의 정본 스키마, SQLite·RDF·SHACL 이중 검증 계약, 적대적 운영 감사 19건(`V-01~M-05`), 블로그 초안 및 `Mind Compiler` 파이프라인 규격, 그리고 의미 모형 감사 16건(`V060-01~16`)의 전수 판정 기록을 담고 있다.
 
 ---
 
@@ -281,7 +281,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 - **`--stage draft` (자동화 검증 단계)**: 본문·코드 블록·주석 내 비공개 리터럴 및 정규식 패턴 노출, 본문 내 `# `(H1) 사용, 엠대시, 장식용 이모지, 습관적 번호 헤딩(`## 1. `)을 차단한다. 동시에 원본(`--original`) 대비 작가 고유의 익살 표현(취소선 `~~...~~`, 이탤릭 괄호 독백 `*(...)*`, 여담 콜아웃)이 100% 보존되었는지 대조한다. 만약 보호된 익살 구절 내부에 비공개 금칙어가 포함된 경우에는 기계가 문장을 임의로 뜯어고치지 않고 **`AUTHOR_WIT_PRIVACY_CONFLICT`** 진단을 반환해 인간 저자에게 결정을 위임한다.
 - **`--stage publication` (최종 발행 게이트, 기본값)**: 자동화 검사를 모두 통과했더라도 인간 저자의 최종 익명화·문체 승인(`reviewed_by`)이 완료되기 전까지는 `status: incomplete`(`review_diagnostics`)를 반환하여 성급한 발행을 막는다.
 
-[11편 본문으로 돌아가기](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)
+[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
 
 ---
 
@@ -353,7 +353,7 @@ stateDiagram-v2
 
 `apply` 명령은 기본값이 `--dry-run`이며, 제출된 모든 항목의 원본 파일 64자리 소문자 `SHA-256` 해시, 이미 수정된 대상 마크다운 파일의 `SHA-256` 해시, 그리고 `accepted` 단계에 기록된 응답 문자열이 1바이트의 오차도 없이 일치할 때만 대장 상태를 `applied`로 전이한다.
 
-[11편 본문으로 돌아가기](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)
+[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
 
 ---
 
@@ -429,4 +429,4 @@ $ vault validate --baseline .vault-warning-baseline.json --audit --json
 
 최종적으로 `v0.6.0`은 전체 회귀 테스트 **`638 passed`** 및 런타임·테스트 `ruff check`를 통과했으며, 실제 볼트 빌드(`3,348 nodes`, `28,184 triples`)에서 `together` 질의의 `experience` 가짜 공통 타깃이 `0건`으로 소멸하고 각 간선의 고유 술어가 보존됨을 실증했다. 단, 독립된 인간 주석자 간 합의도($\kappa$) 실험이나 정밀도·재현율 측정을 수행하지 않았으므로 온톨로지 품질 점수인 **`ESBI`는 지어내지 않고 정직하게 `N/A`로 기록**하며, 기존 볼트에 남아 있던 `CUPUS` 노트의 절대경로 `ext:` 오류 2건(종료 코드 `1`) 역시 도구의 테스트 통과로 포장하지 않고 별도의 코퍼스 교정 과제로 명확히 분리해 두었다.
 
-[11편 본문으로 돌아가기](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)
+[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)

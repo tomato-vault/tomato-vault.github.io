@@ -4,14 +4,14 @@ title: "심화 | Repo의 SDLC 하네스와 의미 감사"
 description: "팔란티어 AIP Action과 SDLC 하네스(spoke-guard·TDD·Playwright)의 분업, 4단계 Living Wiki 자가 갱신 루프, 그리고 Semantic Modeling for Data 기반 Repo Ontology v0.5.0 의미 모형 감사(RC-01~11) 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/repo-sdlc-and-audit/
 deep_dive_for: ontology-engineering
-related_main_orders: [6, 11]
+related_main_orders: [6, 10]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 **[[6편] 아무리 똑똑한 알바생이라도 금고 열쇠를 통째로 맡기는 사장님은 없다](/tag-ontology-engineering/6-sdlc-harness-and-living-wiki/)**와 **[[11편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)**에서 분리된 엔지니어링 심화 레퍼런스다. `repo-ontology`의 물리적 실행 하네스(`spoke-guard`), 『개발 규율집 v2.2』 5대 정본 거버넌스, 그리고 『Semantic Modeling for Data』를 바탕으로 수행한 `v0.5.0` 의미 모형 감사(`RC-01`~`RC-11`)의 전수 반례와 이행 계약을 담고 있다.
+> 이 문서는 **[[6편] 아무리 똑똑한 알바생이라도 금고 열쇠를 통째로 맡기는 사장님은 없다](/tag-ontology-engineering/6-sdlc-harness-and-living-wiki/)**와 **[[10편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)**에서 분리된 엔지니어링 심화 레퍼런스다. `repo-ontology`의 물리적 실행 하네스(`spoke-guard`), 『개발 규율집 v2.2』 5대 정본 거버넌스, 그리고 『Semantic Modeling for Data』를 바탕으로 수행한 `v0.5.0` 의미 모형 감사(`RC-01`~`RC-11`)의 전수 반례와 이행 계약을 담고 있다.
 {:.lead}
 
 ---
@@ -221,4 +221,4 @@ flowchart TD
 - **측정하지 않은 지표의 정직한 보류**:
   - 독립 주석자 간 합의도($\kappa$)나 골드 질문셋 기반 정밀도·재현율을 별도로 측정하지 않았으므로 **`E/S/P` 정량 점수 및 `ESBI`는 `N/A`**로 유지하며, 테스트 통과 개수를 의미 품질 점수로 둔갑시키지 않는다.
 
-> [11편 본문으로 돌아가기](/tag-ontology-engineering/11-knowledge-blog-compiler-and-semantic-critique/)
+> [10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
