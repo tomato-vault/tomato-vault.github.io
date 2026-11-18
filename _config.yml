@@ -93,6 +93,14 @@ defaults:
       seo:
         type:          WebPage
 
+  - scope:
+      type:            deep_dives
+    values:
+      layout:          page
+      comments:        true
+      seo:
+        type:          WebPage
+
 kramdown:
   math_engine:         mathjax
   math_engine_opts:    {}
@@ -159,6 +167,9 @@ collections:
 
   projects:
     permalink:         /projects/:path/
+    output:            true
+
+  deep_dives:
     output:            true
 
 # File inclusion/exclusion

@@ -11,7 +11,11 @@ set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 PATTERN_FILE="${SCAN_PATTERNS:-$HERE/.scan-patterns}"
-TARGET="${1:-_posts}"
+if [ $# -gt 0 ]; then
+  TARGETS=("$@")
+else
+  TARGETS=("_posts" "_deep_dives")
+fi
 
 if [ ! -f "$PATTERN_FILE" ]; then
   echo "🚫 패턴 파일이 없다: $PATTERN_FILE"
@@ -19,12 +23,16 @@ if [ ! -f "$PATTERN_FILE" ]; then
   exit 1
 fi
 
-[ -d "$TARGET" ] || { echo "대상 없음: $TARGET (스캔 생략)"; exit 0; }
+EXISTING_TARGETS=()
+for t in "${TARGETS[@]}"; do
+  [ -d "$t" ] && EXISTING_TARGETS+=("$t")
+done
+[ ${#EXISTING_TARGETS[@]} -gt 0 ] || { echo "대상 없음: ${TARGETS[*]} (스캔 생략)"; exit 0; }
 
 fail=0
 while IFS= read -r p; do
   case "$p" in ''|'#'*) continue ;; esac
-  if grep -rniE "$p" "$TARGET" 2>/dev/null; then
+  if grep -rniE "$p" "${EXISTING_TARGETS[@]}" 2>/dev/null; then
     echo "🚫 금칙어 감지: $p"
     fail=1
   fi
@@ -37,4 +45,4 @@ if [ $fail -eq 1 ]; then
   exit 1
 fi
 
-echo "✅ 스캔 통과 ($TARGET)"
+echo "✅ 스캔 통과 (${EXISTING_TARGETS[*]})"

@@ -41,7 +41,7 @@ published: true
 Obsidian으로 이사한 후의 내 '월기' 디렉토리 모습.
 {:.figcaption}
 
-나는 나만의 시스템을 만드는 것을 참 좋아하는데 `Obsidian`의 자유도 덕분에 흔히들 말하는 Second Brain/Personal Knowledge Management(PKM) System을 온전히 나의 스타일로 적응시켜서 운용 중이고, 최근에는 Ontology 개념까지도 도입 중에 있다(이 독창적인 지식 온톨로지 시스템과 CLI 거버넌스 구축기는 이번 시리즈의 **[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tag-ai-agent-architecture/10-knowledge-ontology/)**와 후속 연재인 **온톨로지 엔지니어링 [[2편] 4,400개의 흩어진 생각에 척추를 세우다](/tag-ontology-engineering/2-vault-knowledge-ontology/)**에서 자세히 다룬다). 각설하고, **나는 일을 하면서도 중요하다고 판단되는 모든 것을 기록한다**라는 설명을 하고 싶어서 이 이야기로 운을 띄워봤다.
+나는 나만의 시스템을 만드는 것을 참 좋아하는데 `Obsidian`의 자유도 덕분에 흔히들 말하는 Second Brain/Personal Knowledge Management(PKM) System을 온전히 나의 스타일로 적응시켜서 운용 중이고, 최근에는 Ontology 개념까지도 도입 중에 있다(이 독창적인 지식 온톨로지 시스템과 CLI 거버넌스 구축기는 이번 시리즈의 **[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tag-ai-agent-architecture/10-knowledge-ontology/)**와 후속 연재인 **온톨로지 엔지니어링 [[2편] 4,400개의 흩어진 생각에 척추를 세우고 도구의 착각까지 도려내다](/tag-ontology-engineering/2-vault-knowledge-ontology/)**에서 자세히 다룬다). 각설하고, **나는 일을 하면서도 중요하다고 판단되는 모든 것을 기록한다**라는 설명을 하고 싶어서 이 이야기로 운을 띄워봤다.
 
 ### 군대 위병소에서 시작된 첫 코딩
 

@@ -25,4 +25,18 @@
 
     </url>
   {% endfor %}
+  {% for doc in site.deep_dives %}
+    {% if doc.published != false %}
+    <url>
+      <loc>{{ site.url }}{{ doc.url }}</loc>
+      {% if doc.last_modified_at %}
+        <lastmod>{{ doc.last_modified_at | date_to_xmlschema }}</lastmod>
+      {% elsif doc.date %}
+        <lastmod>{{ doc.date | date_to_xmlschema }}</lastmod>
+      {% endif %}
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    {% endif %}
+  {% endfor %}
 </urlset>
