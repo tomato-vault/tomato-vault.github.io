@@ -64,10 +64,19 @@ published: true
 
 ```mermaid
 flowchart LR
-    G1["<b>[1세대] Data Warehouse</b><br/>SAP BW · Oracle<br/>정형 사일로 · 부서 단절"]
-    G2["<b>[2세대] Data Lake</b><br/>Hadoop · AWS S3<br/>데이터의 늪(Data Swamp)"]
-    G3["<b>[2.5세대] Lakehouse</b><br/>Snowflake · Databricks<br/>온톨로지 부재 · 박제된 대시보드"]
-    G4["<b>[3세대] Enterprise OS</b><br/>Palantir Foundry · AIP<br/>디지털 트윈 · 원자적 액션과 환류"]
+    classDef gen1 fill:#f8fafc,stroke:#94a3b8,stroke-width:2px,color:#1e293b
+    classDef gen2 fill:#fef2f2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    classDef gen25 fill:#f0fdf4,stroke:#22c55e,stroke-width:2px,color:#166534
+    classDef gen3 fill:#e0f2fe,stroke:#0284c7,stroke-width:2.5px,color:#0c4a6e,font-weight:bold
+
+    G1["<div style='text-align:center; padding:6px 4px;'><b>[1세대] Data Warehouse</b><br/><i>(2000년대 초반)</i></div><hr style='margin:6px 0; border:none; border-top:1px solid #cbd5e1;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>대표</b>: SAP BW, Oracle<br/>• <b>구조</b>: 정형 텍스트 사일로<br/>• <b>비유</b>: 도서관 장르별 물리 분리<br/>• <b>한계</b>: 부서 간 결합 및 입체 분석 불가</div>"]:::gen1
+
+    G2["<div style='text-align:center; padding:6px 4px;'><b>[2세대] Data Lake</b><br/><i>(2010년 전후)</i></div><hr style='margin:6px 0; border:none; border-top:1px solid #fca5a5;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>대표</b>: Hadoop, AWS S3<br/>• <b>구조</b>: '일단 다 모아라' 원천 적재<br/>• <b>실체</b>: <b>데이터의 늪(Data Swamp)</b><br/>• <b>병목</b>: SQL 장벽, 엑셀 추출 요청 대기</div>"]:::gen2
+
+    G3["<div style='text-align:center; padding:6px 4px;'><b>[2.5세대] Lakehouse</b><br/><i>(2020년대)</i></div><hr style='margin:6px 0; border:none; border-top:1px solid #86efac;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>대표</b>: Snowflake, Databricks<br/>• <b>구조</b>: Raw ➔ Clean ➔ Object 정제<br/>• <b>성취</b>: 고속 쿼리 & 데이터 안정화<br/>• <b>한계</b>: <b>온톨로지 부재</b>, 박제된 대시보드</div>"]:::gen25
+
+    G4["<div style='text-align:center; padding:6px 4px;'><b>[3세대] Enterprise OS</b><br/><i>(현재 ~ 미래)</i></div><hr style='margin:6px 0; border:none; border-top:1px solid #38bdf8;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>대표</b>: Palantir Foundry / AIP<br/>• <b>구조</b>: 비즈니스 디지털 트윈<br/>• <b>코어</b>: <b>Kinetic Layer(운동 계층)</b><br/>• <b>혁신</b>: 판단 ➔ <b>원자적 액션 & 쓰기 환류</b></div>"]:::gen3
+
     G1 ==> G2 ==> G3 ==> G4
 ```
 
@@ -85,13 +94,22 @@ flowchart LR
 
 ```mermaid
 flowchart TB
+    classDef actionStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:2.5px,color:#0c4a6e
+    classDef logicStyle fill:#fef3c7,stroke:#f59e0b,stroke-width:2.5px,color:#78350f
+    classDef dataStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:2.5px,color:#14532d
+
     subgraph ONTO ["<b>팔란티어 온톨로지 3대 계층 (Enterprise OS Architecture)</b>"]
         direction TB
-        L3["<b>3. Action / Kinetic Layer (행동과 쓰기 환류)</b><br/>원자적 액션 집행 · 레거시 ERP/DB Write-back · 실시간 Closed-loop 재동기화"]
-        L2["<b>2. Logic / Dynamic Layer (규칙과 불변식)</b><br/>불변식(Invariants) · 사전조건(Preconditions) 검증 · What-if 시뮬레이션"]
-        L1["<b>1. Data / Semantic Layer (객체와 의미 연결)</b><br/>비즈니스 객체(Objects)와 관계망(Links) · 디지털 트윈 승격"]
-        L1 ==> L2 ==> L3
-        L3 -.->|"Closed-loop"| L1
+
+        L3["<div style='text-align:center; padding:6px 8px;'><b>3. Action Layer (행동과 쓰기 환류)</b></div><hr style='margin:6px 0; border:none; border-top:1px solid #38bdf8;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>원자적 비즈니스 액션</b>: 주문 발주, 배송 경로 재지정, 긴급 승인 등 상태 전이<br/>• <b>레거시 시스템 쓰기 환류 (Write-back)</b>: SAP ERP, 사내 DB로 트랜잭션 직접 반영<br/>• <b>폐루프 (Closed-loop)</b>: 변경 결과가 실시간으로 온톨로지 전역에 즉시 재동기화</div>"]:::actionStyle
+
+        L2["<div style='text-align:center; padding:6px 8px;'><b>2. Logic Layer (규칙과 불변식)</b></div><hr style='margin:6px 0; border:none; border-top:1px solid #fcd34d;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>비즈니스 불변식 (Invariants)</b>: 결코 깨져서는 안 되는 업무 제약과 하드 바운더리<br/>• <b>사전조건 검증 (Preconditions)</b>: 액션 실행 전 재고·권한·비용 조건을 엄격히 검증<br/>• <b>What-if 시뮬레이션 (Branching)</b>: 실제 시스템을 건드리지 않고 가상 분기에서 영향도 예측</div>"]:::logicStyle
+
+        L1["<div style='text-align:center; padding:6px 8px;'><b>1. Data Layer (객체와 의미론적 연결)</b></div><hr style='margin:6px 0; border:none; border-top:1px solid #86efac;'/><div style='text-align:left; font-size:13px; line-height:1.6;'>• <b>비즈니스 객체 (Objects)</b>: 공장, 장비, 센서, 항공기, 부품, 고객 등 현실의 물리적 실체<br/>• <b>시맨틱 관계망 (Links)</b>: 1:N, N:M 복합 관계를 실시간 메모리 그래프로 연결<br/>• <b>엔터프라이즈 디지털 트윈</b>: 단편적인 DB 테이블을 인간과 AI가 이해하는 개념으로 승격</div>"]:::dataStyle
+
+        L1 ==>|"의미론적 실체 매핑 & 상태 전달"| L2
+        L2 ==>|"불변식 검증 통과 시 안전한 액션 집행"| L3
+        L3 -.->|"실시간 상태 변경 쓰기 환류 (Closed-loop 동기화)"| L1
     end
 ```
 

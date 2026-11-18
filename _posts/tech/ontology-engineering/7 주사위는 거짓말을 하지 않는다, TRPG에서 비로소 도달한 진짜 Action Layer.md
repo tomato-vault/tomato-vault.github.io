@@ -28,27 +28,29 @@ published: true
 그제야 왜 자연어 프롬프트와 정적 문서만으로는 살아 움직이는 세계를 운영할 수 없는지 깨달았다. 실시간으로 상태가 변하는 캠페인에서는 에이전트가 수치를 지어내거나 비밀 문서를 훔쳐보지 못하도록 **온톨로지 엔진 자체가 세계의 유일한 실행 게이트가 되어야만 했던 것**이다. 그렇게 탄생한 것이 등록된 파이썬 핸들러만이 사전 조건을 검증하고, 주사위 판정과 자원 차감, 시간 경과, 사건 원장 기록을 단일 원자적 트랜잭션으로 집행하는 `live_state` 운영 온톨로지, `trpg-ontology`(`v0.12.1`)였다.
 
 ```mermaid
-flowchart LR
-    subgraph V["1. Vault Ontology (knowledge_graph)"]
-        direction TB
-        V1["마크다운 노트 초안"] --> V2["vault CLI 스키마 게이트"]
-        V2 --> V3["정본 .md 생성 및 SQLite 그래프 인덱싱"]
+flowchart TB
+    classDef vStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    classDef rStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0369a1
+    classDef tStyle fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+
+    subgraph V["<b>1. Vault Ontology (knowledge_graph)</b>"]
+        direction LR
+        V1["마크다운 노트 초안"]:::vStyle --> V2["vault CLI 스키마 게이트"]:::vStyle --> V3["정본 .md 생성 및 SQLite 인덱싱"]:::vStyle
     end
 
-    subgraph R["2. Repo Ontology (code_specification)"]
-        direction TB
-        R1[".ontology YAML 명세"] --> R2["otlg AST 바인딩 및 드리프트 검증"]
-        R2 --> R3["에이전트 작업 문맥(Trace/Intake) 주입"]
+    subgraph R["<b>2. Repo Ontology (code_specification)</b>"]
+        direction LR
+        R1[".ontology YAML 명세"]:::rStyle --> R2["otlg AST 바인딩·드리프트 검증"]:::rStyle --> R3["에이전트 문맥(Trace/Brief) 주입"]:::rStyle
     end
 
-    subgraph T["3. TRPG Ontology (live_state / Action Layer)"]
+    subgraph T["<b>3. TRPG Ontology (live_state / Action Layer)</b>"]
         direction TB
-        T1["AI GM / 플레이어 행동 요청"] --> T2["Perspective 투영 (pc/gm) 및 Preflight 검증"]
-        T2 --> T3["등록된 Python Action 핸들러 실행 (2d6 / 전투)"]
-        T3 --> T4["fsync Undo Journal + 상태(JSON)·사건(YAML) 원자적 커밋"]
+        T1["AI GM / 플레이어 행동 요청"]:::tStyle --> T2["Perspective 투영 (pc/gm) 및 Preflight 검증"]:::tStyle
+        T2 --> T3["등록된 Python Action 핸들러 실행 (2d6 / 파훼 전투)"]:::tStyle
+        T3 --> T4["fsync Undo Journal + 상태(JSON)·사건(YAML) 원자적 커밋"]:::tStyle
     end
 
-    V --> R --> T
+    V ==> R ==> T
 ```
 
 다이어그램처럼 `trpg-ontology`는 단순한 설정 위키가 아니다. AI GM이 세상의 상태를 읽을 때는 플레이어가 알 수 있는 지식만 투영해서 보여주고, 세계에 변화를 가할 때는 반드시 등록된 행동 계약을 통해서만 상태를 전이시키는 **실행형 캠페인 운영체제**다.

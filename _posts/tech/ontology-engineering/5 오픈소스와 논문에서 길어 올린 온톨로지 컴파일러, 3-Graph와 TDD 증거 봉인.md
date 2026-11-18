@@ -54,14 +54,19 @@ published: true
 외부 원리와 자체 `TDD` 계약 설계를 하나로 꿰어내면서 내린 가장 중요한 아키텍처 결정은 **도메인 그래프(`domain`), 정적 코드 그래프(`import`), 계약-테스트 그래프(`contract-test`)를 하나로 뭉개지 않고 명확히 분리한 뒤 `AnalysisContext`에서 결합**하는 구조였다.
 
 ```mermaid
-flowchart LR
-  YAML["Ontology YAML (domain / architecture / contracts)"] --> Registry["Registry (Domain & Contract Spec)"]
-  Code["Application & Test Sources (Python AST / JS tree-sitter)"] --> SourceIndex["SourceIndex (Static Code & Import Graph)"]
-  Registry --> AnalysisContext["AnalysisContext (3-Graph Coordinator)"]
+flowchart TB
+  classDef spec fill:#fef3c7,stroke:#f59e0b,stroke-width:1.5px,color:#92400e
+  classDef code fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0369a1
+  classDef coord fill:#193747,stroke:#4fb1ba,stroke-width:2px,color:#fff,font-weight:bold
+  classDef ev fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+
+  YAML["<b>1. Ontology YAML</b><br/>domain / architecture / contracts"]:::spec --> Registry["<b>Registry</b><br/>(Domain & Contract Spec)"]:::spec
+  Code["<b>2. Application & Test Sources</b><br/>Python AST / JS tree-sitter"]:::code --> SourceIndex["<b>SourceIndex</b><br/>(Static Code & Import Graph)"]:::code
+  Registry --> AnalysisContext["<b>AnalysisContext (3-Graph Coordinator)</b><br/>도메인 · 정적 임포트 · TDD 계약 교차 검증"]:::coord
   SourceIndex --> AnalysisContext
-  AnalysisContext --> Queries["CLI Queries (lint / impact / brief / coverage / contracts)"]
-  Pytest["Explicit pytest Execution (pytest_plugin)"] --> Evidence["Sealed Evidence JSON (Hash & Snapshots)"]
-  Evidence --> Queries
+  Pytest["<b>3. Explicit pytest Execution</b><br/>(pytest_plugin)"]:::ev --> Evidence["<b>Sealed Evidence JSON</b><br/>(Contract Hash & Source Snapshots)"]:::ev
+  AnalysisContext ==> Queries["<b>CLI Queries & Gates</b><br/>otlg lint / impact / brief / coverage / contracts"]:::coord
+  Evidence ==> Queries
 ```
 
 도메인 개념상 두 객체 사이에 `Link`가 있더라도, 코드 레벨에서는 레이어 방향(`service`에서 `model`로만 참조 허용)이나 `FSD` 슬라이스 격리 원칙(`forbid_cross_slice: true`)에 따라 직접 `import`가 금지되어야 하는 경우가 많다. 만약 도메인 그래프와 코드 의존성 그래프를 합쳐 버리면 도메인 `Link`가 곧 코드 `import` 허가증으로 오작동하며 아키텍처 경계가 무너지게 된다.

@@ -118,14 +118,19 @@ uv run scripts/check_source_contract.py
 `game-dev-ontology`의 `Code-on-Graph`(`CoG`) 도구층은 별도의 LLM API 서버나 호스트 임의 Python `exec()`를 두지 않고, **현재 대화형 에이전트가 Planner·Generator·Evaluator를 맡고 `gdev.py` CLI가 결정론적 스키마 추상화(`schema`)·슬라이스(`slice`)·질의 실행(`QueryPlan`)·모듈 사전검사(`modules check`)·5-State 영수증(`receipt`)을 제공하는 Agent-in-the-Loop 아키텍처**로 작동한다.
 
 ```mermaid
-flowchart LR
-    JSON["정본 records.json · analysis-plan.json"] --> V["전체 계약·근거 SHA256 검사"]
-    E["불변 증거 아티팩트 · 추출 영수증"] --> V
-    V --> I["원자적으로 재생성한 Read-Only SQLite/FTS5 (.generated/gdev.sqlite)"]
-    I --> S["스키마 서명 · 페이지 · 작은 행 조각 (schema / slice)"]
-    S --> A["현재 대화형 에이전트의 계획 · 평가"]
-    A --> Q["선언형 연산(group_count / ratio) 또는 제한형 Read-Only SQL (QueryPlan)"]
-    Q --> R["5-state 결과 · 범위 · 한계 · lineage 영수증 (receipt)"]
+flowchart TB
+    classDef s1 fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#1e293b
+    classDef s2 fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0369a1
+    classDef s3 fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+    classDef s4 fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+
+    JSON["<b>정본 records.json · analysis-plan.json</b>"]:::s1 --> V["<b>전체 계약 · 근거 SHA256 검사</b>"]:::s1
+    E["<b>불변 증거 아티팩트 · 추출 영수증</b>"]:::s1 --> V
+    V ==> I["<b>원자적으로 재생성한 Read-Only SQLite/FTS5</b><br/>(.generated/gdev.sqlite)"]:::s2
+    I --> S["<b>스키마 서명 · 페이지 · 작은 행 조각</b><br/>(schema / slice)"]:::s2
+    S --> A["<b>현재 대화형 에이전트의 계획 · 평가</b>"]:::s3
+    A --> Q["<b>선언형 연산(group_count / ratio) 또는 제한형 Read-Only SQL</b><br/>(QueryPlan)"]:::s3
+    Q ==> R["<b>5-state 결과 · 범위 · 한계 · lineage 영수증</b><br/>(receipt)"]:::s4
 ```
 
 `<root>/.generated/gdev.sqlite` 색인은 `records`, `build`/`plan`, 증거 `SHA256`, 어댑터 목록, 스키마·도구·SQLite 버전을 기록하며 입력이 하나라도 바뀌면 모든 조회를 `stale`로 거부한다.

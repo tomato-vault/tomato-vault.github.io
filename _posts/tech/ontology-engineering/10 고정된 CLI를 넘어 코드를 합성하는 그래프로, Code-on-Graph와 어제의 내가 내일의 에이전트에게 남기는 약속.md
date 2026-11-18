@@ -78,11 +78,16 @@ $$
 Wave 1에 이어 진짜 승부처는 방대한 세계관과 캠페인 상태를 결합해 `CoG`의 **Stage 2a(핀포인트 서브그래프 조회)**와 **Stage 3(샌드박스 실행 피드백)**를 끝까지 밀어붙인 **`trpg-ontology v0.14.0` (`F15`)**이었다. 먼저 데이터를 **4계층(`World Canon` / `Ruleset` / `Campaign` / `Candidate & Prepared`)**으로 분리하고, 418개 세계관 문서와 글뤼엔 아카이브 1,478개 항목(`~7.5MB`)을 `world/canon/manifest.yml`과 **13개 정본 YAML**로 무손실 통합했다. 동명이인이 덮어써지지 않도록 `<파일 stem>:<source_path>` 복합 ID를 부여했고, `World Canon`을 읽었다고 해서 파티가 재료나 제법을 공짜로 얻지 못하도록 실제 보유 상태는 `Campaign` 원장에만 귀속시켰다. 또한 [[7편]](/tag-ontology-engineering/7-trpg-kinetic-action-layer/)의 `LÖVE 11.5` 전투 창이 서사 몰입감을 끊는 문제를 해결하고자 이를 과감히 폐기하고, [[8편]](/tag-ontology-engineering/8-game-dev-evidence-ontology/)에서 역공학한 『옥토패스 트래블러 II』의 약점 파훼(`Break`)와 저력(`latent_power`)을 이식한 대화형 2d6 파훼·연금 전술 계산기(`domains/combat/conversation.py`)로 일원화했다.
 
 ```mermaid
-flowchart LR
-    Draft["1. 기회 초안 생성\n(EncounterDraft /\nQuestOpportunityDraft)"] --> Static["2. 정적 그래프 파훼 검증\n- 보스 드랍 순환 잠금 거부\n- 제법 재료 순환 & danger_tier 검사\n- 후퇴(retreat) 및 우회(bypass) 필수"]
-    Static --> Sim["3. 3조건 격리 시뮬레이션\n(동일 시드 21개 × 최대 30라운드)\n- unprepared (무준비)\n- current_inventory (현재 소지품)\n- realistic_local_prep (현지 채집·구매·제작 1회)"]
-    Sim --> Promote["4. 리비전 잠금 승격\ntrpg draft promote\n(--expected-revision HASH)\n-> prepared YAML 등록"]
-    Promote --> Start["5. 런타임 활성화 분리\ntrpg battle start\n(실제 조우 시점에 개시)"]
+flowchart TB
+    classDef draftStyle fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#1e293b
+    classDef checkStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0369a1
+    classDef simStyle fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+    classDef promStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+
+    Draft["<b>1. 기회 초안 생성</b><br/>EncounterDraft / QuestOpportunityDraft"]:::draftStyle --> Static["<b>2. 정적 그래프 파훼 검증 (trpg draft check)</b><br/>• 보스 드랍 순환 잠금(Circular Lock) 거부<br/>• 제법 재료 순환 & 고정 danger_tier 검사<br/>• 후퇴(retreat) 및 우회(bypass) 경로 필수"]:::checkStyle
+    Static ==> Sim["<b>3. 3조건 격리 시뮬레이션 (동일 시드 21개 × 최대 30라운드)</b><br/>• <code>unprepared</code> (무준비 기본 행동)<br/>• <code>current_inventory</code> (현재 가방 소모품 한도)<br/>• <code>realistic_local_prep</code> (현지 채집 1회·상점 거래·습득 제법 1회 제작 투영)"]:::simStyle
+    Sim ==> Promote["<b>4. 리비전 잠금 승격 (trpg draft promote)</b><br/>--expected-revision HASH 검증 후 prepared YAML 등록"]:::promStyle
+    Promote ==> Start["<b>5. 런타임 활성화 분리 (trpg battle start)</b><br/>실제 플레이에서 파티가 조우한 시점에 개시"]:::promStyle
 ```
 
 이를 바탕으로 세션 중 구상한 보스 초안(`EncounterDraft`)을 검증하는 **Stage 3 샌드박스 게이트**가 완성되었다. `trpg draft check`는 필수 파훼 아이템(`required_counters`) 재료가 **'지금 잡아야 하는 바로 그 보스의 전리품(Drop)'에만 존재하는 순환 잠금(Boss Drop Circular Lock)** 상태인지를 역추적해 거절한다. 이어지는 **21시드 × 30라운드의 3조건(`unprepared` / `current_inventory` / `realistic_local_prep`) 격리 시뮬레이션**은 특히 `realistic_local_prep`에서 엔진이 직접 현지 채집 1회, 상점 구매, 습득 제법(`known_recipes`) 1회 제작(재료·금화 실제 차감)까지 수행한 투영 인벤토리를 조립해 승률과 Break 봉쇄 횟수를 정량 비교한다. 7.5MB 세계관 조회를 맡은 `trpg canon` 역시 메모리 적중 `0.03초` 속도와 함께 **22개 적대적 반례 검토(`338 passed`)**를 거쳐 `pickle` 제거(`0700/0600` JSON + `O_NOFOLLOW`), TOCTOU 매니페스트 검증, `--perspective pc` 메모리 적재 전 차단, 동명이인 모호성 에러, 자연어 서식지 생물 115종의 `미확인(unlinked)` 정직 보고까지 완비했다.

@@ -115,11 +115,16 @@ trpg_ontology/
 세션 도중 창발적으로 생성된 전투 조우 초안(`EncounterDraft`)과 퀘스트 기회(`QuestOpportunityDraft`)는 `trpg draft check Draft_ID --json`을 통해 정적 그래프 검증과 3조건 격리 시뮬레이션을 통과해야만 `prepared` 상태로 승격될 수 있다.
 
 ```mermaid
-flowchart LR
-    Draft["1. 기회 초안 생성\n(EncounterDraft /\nQuestOpportunityDraft)"] --> Static["2. 정적 그래프 파훼 검증\n- 보스 드랍 순환 잠금 거부\n- 제법 재료 순환 & danger_tier 검사\n- 후퇴(retreat) 및 우회(bypass) 필수"]
-    Static --> Sim["3. 3조건 격리 시뮬레이션\n(동일 시드 21개 × 최대 30라운드)\n- unprepared (무준비)\n- current_inventory (현재 소지품)\n- realistic_local_prep (현지 채집·구매·제작 1회)"]
-    Sim --> Promote["4. 리비전 잠금 승격\ntrpg draft promote\n(--expected-revision HASH)\n-> prepared YAML 등록"]
-    Promote --> Start["5. 런타임 활성화 분리\ntrpg battle start\n(실제 조우 시점에 개시)"]
+flowchart TB
+    classDef draftStyle fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#1e293b
+    classDef checkStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0369a1
+    classDef simStyle fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
+    classDef promStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+
+    Draft["<b>1. 기회 초안 생성</b><br/>EncounterDraft / QuestOpportunityDraft"]:::draftStyle --> Static["<b>2. 정적 그래프 파훼 검증 (trpg draft check)</b><br/>• 보스 드랍 순환 잠금(Circular Lock) 거부<br/>• 제법 재료 순환 & 고정 danger_tier 검사<br/>• 후퇴(retreat) 및 우회(bypass) 경로 필수"]:::checkStyle
+    Static ==> Sim["<b>3. 3조건 격리 시뮬레이션 (동일 시드 21개 × 최대 30라운드)</b><br/>• <code>unprepared</code> (무준비 기본 행동)<br/>• <code>current_inventory</code> (현재 가방 소모품 한도)<br/>• <code>realistic_local_prep</code> (현지 채집 1회·상점 거래·습득 제법 1회 제작 투영)"]:::simStyle
+    Sim ==> Promote["<b>4. 리비전 잠금 승격 (trpg draft promote)</b><br/>--expected-revision HASH 검증 후 prepared YAML 등록"]:::promStyle
+    Promote ==> Start["<b>5. 런타임 활성화 분리 (trpg battle start)</b><br/>실제 플레이에서 파티가 조우한 시점에 개시"]:::promStyle
 ```
 
 - **보스 드랍 순환 잠금(Boss Drop Circular Lock) 거부**: 보스의 기믹을 파훼하기 위한 필수 카운터 아이템(`required_counters`)의 재료 수급처를 역추적했을 때, 그 재료가 오직 '지금 처치해야 하는 바로 그 보스의 전리품(`drop`)'에만 의존하는 순환 모순이면 즉시 거부한다. 또한 퇴각 허용 여부(`retreat_allowed`)와 비전투·우회 선택지(`bypass_or_noncombat_options`)가 비어 있는 초안도 통과시키지 않는다.
@@ -197,16 +202,23 @@ Panos Alexopoulos의 『Semantic Modeling for Data』를 기반으로 수립한 
 `TC-03`에서 드러난 '검색 적중 오라클(Membership Oracle)'과 소문 위치 누출을 막기 위해 재설계한 관점 투영 파이프라인의 전후 비교는 다음과 같다.
 
 ```mermaid
-flowchart LR
-    subgraph OLD ["기존(v0.14.0): 가시 노드 선택 후 원문 기반 검색/편입"]
-        O1["rumored 인물/아이템/장소\n(진실 summary & 숨은 location_id 보유)"] --> O2["검색어 매칭 및 현장 목록 편입\n(원문 진실 summary·location_id 참조)"]
-        O2 --> O3["출력 직전에만 마스킹\n-> 검색 적중 여부(Membership Oracle)로\n비밀 키워드와 숨은 위치가 간접 유출됨"]
+flowchart TB
+    classDef badStyle fill:#fef2f2,stroke:#ef4444,stroke-width:1.5px,color:#991b1b
+    classDef goodStyle fill:#f0fdf4,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+
+    subgraph OLD ["<b>기존(v0.14.0): 가시 노드 선택 후 원문 기반 검색/편입</b>"]
+        direction TB
+        O1["rumored 인물/아이템/장소<br/>(진실 summary & 숨은 location_id 보유)"]:::badStyle --> O2["검색어 매칭 및 현장 목록 편입<br/>(원문 진실 summary·location_id 참조)"]:::badStyle
+        O2 --> O3["출력 직전에만 마스킹<br/>➔ 검색 적중 여부(Membership Oracle)로 비밀 키워드·숨은 위치 유출!"]:::badStyle
     end
 
-    subgraph NEW ["개선(v0.15.0): Project-Before-Match & Project-Before-Pack"]
-        N1["rumored 인물/아이템/장소"] --> N2["1단계: 관점 투영 (Projector)\n- 진실 summary/location/secret/links 즉시 제거\n- 오직 공개된 rumor 텍스트만 유지"]
-        N2 --> N3["2단계: 투영된 레코드 위에서만 검색·지역 편입·역방향 추적\n-> 비밀 키워드 검색 시 적중 0건 (완벽한 인식론적 격리)"]
+    subgraph NEW ["<b>개선(v0.15.0): Project-Before-Match & Project-Before-Pack</b>"]
+        direction TB
+        N1["rumored 인물/아이템/장소"]:::goodStyle --> N2["<b>1단계: 관점 투영 (Projector)</b><br/>• 진실 summary/location/secret/links 즉시 제거<br/>• 오직 공개된 rumor 텍스트만 유지"]:::goodStyle
+        N2 --> N3["<b>2단계: 투영된 레코드 위에서만 검색·지역 편입·역방향 추적</b><br/>➔ 비밀 키워드 검색 시 적중 0건 (완벽한 인식론적 격리)"]:::goodStyle
     end
+
+    OLD ==>|"TC-03 의미 모형 감사 보정"| NEW
 ```
 
 1. **엄격한 `known` 판정과 `rumor` 격리**: GM 관점이거나 실효 가시성(`effective visibility`, 연금술의 `known_items`/`known_recipes` 승격 포함)이 `discovered`인 경우만 `known`으로 취급한다. `rumored` 상태인 객체는 진실 `summary`와 원시 별칭(`aliases`)을 검색어나 출력으로 쓰지 않으며, 공개된 `rumor` 문구만 노출한다.
