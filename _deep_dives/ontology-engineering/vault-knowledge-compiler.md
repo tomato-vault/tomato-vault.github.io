@@ -1,17 +1,17 @@
 ---
 layout: page
 title: "심화 | Vault의 지식·성찰 컴파일러"
-description: "Vault Ontology의 13종 타입·7종 의미 관계·SQLite/SHACL 계약, v0.1.1 적대적 검수 19개 반례(V-01~M-05), v0.5.0 블로그 초안 파이프라인과 Mind Compiler, 그리고 v0.6.0 의미 모형 감사(V060-01~16) 전수 기록"
+description: "Vault Ontology의 13종 타입·7종 의미 관계·SQLite/SHACL 계약, v0.1.1 운영 경계 점검 19개 반례(V-01~M-05), v0.5.0 블로그 초안 파이프라인과 Mind Compiler, 그리고 v0.6.0 의미 모형 감사(V060-01~16) 전수 기록"
 permalink: /tag-ontology-engineering/deep-dive/vault-knowledge-compiler/
 deep_dive_for: ontology-engineering
-related_main_orders: [2, 10]
+related_main_orders: [2, 9]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 **[[2편] 4,400개의 흩어진 생각에 척추를 세우고 도구의 착각까지 도려내다](/tag-ontology-engineering/2-vault-knowledge-ontology/)**와 **[[10편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)** 본편의 호흡을 해치지 않기 위해 분리한 심화 레퍼런스다. `vault-ontology`(`v0.1.0 ~ v0.6.0`)와 `vault-vector`(`v0.1.0`)의 정본 스키마, SQLite·RDF·SHACL 이중 검증 계약, 적대적 운영 감사 19건(`V-01~M-05`), 블로그 초안 및 `Mind Compiler` 파이프라인 규격, 그리고 의미 모형 감사 16건(`V060-01~16`)의 전수 판정 기록을 담고 있다.
+본 문서는 **[[2편] 개인 지식 베이스에 온톨로지를 심다: 스키마 설계부터 도구의 자기 검증까지](/tag-ontology-engineering/2-vault-knowledge-ontology/)**와 **[[9편] 의미가 스스로를 증명하기까지: 성찰 컴파일러, 3대 의미 모형 감사, 그리고 에필로그](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)** 본편의 호흡을 해치지 않기 위해 분리한 심화 레퍼런스다. `vault-ontology`(`v0.1.0 ~ v0.6.0`)와 `vault-vector`(`v0.1.0`)의 정본 스키마, SQLite·RDF·SHACL 이중 검증 계약, 운영 경계 점검 19건(`V-01~M-05`), 블로그 초안 및 `Mind Compiler` 파이프라인 규격, 그리고 의미 모형 감사 16건(`V060-01~16`)의 전수 점검 및 보완 기록을 담고 있다.
 
 ---
 
@@ -135,33 +135,33 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 
 ---
 
-## v0.1.1 적대적 운영 감사: V-01~M-05 전수 판정과 doctor 진단 {#vault-v011-audit}
+## v0.1.1 운영 경계 점검: V-01~M-05 보완 내역과 doctor 진단 {#vault-v011-audit}
 
-단위 테스트 466건이 통과하던 `v0.1.0` 상태에서 `Antigravity`의 조율 아래 `Codex`와 `Gemini`가 격리된 합성 볼트와 읽기 전용 실자료 대조를 통해 찾아낸 **19개 운영 경계 반례(`V-01 ~ M-05`)의 전수 판정 및 수정 기록**은 아래와 같다.
+단위 테스트 466건이 통과하던 `v0.1.0` 상태에서 격리된 합성 볼트와 읽기 전용 실자료 대조를 통해 찾아낸 **19개 운영 경계 반례(`V-01 ~ M-05`)의 점검 및 설계 보강 기록**은 아래와 같다.
 
-### 적대적 반례 19건(`V-01 ~ M-05`) 전수 판정 및 방어 계약표
+### 운영 경계 반례 19건(`V-01 ~ M-05`) 점검 및 방어 계약표
 
-| ID | 재현된 반례 및 취약점 | 판정 | `v0.1.1` 반영 및 방어 계약 |
+| ID | 재현된 반례 및 취약점 | 조치 | `v0.1.1` 반영 및 방어 계약 |
 | :--- | :--- | :---: | :--- |
-| **`V-01`** | `vault new`에 상대·절대 경로 탈출 지정 시 볼트 밖에 폴더(`mkdir`)가 먼저 생성됨 | 수용 | 쓰기 경계·심볼릭 링크·제목 구분자 검사와 스키마 검증이 모두 성공한 뒤에만 디렉토리 생성 및 원자적 게시 |
-| **`V-02`** | `vault ingest` 시 관계 옵션 미지정(`None`)이 초안의 기존 관계를 덮어써 유실시킴 | 수용 | 옵션 미지정(`None`)과 빈 리스트를 구분해 초안의 `builds_on`/`derived_from` 보존, `tags`를 `type` 직후로 고정 |
-| **`V-03`** | `src=dest` 동일 파일에 `--force --rm` 실행 시 결과물까지 스스로 삭제(`self-deletion`) | 수용 | 동일 실체 파일 자기 삭제 원천 거부. 내부 `--rm` 이동 시에만 출발지 자신을 동명이인 후보에서 제외(제3의 동명이인은 유지) |
-| **`V-04`** | `vault new`가 본문 인라인 태그(`#태그`) 위반 문서를 생성 단계에서 통과시킴 | 수용 | 생성·이관 단계에서도 `lint`와 동일한 본문 태그 금지 정책 강제 (단, 미작성 미래 문서에 대한 본문 링크 전면 거부는 기각) |
-| **`V-05`** | `vault build` 도중 파일 읽기 실패 시 기존 `SQLite` 테이블이 `DROP`된 빈 캐시만 남음 | 수용 | 임시 `SQLite` 파일에 빌드를 완주한 뒤에만 원자적 교체, 실패 시 직전 정상 캐시 유지(`WAL` 동시 사용 감지 시 중단) |
-| **`V-06`** | `vault q sql`에서 `SELECT` 뒤 세미콜론·주석 우회나 `ATTACH DATABASE`로 임의 파일 생성 | 수용 | 단순 `SELECT` 접두사 검사를 폐기하고 `mode=ro`, `query_only`, 확장 로딩 비활성화, `authorizer` 화이트리스트 다중 잠금 |
-| **`V-07`** | `summary`에 개행·콜론·따옴표 포함 시 YAML 파손 및 중복 top-level 키 허용 | 수용 | 큰따옴표 안전 인용(이스케이프)·역변환 복원 적용 및 중복 최상위 키 명시적 거부 (기존 노트 일괄 재포맷은 미수행) |
-| **`V-08/09`** | 명시적 상대 경로보다 정렬상 앞선 동명이인이 우선 선택되거나 확장자·`NFC` 비대칭 발생 | 수용 | 완전 경로 일치를 suffix보다 우선 해석하고 CLI 입력의 유니코드 `NFC`·`.md` 확장자 유무를 일관되게 정규화 |
-| **`G-01`** | `vault doctor`가 `Git` 기본 8진수 이스케이프 때문에 한글 노트의 삭제·축소를 100% 놓침 | 수용 | `git ls-files -z`·`diff --name-only -z`의 `NUL` 바이트 분리와 `--literal-pathspecs` 복구 도입 (무조건 `NFC` 변환안은 기각) |
-| **`G-02`** | `derived_from: experience` 등 스칼라 표기를 `SQLite`와 `RDF`가 서로 다르게 해석 | 수용 | 단일 관계 해석 도우미 공유, `experience` 센티넬·`ext:` 외부 출처·단일 문서·빈 목록(`[]`)을 일관되게 구분 |
-| **`G-03a`** | `900 Archive`에 실존하는 문서를 참조해도 무조건 깨진 링크(`broken`)로 판정 | 수정 수용 | 전체 Archive를 활성 노드로 편입하는 안은 기각하고, 파일 실존 시 `*_archived` 리터럴로 경로·상태만 보존해 `broken`과 분리 |
-| **`G-03b`** | 동명이인 문서에 대한 섹션 링크(`[[동명이인#섹션]]`)가 첫 번째 후보에 조용히 오결합 | 수용 | 관계 필드와 본문 링크에서 동명이인 섹션 참조 시 유일한 폴더 경로 명시 강제 (`summary` 내 예시 문자열 검사는 과잉으로 제외) |
-| **`G-03c`** | 문서 IRI 변환 시 `%25`, `%7B`, `%5C` 등 퍼센트 인코딩 문자가 이중 디코딩되어 파손 | 수용 | IRI 인코딩 시 1회, 디코딩 시 정확히 1회만 역변환하도록 교정하고 특수문자 반례 회귀 테스트 추가 |
-| **`G-04`** | 같은 폴더 소속(`part_of`)이라는 이유만으로 `knowledge-elevate` 승격 추천이 과잉 발화 | 수정 수용 | 추천 근거 조회에서만 `part_of` 제외 (`near` 화면의 폴더 문맥 표시와 실제 링크 기반의 추가 승격 제안 기능은 보존) |
-| **`M-01`** | 아카이브된 문서를 가리키는 `applies` 관계가 `SHACL`에서 근거 누락 경고로 오탐됨 | 수용 | `SHACL` 규칙에서 `applies_raw` 및 `applies_archived`를 유효한 근거 표기로 인정하도록 보완 |
-| **`M-02`** | 스칼라 관계나 한 문서를 특정하지 못하는 부분 폴더 경로 섹션 링크가 검증을 통과 | 수용 | `relation_links` 검증 공유, 후보가 2개 이상 남는 부분 경로 섹션 링크도 거부하되 기존 `lint` 예외는 유지 |
-| **`M-03`** | `vault q sql`에서 대문자 `PRAGMA TABLE_INFO(...)` 실행 시 `authorizer`가 거부 | 수용 | `authorizer` 내부에서 PRAGMA 이름을 소문자로 정규화한 뒤 읽기 전용 화이트리스트와 대조 |
-| **`M-04`** | `ingest --rm` 복사 후 원본이 외부에서 변경·삭제되었을 때 스키마 에러(코드 1)로 오안내 | 수용 | 삭제 전 원본 변경 감지 시 삭제를 중단하고, 목적지 파일 작성 여부를 명시한 운영 오류(종료 코드 `2`)로 분리 |
-| **`M-05`** | 숨김 폴더나 `.`으로 시작하는 경로에 노트를 생성하면 스캔에서 영구 누락됨 | 수용 | 볼트 루트를 뜻하는 `--dir .`은 허용하되, 스캐너가 읽지 않는 숨김 디렉토리·파일 경로 생성은 사전 거부 |
+| **`V-01`** | `vault new`에 상대·절대 경로 탈출 지정 시 볼트 밖에 폴더(`mkdir`)가 먼저 생성됨 | 반영 | 쓰기 경계·심볼릭 링크·제목 구분자 검사와 스키마 검증이 모두 성공한 뒤에만 디렉토리 생성 및 원자적 게시 |
+| **`V-02`** | `vault ingest` 시 관계 옵션 미지정(`None`)이 초안의 기존 관계를 덮어써 유실시킴 | 반영 | 옵션 미지정(`None`)과 빈 리스트를 구분해 초안의 `builds_on`/`derived_from` 보존, `tags`를 `type` 직후로 고정 |
+| **`V-03`** | `src=dest` 동일 파일에 `--force --rm` 실행 시 결과물까지 스스로 삭제(`self-deletion`) | 반영 | 동일 실체 파일 자기 삭제 원천 거부. 내부 `--rm` 이동 시에만 출발지 자신을 동명이인 후보에서 제외(제3의 동명이인은 유지) |
+| **`V-04`** | `vault new`가 본문 인라인 태그(`#태그`) 위반 문서를 생성 단계에서 통과시킴 | 반영 | 생성·이관 단계에서도 `lint`와 동일한 본문 태그 금지 정책 강제 (단, 미작성 미래 문서에 대한 본문 링크 전면 거부는 과잉 규율로 제외) |
+| **`V-05`** | `vault build` 도중 파일 읽기 실패 시 기존 `SQLite` 테이블이 `DROP`된 빈 캐시만 남음 | 반영 | 임시 `SQLite` 파일에 빌드를 완주한 뒤에만 원자적 교체, 실패 시 직전 정상 캐시 유지(`WAL` 동시 사용 감지 시 중단) |
+| **`V-06`** | `vault q sql`에서 `SELECT` 뒤 세미콜론·주석 우회나 `ATTACH DATABASE`로 임의 파일 생성 | 반영 | 단순 `SELECT` 접두사 검사를 폐기하고 `mode=ro`, `query_only`, 확장 로딩 비활성화, `authorizer` 화이트리스트 다중 잠금 |
+| **`V-07`** | `summary`에 개행·콜론·따옴표 포함 시 YAML 파손 및 중복 top-level 키 허용 | 반영 | 큰따옴표 안전 인용(이스케이프)·역변환 복원 적용 및 중복 최상위 키 명시적 거부 (기존 노트 일괄 재포맷은 미수행) |
+| **`V-08/09`** | 명시적 상대 경로보다 정렬상 앞선 동명이인이 우선 선택되거나 확장자·`NFC` 비대칭 발생 | 반영 | 완전 경로 일치를 suffix보다 우선 해석하고 CLI 입력의 유니코드 `NFC`·`.md` 확장자 유무를 일관되게 정규화 |
+| **`G-01`** | `vault doctor`가 `Git` 기본 8진수 이스케이프 때문에 한글 노트의 삭제·축소를 100% 놓침 | 반영 | `git ls-files -z`·`diff --name-only -z`의 `NUL` 바이트 분리와 `--literal-pathspecs` 복구 도입 (무조건 `NFC` 변환안은 제외) |
+| **`G-02`** | `derived_from: experience` 등 스칼라 표기를 `SQLite`와 `RDF`가 서로 다르게 해석 | 반영 | 단일 관계 해석 도우미 공유, `experience` 센티넬·`ext:` 외부 출처·단일 문서·빈 목록(`[]`)을 일관되게 구분 |
+| **`G-03a`** | `900 Archive`에 실존하는 문서를 참조해도 무조건 깨진 링크(`broken`)로 판정 | 보완 반영 | 전체 Archive를 활성 노드로 편입하는 안은 제외하고, 파일 실존 시 `*_archived` 리터럴로 경로·상태만 보존해 `broken`과 분리 |
+| **`G-03b`** | 동명이인 문서에 대한 섹션 링크(`[[동명이인#섹션]]`)가 첫 번째 후보에 조용히 오결합 | 반영 | 관계 필드와 본문 링크에서 동명이인 섹션 참조 시 유일한 폴더 경로 명시 강제 (`summary` 내 예시 문자열 검사는 과잉으로 제외) |
+| **`G-03c`** | 문서 IRI 변환 시 `%25`, `%7B`, `%5C` 등 퍼센트 인코딩 문자가 이중 디코딩되어 파손 | 반영 | IRI 인코딩 시 1회, 디코딩 시 정확히 1회만 역변환하도록 교정하고 특수문자 반례 회귀 테스트 추가 |
+| **`G-04`** | 같은 폴더 소속(`part_of`)이라는 이유만으로 `knowledge-elevate` 승격 추천이 과잉 발화 | 보완 반영 | 추천 근거 조회에서만 `part_of` 제외 (`near` 화면의 폴더 문맥 표시와 실제 링크 기반의 추가 승격 제안 기능은 보존) |
+| **`M-01`** | 아카이브된 문서를 가리키는 `applies` 관계가 `SHACL`에서 근거 누락 경고로 오탐됨 | 반영 | `SHACL` 규칙에서 `applies_raw` 및 `applies_archived`를 유효한 근거 표기로 인정하도록 보완 |
+| **`M-02`** | 스칼라 관계나 한 문서를 특정하지 못하는 부분 폴더 경로 섹션 링크가 검증을 통과 | 반영 | `relation_links` 검증 공유, 후보가 2개 이상 남는 부분 경로 섹션 링크도 거부하되 기존 `lint` 예외는 유지 |
+| **`M-03`** | `vault q sql`에서 대문자 `PRAGMA TABLE_INFO(...)` 실행 시 `authorizer`가 거부 | 반영 | `authorizer` 내부에서 PRAGMA 이름을 소문자로 정규화한 뒤 읽기 전용 화이트리스트와 대조 |
+| **`M-04`** | `ingest --rm` 복사 후 원본이 외부에서 변경·삭제되었을 때 스키마 에러(코드 1)로 오안내 | 반영 | 삭제 전 원본 변경 감지 시 삭제를 중단하고, 목적지 파일 작성 여부를 명시한 운영 오류(종료 코드 `2`)로 분리 |
+| **`M-05`** | 숨김 폴더나 `.`으로 시작하는 경로에 노트를 생성하면 스캔에서 영구 누락됨 | 반영 | 볼트 루트를 뜻하는 `--dir .`은 허용하되, 스캐너가 읽지 않는 숨김 디렉토리·파일 경로 생성은 사전 거부 |
 
 ### 실제 볼트 읽기 전용 대조 및 `vault doctor` 173건 정밀 분류
 
@@ -190,7 +190,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 
 ### 저장소 패킷(`otlg work-pack`)의 5분류 편차와 ADR 5축 상태 계약
 
-코드 저장소(`repo-ontology v0.4.0`)와 지식 볼트(`vault-ontology v0.3.0 ~ v0.5.0`)는 각자의 정본(SSOT) 주권을 침범하지 않는다. 계획서(`docs/plans`), 아키텍처 결정(`docs/adr`), 작업 이력 기록 문서(`WORKLOG.md`), 소스 코드는 저장소가 정본을 쥐고, 볼트는 휴대용 JSON 패킷(`repo-work-pack/1`)을 인수해 사건(`Case`)과 교훈(`Learnings`), 범용 지식(`Principle`/`Decision`) 및 블로그 초안으로 정제한다.
+코드 레포지토리(`repo-ontology v0.4.0`)와 지식 볼트(`vault-ontology v0.3.0 ~ v0.5.0`)는 각자의 정본(SSOT) 주권을 침범하지 않는다. 계획서(`docs/plans`), 아키텍처 결정(`docs/adr`), 작업 이력 기록 문서(`WORKLOG.md`), 소스 코드는 저장소가 정본을 쥐고, 볼트는 휴대용 JSON 패킷(`repo-work-pack/1`)을 인수해 사건(`Case`)과 교훈(`Learnings`), 범용 지식(`Principle`/`Decision`) 및 블로그 초안으로 정제한다.
 
 이 과정에서 에이전트가 작업 결과를 과장하거나 왜곡하지 못하도록 두 가지 분류 계약을 강제한다.
 
@@ -241,11 +241,11 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 ```json
 {
   "reading_source": {"reviewed": true, "reviewer": "human:declared", "fragment_ids": ["frag-01"]},
-  "worked_example": {"reviewed": true, "reviewer": "agent:Codex", "fragment_ids": ["frag-02"]},
+  "worked_example": {"reviewed": true, "reviewer": "agent:assistant", "fragment_ids": ["frag-02"]},
   "learning_questions": {"reviewed": true, "reviewer": "human:declared", "fragment_ids": ["frag-03"]},
   "understanding_delta": {"reviewed": true, "reviewer": "human:declared", "fragment_ids": ["frag-03"]},
   "author_assessment": {"reviewed": true, "reviewer": "human:declared", "fragment_ids": ["frag-04"]},
-  "limits": {"reviewed": true, "reviewer": "agent:Codex", "fragment_ids": ["frag-04"]},
+  "limits": {"reviewed": true, "reviewer": "agent:assistant", "fragment_ids": ["frag-04"]},
   "privacy_review": {"reviewed": true, "reviewer": "human:declared", "fragment_ids": ["frag-01", "frag-04"]}
 }
 ```
@@ -281,7 +281,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 - **`--stage draft` (자동화 검증 단계)**: 본문·코드 블록·주석 내 비공개 리터럴 및 정규식 패턴 노출, 본문 내 `# `(H1) 사용, 엠대시, 장식용 이모지, 습관적 번호 헤딩(`## 1. `)을 차단한다. 동시에 원본(`--original`) 대비 작가 고유의 익살 표현(취소선 `~~...~~`, 이탤릭 괄호 독백 `*(...)*`, 여담 콜아웃)이 100% 보존되었는지 대조한다. 만약 보호된 익살 구절 내부에 비공개 금칙어가 포함된 경우에는 기계가 문장을 임의로 뜯어고치지 않고 **`AUTHOR_WIT_PRIVACY_CONFLICT`** 진단을 반환해 인간 저자에게 결정을 위임한다.
 - **`--stage publication` (최종 발행 게이트, 기본값)**: 자동화 검사를 모두 통과했더라도 인간 저자의 최종 익명화·문체 승인(`reviewed_by`)이 완료되기 전까지는 `status: incomplete`(`review_diagnostics`)를 반환하여 성급한 발행을 막는다.
 
-[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
+[9편 본문으로 돌아가기](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)
 
 ---
 
@@ -325,14 +325,21 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 `vault mind` CLI는 그 어떤 경우에도 마크다운 파일을 직접 수정하거나 개인의 성찰 결론을 지어내지 않는다. 모든 발견과 검토 상태는 볼트 루트에 바인딩된 비공개 상태 기록 파일(`.vault-mind/ledger.json`, 논블로킹 파일 락 및 원자적 교체 적용)에서 관리되며, 후보 ID는 `(source_path, heading, normalized_paragraph_hash, occurrence)`로 결정론적 식별성을 유지한다.
 
 ```mermaid
-stateDiagram-v2
-    [*] --> candidate : vault mind scan (미검토 개인 문단 발견)
-    candidate --> deferred : review --set-status deferred (보류, 재채근 금지)
-    candidate --> rejected : review --set-status rejected --reason (거절, 재채근 금지)
-    candidate --> reviewed : review --set-status reviewed --reason (맥락 확인 완료, 질문 불필요)
-    candidate --> accepted : review --set-status accepted --response (대화 세션에서 토마토 답변 확인)
-    deferred --> candidate : 명시적 재오픈 시에만
-    accepted --> applied : vault mind apply --receipt --write (원본·대상 SHA-256 해시 대조 통과)
+flowchart LR
+    START(["미검토 개인 문단"]) -->|"vault mind scan"| CAND["<b>candidate</b><br/>(질문 후보 등록)"]
+    CAND -->|"--set-status deferred"| DEF["<b>deferred</b><br/>(보류 · 재채근 금지)"]
+    DEF -.->|"명시적 재오픈"| CAND
+    CAND -->|"--set-status rejected"| REJ["<b>rejected</b><br/>(거절 · 재채근 금지)"]
+    CAND -->|"--set-status reviewed"| REV["<b>reviewed</b><br/>(맥락 확인 · 질문 불필요)"]
+    CAND -->|"--set-status accepted"| ACC["<b>accepted</b><br/>(토마토 답변 확인)"]
+    ACC -->|"apply --receipt --write<br/>(SHA-256 해시 대조)"| APP["<b>applied</b><br/>(영수증 봉인 완료)"]
+
+    classDef base fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#0f172a
+    classDef warn fill:#fef3c7,stroke:#f59e0b,stroke-width:1.5px,color:#92400e
+    classDef done fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#14532d
+    class START,CAND,REV base
+    class DEF,REJ warn
+    class ACC,APP done
 ```
 
 메인 대화 세션에서 토마토와 문답을 거쳐 `_Question.md` 또는 하위 질문 문서를 직접 갱신한 뒤에는, 아래와 같은 영수증 JSON을 `vault mind apply --id CANDIDATE_ID --receipt receipt.json --write --json`에 제출해 완료를 봉인한다.
@@ -353,25 +360,25 @@ stateDiagram-v2
 
 `apply` 명령은 기본값이 `--dry-run`이며, 제출된 모든 항목의 원본 파일 64자리 소문자 `SHA-256` 해시, 이미 수정된 대상 마크다운 파일의 `SHA-256` 해시, 그리고 `accepted` 단계에 기록된 응답 문자열이 1바이트의 오차도 없이 일치할 때만 기록 상태를 `applied`로 전이한다.
 
-[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
+[9편 본문으로 돌아가기](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)
 
 ---
 
 ## v0.6.0 의미 모형 감사: V060-01~16 반례와 해시 고정 베이스라인 {#vault-v060-audit}
 
-### 『Semantic Modeling for Data』 기반 E / S / P 3관점 논박과 설계 합의
+### 『Semantic Modeling for Data』 기반 E / S / P 3관점 점검과 설계 보강
 
-Panos Alexopoulos의 『Semantic Modeling for Data』를 바탕으로 정제한 `ontology-critique-practices v1.0.0`을 `vault-ontology`에 적용할 때, 우리는 무거운 학술 어휘를 추가하는 대신 **"기존 스키마와 쿼리가 원래의 의미를 왜곡하거나 불완전성을 숨기고 있지 않은가"**를 세 가지 관점(P1 의미 명시성 `E`, P2 공유성 `S`, P3 실용성 `P`)에서 먼저 논박했다.
+Panos Alexopoulos의 『Semantic Modeling for Data』를 바탕으로 정제한 `ontology-critique-practices v1.0.0`을 `vault-ontology`에 적용할 때, 나는 무거운 학술 어휘를 추가하는 대신 **"기존 스키마와 쿼리가 원래의 의미를 왜곡하거나 불완전성을 숨기고 있지 않은가"**를 세 가지 관점(P1 의미 명시성 `E`, P2 공유성 `S`, P3 실용성 `P`)에서 먼저 점검했다.
 
-| 감사 관점 | 초기 발제 요구 | 상호 논박 및 `v0.6.0` 최종 설계 선택 |
+| 감사 관점 | 점검 기준 및 핵심 질문 | 반례 검토 및 `v0.6.0` 설계 보강 |
 | :--- | :--- | :--- |
 | **P1 의미 명시성 (`E`)** | 질의·투영·검증 과정에서 술어(Predicate), 정체성, 상태, 미확인 범위의 누락 제거 | `shared_ground`와 `blog_pack`에서 원래 간선의 실제 술어를 끝까지 보존하고, `raw`/`archived`/탐색 깊이 절단(`DEPTH_LIMIT`) 진단을 명시적 봉투 상태로 노출 |
 | **P2 의미 공유성 (`S`)** | `experience`, `Question`, `informed_by`를 도구와 인간이 동일한 의미로 해석하는가 | `experience`는 공통 사건 개체가 아닌 '문서화되지 않은 경험' 출처 양식(Modality)으로 격리, `Question`은 문서와 섹션의 이중 역할로 정의 교정, `informed_by`는 직접 증거가 아닌 영향으로 명시 |
-| **P3 실용성 (`P`)** | 형식성을 높이는 비용이 실제 역량 질문(`CQ`) 응답 품질을 개선하는가 | 6홉 경계 질의와 SQLite/SPARQL 얇은 투영 정렬만 보강. **거대한 상위 온톨로지(`BFO`), 전면 `OWL` 추론 물질화, 모든 간선의 Reification, 새로운 영구 문서 ID 도입은 과잉 규율로 기각** |
+| **P3 실용성 (`P`)** | 형식성을 높이는 비용이 실제 역량 질문(`CQ`) 응답 품질을 개선하는가 | 6홉 경계 질의와 SQLite/SPARQL 얇은 투영 정렬만 보강. **거대한 상위 온톨로지(`BFO`), 전면 `OWL` 추론 물질화, 모든 간선의 Reification, 새로운 영구 문서 ID 도입은 과잉 규율로 제외** |
 
-### `V060-01 ~ V060-16` 16개 반례 전수 판정 및 적용 기록
+### `V060-01 ~ V060-16` 16개 반례 점검 및 적용 기록
 
-`Codex`의 읽기 전용 코드·실자료 최소 반례 재현과 `Antigravity`의 합의안 도출, 그리고 구현 중 독립 리뷰 에이전트가 추가 발굴한 후속 반례(`V060-11~16`)까지 총 16개 항목의 전수 기록은 다음과 같다.
+읽기 전용 코드·실자료 최소 반례 재현을 통해 확인한 문제와 구현 과정에서 추가 발굴한 후속 반례(`V060-11~16`)까지 총 16개 항목의 점검 및 보완 기록은 다음과 같다.
 
 | ID | 재현된 의미 왜곡 반례 | `v0.6.0` 해결 방식 및 계약 변경 |
 | :--- | :--- | :--- |
@@ -383,7 +390,7 @@ Panos Alexopoulos의 『Semantic Modeling for Data』를 바탕으로 정제한 
 | **`V060-06`** | `SPARQL` 고아 노트 탐색에서 마크다운 내부의 `Insight` 섹션이 `A#인사이트 1.md`라는 가짜 고아 문서로 반환 | 고아 후보 주어를 문서 네임스페이스의 문서 클래스로만 한정하고, 섹션에 걸린 참조는 소유 문서로 투영해 `SQLite`와 정합성 일치 |
 | **`V060-07`** | 한 문서 안에 `인사이트 1: A`와 `인사이트 1: B`가 함께 있을 때 축약 섹션 참조가 첫 항목에 임의 결합 | 완전한 헤딩 제목의 유일한 일치와 모호한 번호 축약을 구분하여, 동명·중복 번호 섹션이 존재할 때 첫 후보로 임의 확정하는 동작 제거 |
 | **`V060-08`** | 선택 상태 필드(`status`, `as_of`, `needs_review`, `source_unknown`)가 스키마 문서에는 있으나 실제 문서 RDF 트리플에 미방출 | 4개 선택 상태 필드의 파서 검증·RDF 트리플 방출·`SHACL` 상태 계약을 일관되게 연결 |
-| **`V060-09`** | 어휘 정의서의 `Question is NOT the document` 설명과 실제 `_Question.md` 문서/섹션 이중 역할이 충돌 | 과거 도메인 오염 공리까지 일괄 삭제하는 안은 기각하고, 문서와 섹션이 모두 보유할 수 있는 이중 역할(Role)로 자연어 정의와 계약 정렬 |
+| **`V060-09`** | 어휘 정의서의 `Question is NOT the document` 설명과 실제 `_Question.md` 문서/섹션 이중 역할이 충돌 | 과거 도메인 오염 공리까지 일괄 삭제하는 안은 제외하고, 문서와 섹션이 모두 보유할 수 있는 이중 역할(Role)로 자연어 정의와 계약 정렬 |
 | **`V060-10`** | 외부 도서 참조(`ext:`)가 7종 의미 관계로 확장되었으나 `blog_pack`은 `derived_from`만 수집 | `blog_pack`에 6종 특수 의미 관계를 담는 `semantic_references` 채널을 추가하고 원래 술어·셀렉터·출처 양식(`lived`/`external_unchecked`/`resolved`) 보존 |
 | **`V060-11`** | `.vault-warning-baseline.json`에 `[]`나 `null`, 잘못된 해시 형식이 들어오면 비구조화 예외(Traceback) 발생 | 베이스라인 최상위 JSON 타입과 64자리 해시 형식을 엄격히 검증하여 구조화된 입력 오류로 반환 |
 | **`V060-12`** | `crossing` 교차 탐색에서 교차점이 발견된 경로에만 진단을 붙여, 교차 전 6홉 절단(`DEPTH_LIMIT`)이 은폐됨 | 교차 성립 여부와 무관하게 탐색 중 발생한 프런티어 절단(`DEPTH_LIMIT`)과 미해결 진단을 상위 봉투로 전파 |
@@ -427,6 +434,6 @@ $ vault validate --baseline .vault-warning-baseline.json --audit --json
 
 이 계약을 통해 수정된 문서는 과거의 경고 면책을 절대 물려받을 수 없으며, `SHACL` 위반(`violation`)이나 잘못된 외부 URI(`ext:` 절대경로 등)는 베이스라인으로도 면책되지 않는다. 또한 `vault new`와 `vault ingest`는 베이스라인 옵션과 무관하게 언제나 가장 엄격한 정적 검증을 집행한다.
 
-최종적으로 `v0.6.0`은 전체 회귀 테스트 **`638 passed`** 및 런타임·테스트 `ruff check`를 통과했으며, 실제 볼트 빌드(`3,348 nodes`, `28,184 triples`)에서 `together` 질의의 `experience` 가짜 공통 타깃이 `0건`으로 소멸하고 각 간선의 고유 술어가 보존됨을 실증했다. 단, 독립된 인간 주석자 간 합의도($\kappa$) 실험이나 정밀도·재현율 측정을 수행하지 않았으므로 온톨로지 품질 점수인 **`ESBI`는 지어내지 않고 정직하게 `N/A`로 기록**하며, 기존 볼트에 남아 있던 `CUPUS` 노트의 절대경로 `ext:` 오류 2건(종료 코드 `1`) 역시 도구의 테스트 통과로 포장하지 않고 별도의 코퍼스 교정 과제로 명확히 분리해 두었다.
+최종적으로 `v0.6.0`은 전체 회귀 테스트 **`638 passed`** 및 런타임·테스트 `ruff check`를 통과했으며, 실제 볼트 빌드(`3,348 nodes`, `28,184 triples`)에서 `together` 질의의 `experience` 가짜 공통 타깃이 `0건`으로 소멸하고 각 간선의 고유 술어가 보존됨을 실증했다. 단, 독립된 인간 주석자 간 합의도(κ) 실험이나 정밀도·재현율 측정을 수행하지 않았으므로 온톨로지 품질 점수인 **`ESBI`는 지어내지 않고 정직하게 `N/A`로 기록**하며, 기존 볼트에 남아 있던 `CUPUS` 노트의 절대경로 `ext:` 오류 2건(종료 코드 `1`) 역시 도구의 테스트 통과로 포장하지 않고 별도의 코퍼스 교정 과제로 명확히 분리해 두었다.
 
-[10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
+[9편 본문으로 돌아가기](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)

@@ -4,22 +4,22 @@ title: "심화 | TRPG의 실행과 World Canon"
 description: "TRPG Ontology의 Action Layer와 fsync 저널(v0.12.1), 7.5MB World Canon YAML-First 통합과 대화형 2d6 파훼 전투·3조건 시뮬레이션·핀포인트 캐시 22개 반례(v0.14.0), 그리고 Project-Before-Match 의미 감사(v0.15.0) 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/trpg-world-canon/
 deep_dive_for: ontology-engineering
-related_main_orders: [7, 9, 10]
+related_main_orders: [6, 8, 9]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 온톨로지 엔지니어링 시리즈 **[7편](/tag-ontology-engineering/7-trpg-kinetic-action-layer/)**, **[9편](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)**, **[10편](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)** 본문에서 다룬 `trpg-ontology`(`v0.12.1` ~ `v0.15.0`)의 상세 도메인 패키지 구조, `fsync` Undo Journal 원장 프로토콜, 7.5MB `World Canon` YAML-First 통합과 3조건 격리 시뮬레이션, 22개 캐시 적대적 반례 방어, 그리고 `TC-01~09` 의미 모형 감사 영수증을 수록한 심화 레퍼런스입니다.
+본 문서는 온톨로지 엔지니어링 시리즈 **[[6편]](/tag-ontology-engineering/6-trpg-kinetic-action-layer/)**, **[[8편]](/tag-ontology-engineering/8-code-on-graph-and-epilogue/)**, **[[9편]](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)** 본문에서 다룬 `trpg-ontology`(`v0.12.1` ~ `v0.15.0`)의 상세 도메인 패키지 구조, `fsync` Undo Journal 프로토콜, 7.5MB `World Canon` YAML-First 통합과 3조건 격리 시뮬레이션, 22개 캐시 보안·경계 반례 방어, 그리고 `TC-01~09` 의미 모형 감사 영수증을 수록한 심화 레퍼런스다.
 
 ---
 
-## Action Layer와 인식론적 전장의 안개·fsync 원장 계약 (v0.12.1) {#action-layer}
+## Action Layer와 fsync 저널·3단서·연금술 도감 계약 (v0.12.1) {#action-layer}
 
 ### 세 세계의 온톨로지 5축 비교표: Vault에서 Repo를 거쳐 TRPG까지
 
-개인 지식 볼트(`vault-ontology`)와 실무 코드 저장소(`repo-ontology`), 그리고 라이브 캠페인 런타임(`trpg-ontology`)이 각각 어떤 대상을 다루며 왜 TRPG에 이르러서야 온전한 의미의 `Kinetic / Action Layer`에 도달했는지는 아래 5축 비교표에서 드러난다.
+개인 지식 볼트(`vault-ontology`)와 실무 코드 레포지토리(`repo-ontology`), 그리고 라이브 캠페인 런타임(`trpg-ontology`)이 각각 어떤 대상을 다루며 왜 TRPG에 이르러서야 온전한 의미의 `Kinetic / Action Layer`에 도달했는지는 아래 5축 비교표에서 드러난다.
 
 | 자체 평가 축 | Vault Ontology (`v0.1.1`) | Repo Ontology (`v0.2.0`) | TRPG Ontology (`v0.12.1`) |
 |:---|:---|:---|:---|
@@ -27,7 +27,7 @@ published: true
 | **Semantic (명사와 관계)** | 13종 문서 타입·프론트매터 속성·구조 및 의미 관계 | 객체(`Object`)·링크(`Link`)·화면(`Sitemap`)·코드 심볼 바인딩 | 10개 강타입 도메인·아키텍처 패키지(`world`, `actors`, `alchemy`, `combat` 등) + YAML·Markdown 양방향 바인딩(`doc_binding`) |
 | **Logic / Preflight (사전 검증)** | 스키마 필수값·위키링크·태그 어휘 화이트리스트 검사 | 사전 조건·규칙 명세와 파이썬 AST 선언 존재 및 드리프트 검사 | `2d6` 판정(장비 보너스 1회 합산)·고정 암호(`CipherSpec`)·3단서 법칙·`3·3·3` 연금 도감 토폴로지·장착 수량 교차 검증 + `scene`의 가용 행동(`available_actions`) 브리핑 |
 | **Kinetic (행동과 상태 전이)** | `vault new / ingest` 생성·이관 게이트 | Action 포인터 명세 및 개발 워크플로우(`intake`, `translate`) | **등록 Action 8종**(`trpg act` 단일 트랜잭션 핸들러 7종 + `trpg battle` 턴제 루프 1종) + `fsync` Undo Journal + `--request-id` 멱등 영수증 캐시 |
-| **Governance (보안 투영과 무결성)** | 볼트 경로 경계·읽기 전용 SQL authorizer·원자적 캐시 교체 | 코드·명세·테스트 분업 및 미검증 심볼 경고 분리 | 2단계 파일 락(`workspace` -> `campaign`) + 과거 사건 불변 체크섬(`sync.json`) + 전투 아카이브 `SHA256` 봉인 + **인식론적 전장의 안개(`--perspective pc | gm`)** |
+| **Governance (보안 투영과 무결성)** | 볼트 경로 경계·읽기 전용 SQL authorizer·원자적 캐시 교체 | 코드·명세·테스트 분업 및 미검증 심볼 경고 분리 | 2단계 파일 락(`workspace` -> `campaign`) + 과거 사건 불변 체크섬(`sync.json`) + 전투 아카이브 `SHA256` 봉인 + 비공개 설정 필터(`--perspective pc | gm`) |
 
 ### 도메인 패키지와 Frontmatter v1 양방향 바인딩
 
@@ -56,7 +56,7 @@ trpg_ontology/
 - **`Frontmatter v1` 양방향 문서 바인딩**: `world/compendium/alchemy/` 산하의 마크다운 도감 문서 58개(템플릿 4, 미등록 참조 37, 바인딩 아이템 17)는 JSON Schema 기반 `Frontmatter v1` 계약과 `doc_binding`을 통해 YAML 정본 카탈로그와 양방향으로 묶인다. `stage`(`raw`/`prepared`/`transmuted`/`finished`), `rarity`(`1~7`), `element`, `scope`, `visibility`, `craftable` 필수 키와 주산물·부산물 제법 역참조가 어긋나면 `trpg docs lint --strict`가 즉시 검출한다.
 - **5슬롯 장비 파생 연산(`EquipmentState`)과 회복 꼼수 차단**: 전 파티원의 기본 최대 체력(`base_max_hp`)을 `50`으로 통일하고, 캐릭터별 무기(`weapon`)·갑옷(`armor`)·장신구(`accessory`)·머리(`head`)·신발(`feet`) 5슬롯을 인벤토리 실물 `equipment_id`와 연결한다. 예를 들어 동료 브륀힐데의 최대 체력 `70`은 기본값 `50`에 실착용 중인 방어구(`+10`)와 방패(`+10`)에서 파생된 결과다. 기본 능력치를 덮어쓰지 않고 판정(`check`)·내성(`save`)·전투 개시 시점에 정확히 1회만 파생 합산하며, 실물 보유 수량을 초과한 중복 착용, 착용 중인 장비의 판매·삭제, 그리고 부상 상태에서 장비를 벗었다 입으며 체력을 공짜로 회복하려는 시도(`capped_resources`)를 엔진이 원천 차단한다.
 
-### 원자적 트랜잭션(`trpg act`)과 적대적 검수 판정 (T-01 ~ T-16)
+### 원자적 트랜잭션(`trpg act`)과 v0.12.1 반례 점검 및 설계 보강 (T-01 ~ T-16)
 
 등록된 8종의 Action이 실행될 때 `infrastructure/storage.py`와 `application/commit.py`는 다음 로컬 트랜잭션 규율을 따른다.
 
@@ -64,20 +64,20 @@ trpg_ontology/
 2. **미확정 변경 추적(`pending.json`)과 대가 강제**: 자유 행동으로 소지금이나 체력을 변경하면 변경 전후 상태 스냅샷 체크섬이 `pending.json`에 기록되며, 사건(`trpg record`)으로 확정하기 전까지 strict lint는 `UNCOMMITTED_STATE`를 보고한다. 부분 성공(6~9) 판정이 포함된 경우 실제 자원 차감(`--cost-money`)이나 위협 시계 전진(`--cost-threat`) 없이는 사건 커밋 자체가 거부된다.
 3. **서사 연대기(`chronicle.json`)와 `Ontology Scribe`**: 매 사건마다 선택 의도(`--intent`), 원문(`verbatim`)과 요약(`paraphrase`)이 분리된 대화(`--dialogue-json`), 연출 지문(`--beat`)을 불변 사건과 append-only 연대기에 보존하여 `trpg story --format novel|script`로 재조립한다. 세션 중 즉흥 등장한 엔티티는 `trpg draft observe --promote`를 통해 필수 참조와 한·영 외형 묘사(`appearance`, `image_prompt_en`) 검증 후 정본으로 승격한다.
 
-`v0.12.0` 직후 `Codex`와 `Gemini`가 수행한 적대적 검수(`T-01` ~ `T-16`)의 주요 발견과 `v0.12.1` 반영 결과는 다음과 같다.
+`v0.12.0` 직후 무결성·가시성·인과율 경계를 기준으로 수행한 반례 점검(`T-01` ~ `T-16`)과 `v0.12.1` 설계 보강 결과는 다음과 같다.
 
-| ID | 적대적 반례 및 지적 사항 | 판정 | `v0.12.1` 반영 조치 및 설계 경계 |
+| ID | 점검한 반례 및 경계 시나리오 | 설계 판단 | `v0.12.1` 보강 조치 및 설계 경계 |
 |:---|:---|:---|:---|
-| **`T-01`** | 원장 밖 전투 아카이브 JSON에서 처치한 적(`enemy_id`)을 변조해도 `integrity_errors`가 빈 목록 반환 | **수용** | 신규 `EventSpec`에 `battle_log_sha256` 해시 봉인 도입. 무결성 검사·퀘스트 목표 평가·`sync`에서 아카이브 변조 및 삭제를 즉시 거부 |
-| **`T-02`** | 해시 봉인 후 시뮬레이션 `provenance`를 덧씌우면 스스로 봉인을 깨뜨림 | **수용** | 최종 `provenance`를 커밋 전에 확정하여 원장과 아카이브를 단일 트랜잭션에서 한 번만 봉인 |
-| **`T-03` · `T-04`** | 봉인 도입 전 과거 전투 사건 2건을 현재 파일 해시로 소급 보강하자는 제안 | **기각** | 과거 사건과 라이브 플레이 데이터를 사후 조작해 소급 인증하지 않음. 안전한 경로와 파일 실존만 검사하고 미봉인 역사적 사실로 정직하게 분리 보존 |
-| **`T-05` · `T-06`** | 소문(`rumor`) 단서가 전체 원문으로 폴백되거나, 미학습 제법 역방향 트리에서 숨은 재료·채집지 노출 | **수용** | 탐색 전 공통 PC 투영 필터 적용. 부분 단서와 완전 발견 분리 및 미학습 제법 하위 경로·비공개 채집지 차단 |
-| **`T-07` · `T-08`** | 숨김 장비 착용 시 PC에게 가짜 HP 합계를 보여주거나 자유 산문의 모든 의역 비밀을 자동 탐지하자는 제안 | **부분 기각 / 범위 제외** | 실효 HP 총합은 정본 유지하되 비공개 장비명·장착 내역·보너스 분해만 은닉. 자유 산문의 문맥적 의역 비밀 자동 독해는 정적 도구의 범위 밖임을 명시 |
-| **`T-09`** | 이미 사망했거나 `gm_only`인 NPC를 3단서 법칙의 유효한 단서 획득 경로로 집계 | **수용** | 단서 출처의 실제 공개 여부·생존/활성 상태·장소 가시성 교차 검증 및 선행 단서 순환(Cycle) 검출 추가 |
-| **`T-10`** | 같은 날짜(`day`) 안에서는 '밤' 사건이 '오전' 사건의 원인(`causes`)이어도 통과됨 | **수용** | 하루 네 시간 블록(`오전 -> 오후 -> 저녁 -> 밤`) 순서를 대조하여 같은 날의 미래 사건이 과거 사건의 원인이 되는 시간 역행 인과 차단 |
-| **`T-11` ~ `T-16`** | `partial_discovery_event`/`Rule.scope` 유령 참조, 대체 코어 개별 수급 경로 누락, 거버넌스 AST 바인딩 불일치 | **수용** | 명시 참조 검증 강화, 대체 코어마다 개별 유효 수급 경로 필수화, `check_governance_contract.py`로 로컬 바인딩·중첩 규칙 전수 검사(`322 passed`) |
+| **`T-01`** | 사건 기록 밖 전투 아카이브 JSON에서 처치한 적(`enemy_id`)을 변조해도 `integrity_errors`가 빈 목록 반환 | **설계 반영** | 신규 `EventSpec`에 `battle_log_sha256` 해시 봉인 도입. 무결성 검사·퀘스트 목표 평가·`sync`에서 아카이브 변조 및 삭제를 즉시 거부 |
+| **`T-02`** | 해시 봉인 후 시뮬레이션 `provenance`를 덧씌우면 스스로 봉인을 깨뜨림 | **설계 반영** | 최종 `provenance`를 커밋 전에 확정하여 사건 기록과 아카이브를 단일 트랜잭션에서 한 번만 봉인 |
+| **`T-03` · `T-04`** | 봉인 도입 전 과거 전투 사건 2건을 현재 파일 해시로 소급 보강하는 경우 | **원칙 유지 (소급 배제)** | 과거 사건과 라이브 플레이 데이터를 사후 조작해 소급 인증하지 않음. 안전한 경로와 파일 실존만 검사하고 미봉인 역사적 사실로 정직하게 분리 보존 |
+| **`T-05` · `T-06`** | 소문(`rumor`) 단서가 전체 원문으로 폴백되거나, 미학습 제법 역방향 트리에서 숨은 재료·채집지 노출 | **설계 반영** | 탐색 전 공통 PC 투영 필터 적용. 부분 단서와 완전 발견 분리 및 미학습 제법 하위 경로·비공개 채집지 차단 |
+| **`T-07` · `T-08`** | 숨김 장비 착용 시 PC에게 가짜 HP 합계를 보여주거나 자유 산문의 모든 의역 비밀을 자동 탐지하는 방식 | **부분 반영 / 범위 제외** | 실효 HP 총합은 정본 유지하되 비공개 장비명·장착 내역·보너스 분해만 은닉. 자유 산문의 문맥적 의역 비밀 자동 독해는 정적 도구의 범위 밖임을 명시 |
+| **`T-09`** | 이미 사망했거나 `gm_only`인 NPC를 3단서 법칙의 유효한 단서 획득 경로로 집계 | **설계 반영** | 단서 출처의 실제 공개 여부·생존/활성 상태·장소 가시성 교차 검증 및 선행 단서 순환(Cycle) 검출 추가 |
+| **`T-10`** | 같은 날짜(`day`) 안에서는 '밤' 사건이 '오전' 사건의 원인(`causes`)이어도 통과됨 | **설계 반영** | 하루 네 시간 블록(`오전 -> 오후 -> 저녁 -> 밤`) 순서를 대조하여 같은 날의 미래 사건이 과거 사건의 원인이 되는 시간 역행 인과 차단 |
+| **`T-11` ~ `T-16`** | `partial_discovery_event`/`Rule.scope` 유령 참조, 대체 코어 개별 수급 경로 누락, 거버넌스 AST 바인딩 불일치 | **설계 반영** | 명시 참조 검증 강화, 대체 코어마다 개별 유효 수급 경로 필수화, `check_governance_contract.py`로 로컬 바인딩·중첩 규칙 전수 검사(`322 passed`) |
 
-- [7편 본문으로 돌아가기](/tag-ontology-engineering/7-trpg-kinetic-action-layer/)
+- [6편 본문으로 돌아가기](/tag-ontology-engineering/6-trpg-kinetic-action-layer/)
 
 ---
 
@@ -91,7 +91,7 @@ trpg_ontology/
 |:---|:---|:---|
 | **`World Canon` (공유 세계 사실)** | `world/canon/manifest.yml` 외 13개 YAML (`~7.5MB`) | 장소 26곳, 바이옴 8종, 종족·생물 115종, 출처별 카탈로그 1,701건, 세력 6개, 역사 인물 38명, 전승 16건, 외형 48건, 연대기 81건, 레퍼런스 문서 49건 정의. **Canon을 읽었다고 해서 파티가 재료나 제법을 습득하지 않음** |
 | **`Ruleset` (규칙 및 계산기)** | `domains/combat/conversation.py` 및 규칙 스키마 | 대화형 `2d6` 판정, `shield`/`break_shield`/`latent_power`, 고정 권역 위험도(`T1~T7`), 수평 성장(`milestone_growth_only: true`) |
-| **`Campaign` (라이브 상태 원장)** | `campaigns/<id>/.ontology/` (`world_binding` 해시 고정) | 파티가 실제로 발견한 단서, 습득한 제법(`known_recipes`), 연구한 재료(`studied_materials`), 현재 소지품 수량, 사건 원장(`events`) |
+| **`Campaign` (라이브 상태 관리 기록)** | `campaigns/<id>/.ontology/` (`world_binding` 해시 고정) | 파티가 실제로 발견한 단서, 습득한 제법(`known_recipes`), 연구한 재료(`studied_materials`), 현재 소지품 수량, 사건 기록(`events`) |
 | **`Candidate` & `Prepared` (창발 기회)** | `state/emergent.json` -> `encounters/*.yml`, `quest_opportunities/*.yml` | 세션 중 생성된 `EncounterDraft` / `QuestOpportunityDraft` 및 3조건 시뮬레이션 통과 후 `prepared` 상태로 대기 중인 기회 |
 
 현행 도감과 글뤼엔 유산에 동명이인 아이템(예: 동일한 이름의 고약이나 정수)이 존재할 때 서로 덮어쓰지 않도록 공유 카탈로그 식별자는 `<파일 stem>:<source_path 또는 original_path 또는 item/id>` 형식으로 보존했다. 또한 `RichEntity` 공통 모델을 통해 `appearance_ko`, `image_prompt_en`, `process_note`, `efficacy_note`, `game_effect`, `lore_note`, `vocab_en_ko`, `color_hex`, `danger_tier`, `folklore_claims` 등 모든 서사 필드를 로드·덤프·승격 전 과정에서 무손실로 유지하며, 마크다운 파일 바인딩(`doc_binding`)은 선택 사항(`--write-markdown` 요청 시에만 생성)으로 전환해 빈 껍데기 스텁 파일 의존성을 제거했다.
@@ -148,7 +148,7 @@ trpg battle act Hero Enemy --retreat --command-id TURN-5 --seq 4 --json
 trpg battle end --id EVT-BATTLE --summary "연금 폭발로 보스 기믹 파훼 후 제압" --json
 ```
 
-### 핀포인트 서브그래프 조회 (`trpg start` · `trpg canon`)와 22개 적대적 반례 방어
+### 핀포인트 서브그래프 조회 (`trpg start` · `trpg canon`)와 22개 캐시 경계 반례 방어
 
 세션 재개 명령인 `trpg start`(`trpg guide`)는 전체 매뉴얼 대신 현재 캠페인 스냅샷과 핵심 수칙 정확히 10줄, 그리고 토픽 포인터(`trpg://guide/<topic>/<label>`)만 출력하는 점진적 공개(Progressive Disclosure) 진입점이다. 7.5MB의 `World Canon`은 개인 디렉토리 캐시(`${XDG_CACHE_HOME:-~/.cache}/trpg-ontology/canon-v4/`, `v0.15.0`에서 `canon-v5`로 상향)를 통해 요약 슬라이스(`--section summary`) 단위로 핀포인트 조회한다. 단일 프로세스 측정 기준 원본 13개 파일 강제 재구축(`--refresh`)은 약 `0.45초`, 디스크 캐시 적중은 약 `0.17초`, 메모리 캐시 적중은 약 `0.03초`가 소요된다.
 
@@ -162,9 +162,9 @@ trpg canon show "compendium_alkaline_salve:world/compendium/salves.md" --kind it
 trpg canon recommend --place muelden --limit 3 --json
 ```
 
-`trpg canon`과 캐시 계층에 대해 수행한 22개 적대적 반례 검토(`tests/test_canon_adversarial.py`, 전체 `338 passed`)의 핵심 방어 설계는 다음과 같다.
+`trpg canon`과 캐시 계층에 대해 수행한 22개 보안·경계 반례 검토(`tests/test_canon_adversarial.py`, 전체 `338 passed`)의 핵심 방어 설계는 다음과 같다.
 
-| 심각도 | 재현한 적대적 공격 및 엣지 케이스 시나리오 | `trpg-ontology v0.14.0` 방어 아키텍처 (`338 passed`) |
+| 심각도 | 재현한 보안 위협 및 엣지 케이스 시나리오 | `trpg-ontology v0.14.0` 방어 아키텍처 (`338 passed`) |
 |:---|:---|:---|
 | **Critical** | 공유 임시 경로의 `pickle` 캐시 파일을 변조해 역직렬화 시 임의 코드 실행(RCE) 유도 | `pickle` 읽기·쓰기 전면 제거. 부모 소유권·심볼릭 링크를 검증한 `0700` 디렉토리 / `0600` 파일 권한의 개인 경로 JSON만 사용하며 읽기는 `O_NOFOLLOW`, 쓰기는 `fsync` 후 원자적 교체 적용 |
 | **High** | 파일 크기·`mtime`을 유지한 채 내용을 변조하거나, 같은 실제 파일을 다른 상대 경로로 선언 | 상대/실제 경로·`device`·`inode`·`size`·`mtime_ns`·`ctime_ns` 메타데이터 서명과 정규화 JSON `SHA-256` 체크섬을 매니페스트 및 파일 집합 전체에 결합 |
@@ -176,26 +176,26 @@ trpg canon recommend --place muelden --limit 3 --json
 | **High** | 빠른 CLI 경로가 Registry를 우회해 캠페인의 `world_binding` 해시 고정을 검사하지 않음 | 경량 캠페인 설정을 직접 검증하여 `revision`/`dataset_hash` 고정을 모든 `canon` 하위 명령에 일관되게 강제 |
 | **Medium** | 조상 경로 추측으로 다른 워크스페이스를 열거나, 최상위 제국을 현재 장소 추천 기준으로 선택, 비정상 `kind`/`limit`/중복 ID 통과 | 등록 워크스페이스 루트만 사용, 최하위 현재 장소 기준 탐색, `kind`·`section`·`tier` 및 `limit`(1~50) 엄격 검증, 모든 인덱스의 NFC 정규화 중복 ID 즉시 거부 |
 
-- [9편 본문으로 돌아가기](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)
+- [8편 본문으로 돌아가기](/tag-ontology-engineering/8-code-on-graph-and-epilogue/)
 
 ---
 
 ## v0.15.0 의미 모형 감사: Project-Before-Match와 TC-01~09 회귀 검증 {#pc-perspective-audit}
 
-### Semantic Modeling for Data 3대 관점(E/S/P)과 TC-01~09 전수 판정표
+### Semantic Modeling for Data 3대 관점(E/S/P)과 TC-01~09 전수 점검표
 
-Panos Alexopoulos의 『Semantic Modeling for Data』를 기반으로 수립한 `ontology-critique-practices`의 3대 관점, 즉 **P1 의미 명시성(Expressiveness)**, **P2 의미 공유성(Sharedness)**, **P3 실용성(Practicality)**을 기준으로 `Antigravity`와 `Codex`가 `trpg-ontology`의 코드와 실제 아우렐리우스 캠페인 코퍼스를 교차 감사하여 도출·해결한 `TC-01 ~ TC-09` 전수 명세는 다음과 같다.
+Panos Alexopoulos의 『Semantic Modeling for Data』를 기반으로 수립한 `ontology-critique-practices`의 3대 관점, 즉 **P1 의미 명시성(Expressiveness)**, **P2 의미 공유성(Sharedness)**, **P3 실용성(Practicality)**을 기준으로 `trpg-ontology`의 코드와 실제 아우렐리우스 캠페인 코퍼스를 교차 점검하여 도출·보강한 `TC-01 ~ TC-09` 전수 명세는 다음과 같다.
 
-| ID · 중대도 | 재현한 최소 반례 및 관측 내용 | 판정 및 정정 경계 | `v0.15.0` 실제 구현 및 회귀 계약 (`386 passed`) |
+| ID · 중대도 | 재현한 최소 반례 및 관측 내용 | 점검 결과 및 적용 범위 | `v0.15.0` 실제 구현 및 회귀 계약 (`386 passed`) |
 |:---|:---|:---|:---|
-| **`TC-01`**<br>(`HIGH`) | 준비된(`prepared`) `Encounter`를 없는 장소(`place_id`)와 이유 없는 `tier_modifier`로 교체해도 전역 `lint`가 미검출하며, `trace`와 `node_visible`에서 준비된 기회 노드가 조회되지 않음 | 참조 검사·노드 조회 누락 **수용** (`draft check/promote`는 이미 검사하므로 생성 경로 전체 무검증 주장은 기각) | `encounters`와 `quest_opportunities`의 `reference_errors`를 전역 `lint` ERROR로 수집하고 `all_node_ids`, `node_visible`, `trace`에 연결(`domain` 필수화 없이 `prepared` 상태 유지) |
-| **`TC-02`**<br>(`HIGH`) | `Actor`에 `visibilty: gm_only`(오타)를 적으면 자유 `extra` 필드로 흡수되고 실제 `visibility`는 기본값 `discovered`로 풀려 노출됨 (`Place`의 `require_clues` 오타도 빈 목록 처리) | 핵심 계약 키 오타 무음 수용 결함 **수용** (단, `Monster`·`Item` 등 기본값이 `gm_only`인 타입까지 전부 유출된다는 일반화는 정정) | 자유 서사 `extra`는 유지하되, 선언 필드 및 별칭에 대해 **편집 거리 2 이하 핵심 계약 키 오타(`visibilty`, `require_clues`, `locaton_id` 등)**와 짧은 핵심 키 명시 오타를 모델 검증·린트에서 즉시 거부 |
-| **`TC-03`**<br>(`CRITICAL`) | `rumored`(소문) 아이템 조회 시 PC 도감이 진실 `summary`를 출력하고, `rumored` 인물의 숨은 `summary` 키워드로 `trpg trace --perspective pc` 검색 시 `matched_ids`에 적중(Membership Oracle). 소문 단서만으로 미스터리 진실 제목·질문이 노출되며 숨은 `location_id`로 현장 목록에 편입됨 | 투영 전 검색·지역 선정 누출 **수용** (`Actor` `trace`가 `summary`를 직접 출력한다는 주장은 반박하고 검색 적중 오라클로 정정) | **`Project-Before-Match` & `Project-Before-Pack`** 전면 도입. 검색·이웃 탐색·지역 편입 전에 관점 투영기(Projector)를 먼저 통과시켜 진실 `summary`, 숨은 `location`, `attitude`, `goal`, `secret`, `links`, 미확인 `facilities`를 원천 제거 |
-| **`TC-04`**<br>(`HIGH`) | 하나의 YAML 매핑 안에 `visibility: gm_only` 뒤 `visibility: discovered`를 중복 작성하면 `SafeLoader`가 뒤 값으로 조용히 덮어씀 | YAML 입력 계약 결함 **수용** (검사한 실제 27개 파일에 중복 키가 존재했다는 주장은 하지 않음) | 캠페인·Canon·매니페스트·런타임 읽기 전역에 공통 `UniqueKeyLoader` 적용. 병합(`<<`) 평탄화 이전 전체 노드 그래프와 병합 내부 중복 키까지 명시 거부(정상 상속 후 명시 오버라이드는 허용, Canon 캐시 `v5`로 상향) |
-| **`TC-05`**<br>(`MEDIUM`) | `update_node`가 파일을 다시 쓸 때 저자가 적어둔 YAML 주석을 유실하며, 공유 앵커 수정 시 비대상 정본이 함께 변경될 위험 존재 | 주석 보존 및 라운드트립 갱신 **수용** (빈 컬렉션 생략으로 마지막 항목 삭제 탐지가 우회된다는 주장은 키 합집합 비교로 이미 탐지되므로 기각) | 쓰기 경로에 한해 `ruamel.yaml` round-trip 파서를 도입하여 주석·인용·기존 별칭 철자를 보존하고, 공유 앵커는 복사 후 덮어쓰며 파서 간 비대상 값 의미 불일치 시 저장 거부 |
-| **`TC-06` · `TC-07`**<br>(`HIGH`) | `build_context(max_chars=100000)`가 상위에서 `status=answered, omitted_count=0`을 반환하는데 하위 `actions.omitted.craft_blocked=5`가 숨어 있고 `travel`/`drafts` 절단 수가 누락됨 (`scene`/`trace`에 공통 완결성 봉투 부재) | 상위 완결성 거짓 보고 및 공통 기계 계약 보강 **수용** | `scene`과 `trace`에 기존 페이로드 호환을 유지하며 `status`(`answered`/`incomplete`)와 `omitted_count` 추가. `available_actions`의 `travel`/`drafts` 생략까지 집계하고 `context`가 하위 생략 합계를 상위에 정직하게 반영(`quests` 이중 합산 방지) |
-| **`TC-08`**<br>(`HIGH`) | `Actor`에 별칭 관계인 `attitude: 1`과 `disposition: -3`을 동시 입력하면 메모리 속성은 `1`인데 직렬화(`model_dump`) 후 재검증하면 `-3`으로 뒤집힘 | `AliasChoices`와 `extra` 잔류로 인한 왕복 불변식(Round-trip Invariant) 깨짐 **수용** | `OntologyModel` 공통 계층에서 `attitude`/`disposition`, `character_traits`/`bift`, `visibility`/`epistemic_status`, `threat`/`front` 등 canonical·별칭 키 동시 입력(런타임 `changes` 포함)을 즉시 오류로 거부하고 단일 별칭은 `extra`에 남기지 않음 |
-| **`TC-09`**<br>(`HIGH`) | 실제 캠페인 설정이 `battle_mode: conversational`(2d6 대화형 전투)인데 `context --include-combat-rules`가 레거시 CTB 수식(`SPD`, `ATK×power×K/(K+DEF)`)을 안내함 | 전투 모드별 정본 드리프트 **수용** (레거시 엔진 일괄 삭제 대신 모드별 분기 적용) | `reg.config.battle_mode`별 규칙 프로바이더 분리. `conversational` 모드는 2d6 규칙과 활성 `conversation-battle.json`만 참조하고, 종료된 세션이나 stale 레거시 상태를 현재 자원으로 읽지 않도록 차단 |
+| **`TC-01`**<br>(`HIGH`) | 준비된(`prepared`) `Encounter`를 없는 장소(`place_id`)와 이유 없는 `tier_modifier`로 교체해도 전역 `lint`가 미검출하며, `trace`와 `node_visible`에서 준비된 기회 노드가 조회되지 않음 | 참조 검사·노드 조회 누락 확인 (`draft check/promote` 단계는 이미 검사하므로 생성 경로 전체가 무검증은 아님) | `encounters`와 `quest_opportunities`의 `reference_errors`를 전역 `lint` ERROR로 수집하고 `all_node_ids`, `node_visible`, `trace`에 연결(`domain` 필수화 없이 `prepared` 상태 유지) |
+| **`TC-02`**<br>(`HIGH`) | `Actor`에 `visibilty: gm_only`(오타)를 적으면 자유 `extra` 필드로 흡수되고 실제 `visibility`는 기본값 `discovered`로 풀려 노출됨 (`Place`의 `require_clues` 오타도 빈 목록 처리) | 핵심 계약 키 오타 무음 통과 결함 확인 (단, `Monster`·`Item` 등 기본값이 `gm_only`인 타입까지 전부 유출되지는 않음) | 자유 서사 `extra`는 유지하되, 선언 필드 및 별칭에 대해 **편집 거리 2 이하 핵심 계약 키 오타(`visibilty`, `require_clues`, `locaton_id` 등)**와 짧은 핵심 키 명시 오타를 모델 검증·린트에서 즉시 거부 |
+| **`TC-03`**<br>(`CRITICAL`) | `rumored`(소문) 아이템 조회 시 PC 도감이 진실 `summary`를 출력하고, `rumored` 인물의 숨은 `summary` 키워드로 `trpg trace --perspective pc` 검색 시 `matched_ids`에 적중(Membership Oracle). 소문 단서만으로 미스터리 진실 제목·질문이 노출되며 숨은 `location_id`로 현장 목록에 편입됨 | 투영 전 검색·지역 선정 누출 확인 (`Actor` `trace`가 `summary`를 직접 출력하는 것이 아니라 검색 적중 오라클로 노출되는 문제로 범위 특정) | **`Project-Before-Match` & `Project-Before-Pack`** 전면 도입. 검색·이웃 탐색·지역 편입 전에 관점 투영기(Projector)를 먼저 통과시켜 진실 `summary`, 숨은 `location`, `attitude`, `goal`, `secret`, `links`, 미확인 `facilities`를 원천 제거 |
+| **`TC-04`**<br>(`HIGH`) | 하나의 YAML 매핑 안에 `visibility: gm_only` 뒤 `visibility: discovered`를 중복 작성하면 `SafeLoader`가 뒤 값으로 조용히 덮어씀 | YAML 입력 계약 결함 확인 (검사한 실제 27개 파일에 중복 키가 존재하지는 않았으나 구조적 차단 필요) | 캠페인·Canon·매니페스트·런타임 읽기 전역에 공통 `UniqueKeyLoader` 적용. 병합(`<<`) 평탄화 이전 전체 노드 그래프와 병합 내부 중복 키까지 명시 거부(정상 상속 후 명시 오버라이드는 허용, Canon 캐시 `v5`로 상향) |
+| **`TC-05`**<br>(`MEDIUM`) | `update_node`가 파일을 다시 쓸 때 저자가 적어둔 YAML 주석을 유실하며, 공유 앵커 수정 시 비대상 정본이 함께 변경될 위험 존재 | 주석 보존 및 라운드트립 갱신 필요 확인 (빈 컬렉션 생략 시 마지막 항목 삭제 탐지는 키 합집합 비교로 이미 방어됨) | 쓰기 경로에 한해 `ruamel.yaml` round-trip 파서를 도입하여 주석·인용·기존 별칭 철자를 보존하고, 공유 앵커는 복사 후 덮어쓰며 파서 간 비대상 값 의미 불일치 시 저장 거부 |
+| **`TC-06` · `TC-07`**<br>(`HIGH`) | `build_context(max_chars=100000)`가 상위에서 `status=answered, omitted_count=0`을 반환하는데 하위 `actions.omitted.craft_blocked=5`가 숨어 있고 `travel`/`drafts` 절단 수가 누락됨 (`scene`/`trace`에 공통 완결성 봉투 부재) | 상위 완결성 부정확 보고 및 공통 기계 계약 누락 확인 | `scene`과 `trace`에 기존 페이로드 호환을 유지하며 `status`(`answered`/`incomplete`)와 `omitted_count` 추가. `available_actions`의 `travel`/`drafts` 생략까지 집계하고 `context`가 하위 생략 합계를 상위에 정직하게 반영(`quests` 이중 합산 방지) |
+| **`TC-08`**<br>(`HIGH`) | `Actor`에 별칭 관계인 `attitude: 1`과 `disposition: -3`을 동시 입력하면 메모리 속성은 `1`인데 직렬화(`model_dump`) 후 재검증하면 `-3`으로 뒤집힘 | `AliasChoices`와 `extra` 잔류로 인한 왕복 불변식(Round-trip Invariant) 깨짐 확인 | `OntologyModel` 공통 계층에서 `attitude`/`disposition`, `character_traits`/`bift`, `visibility`/`epistemic_status`, `threat`/`front` 등 canonical·별칭 키 동시 입력(런타임 `changes` 포함)을 즉시 오류로 거부하고 단일 별칭은 `extra`에 남기지 않음 |
+| **`TC-09`**<br>(`HIGH`) | 실제 캠페인 설정이 `battle_mode: conversational`(2d6 대화형 전투)인데 `context --include-combat-rules`가 레거시 CTB 수식(`SPD`, `ATK×power×K/(K+DEF)`)을 안내함 | 전투 모드별 정본 드리프트 확인 (레거시 엔진 일괄 삭제 대신 모드별 분기로 처리) | `reg.config.battle_mode`별 규칙 프로바이더 분리. `conversational` 모드는 2d6 규칙과 활성 `conversation-battle.json`만 참조하고, 종료된 세션이나 stale 레거시 상태를 현재 자원으로 읽지 않도록 차단 |
 
 ### Project-Before-Match & Pack 아키텍처와 독립 코드 리뷰 보강
 
@@ -226,7 +226,7 @@ flowchart TB
 
 ### v0.15.0 최종 회귀 검증 및 보호 파일 275개 해시 영수증
 
-`tests/test_semantic_critique.py`에 추가된 37개 적대적 회귀 테스트를 포함해 전체 테스트 스위트 **`386 passed`**를 달성했으며, 실제 설치된 글로벌 CLI(`trpg`, `totlg v0.15.0`)와 아우렐리우스 캠페인 위에서 확인한 검증 영수증(`docs/v0150-verification.json`)의 핵심 지표는 다음과 같다.
+`tests/test_semantic_critique.py`에 추가된 37개 의미 감사 회귀 테스트를 포함해 전체 테스트 스위트 **`386 passed`**를 달성했으며, 실제 설치된 글로벌 CLI(`trpg`, `totlg v0.15.0`)와 아우렐리우스 캠페인 위에서 확인한 검증 영수증(`docs/v0150-verification.json`)의 핵심 지표는 다음과 같다.
 
 ```json
 {
@@ -276,4 +276,4 @@ flowchart TB
 
 감사 및 구현 전 과정에서 실제 플레이 중인 세계관·캠페인 보호 파일 **275개**의 매니페스트 `SHA-256` 해시(`b7802d38a24b...`)는 단 1바이트의 변경도 없이 보존되었으며, 측정하지 않은 의미 품질 점수(`E/S/P`, `ESBI`)는 가짜 정량 수치를 부여하지 않고 `null`(`N/A`)로 정직하게 기록했다.
 
-- [10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
+- [9편 본문으로 돌아가기](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)

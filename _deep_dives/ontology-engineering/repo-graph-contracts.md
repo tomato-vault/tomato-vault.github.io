@@ -1,32 +1,31 @@
 ---
 layout: page
 title: "심화 | Repo Ontology의 명세와 3-Graph"
-description: "Repo Ontology(.ontology/) 6대 프리미티브 스키마와 otlg CLI 명세, v0.2.0 적대적 감사(죽은 경로 19개·AST 심볼 검증), 그리고 v0.3.0 3-Graph(도메인·임포트·TDD 계약) 컴파일러 상세 레퍼런스"
+description: "Repo Ontology(.ontology/) 6대 프리미티브 스키마와 otlg CLI 명세, v0.2.0 정적 검증 보강(죽은 경로 19개·AST 심볼 검증), 그리고 v0.3.0 3-Graph(도메인·임포트·TDD 계약) 컴파일러 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/repo-graph-contracts/
 deep_dive_for: ontology-engineering
-related_main_orders: [3, 4, 5]
+related_main_orders: [3, 4]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 온톨로지 엔지니어링 시리즈 **[3편]**, **[4편]**, **[5편]** 본문에서 다룬 코드 레포지토리 온톨로지(`.ontology/` 및 `otlg` CLI)의 상세 YAML 스키마 명세, `v0.2.0` 적대적 코드 감사 전수 내역과 AST 파서 코드, 그리고 `v0.3.0` 3-Graph 컴파일러와 `pytest` 증거 봉인 레퍼런스를 수록한 심화 기술 문서입니다.
-{:.note title="심화 레퍼런스 안내"}
+본 문서는 온톨로지 엔지니어링 시리즈 **[[3편]](/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/)**과 **[[4편]](/tag-ontology-engineering/4-three-graphs-and-tdd-contract-v030/)** 본문에서 다룬 코드 레포지토리 온톨로지(`.ontology/` 및 `otlg` CLI)의 상세 YAML 스키마 명세, `v0.2.0` 코드 정합성 점검 내역과 AST 파서 코드, 그리고 `v0.3.0` 3-Graph 컴파일러와 `pytest` 증거 봉인 레퍼런스를 수록한 심화 기술 문서다.
 
 ---
 
 ## .ontology/ 6대 프리미티브 스키마와 otlg trace·translate·intake 계약 {#primitive-contracts}
 
-### `Antigravity` vs `Codex` 교차 검증과 SDLC 도메인 명세 포지셔닝
+### SDLC 도메인 명세 포지셔닝과 역할 경계 점검
 
-팔란티어의 운영 온톨로지 개념을 코드 레포지토리에 이식하며 진행한 `Antigravity`(구축 주도)와 `Codex`(외부 독립 감사)의 교차 검증 상세 판정은 다음과 같다.
+팔란티어의 운영 온톨로지 개념을 코드 레포지토리에 이식하면서, 실제 구현 범위와 엔터프라이즈 런타임 엔진 간의 역할 경계를 다음 기준으로 정리했다.
 
-| 분석 축 | `Antigravity` 관점 | `Codex` 실측 관점 | 최종 수용한 엔지니어링 판정 |
+| 분석 축 | 초기 설계 가설 | 실측 기반 재정의 | 확정된 엔지니어링 기준 |
 | :--- | :--- | :--- | :--- |
-| **온톨로지 명칭의 정당성** | 정당함 (지식 및 코드 도메인 온톨로지) | 정당함 (도메인 명세와 관계 모델 근거 충분) | **O (공통 승인)**: 두 시스템 모두 온톨로지 개념을 정당하게 구현함 |
-| **`Vault Ontology` 판정** | 지식 거버넌스 2.5단계 (Data + Logic) | 개인 지식 온톨로지 (`vault new` 생성 게이트 포함) | **O (일치)**: 지식 산출물 대상의 스키마 및 생성 거버넌스 |
-| **`Repo Ontology` 판정** | AIP 실행형 3단계 완전 도달 | 코드에 연결된 도메인 온톨로지 명세 (런타임 실행 엔진 아님) | **시각 보정**: 런타임 트랜잭션 엔진과 SDLC 접지 명세의 엄격한 분리 |
+| **온톨로지 명칭의 정당성** | 지식 및 코드 도메인 온톨로지 | 도메인 명세와 관계 모델 근거 충분 | **유지**: 두 시스템 모두 온톨로지 개념을 정당하게 구현함 |
+| **`Vault Ontology` 성격** | 지식 거버넌스 2.5단계 (Data + Logic) | 개인 지식 온톨로지 (`vault new` 생성 게이트 포함) | **일치**: 지식 산출물 대상의 스키마 및 생성 거버넌스 |
+| **`Repo Ontology` 성격** | AIP 실행형 3단계 도달 | 코드에 연결된 도메인 온톨로지 명세 (런타임 실행 엔진 아님) | **경계 보정**: 런타임 트랜잭션 엔진과 SDLC 접지 명세의 엄격한 분리 |
 
 팔란티어의 `Action Layer`가 현업 실무자나 AI 호출 시 ERP·DB 트랜잭션을 직접 일으키는 런타임 엔진인 것과 달리, `repo-ontology`(`otlg`)는 소프트웨어 개발 라이프사이클(SDLC)에서 코딩 에이전트가 코드를 수정하기 전에 준수해야 할 비즈니스 동사와 불변식, 그리고 실제 소스 코드의 물리적 위치를 1:1로 묶어주는 **'코드에 연결된 도메인 온톨로지 명세(Code-bound Domain Ontology Specification)'** 역할을 수행한다.
 
@@ -117,7 +116,7 @@ governance:
 
 ---
 
-## v0.2.0 적대적 감사와 AST 심볼·참조·Bounded Trace 검증 {#ast-audit}
+## v0.2.0 정적 검증 보강과 AST 심볼·참조·Bounded Trace 검증 {#ast-audit}
 
 ### `ViewSpec` 검증 루프 보강과 19개 죽은 경로 적발 (`lint.py`)
 
@@ -297,23 +296,23 @@ if best_by_view:
         continue
 ```
 
-### 적대적 검수 27개 항목 수용·기각 판정표 및 `61 passed` 회귀 테스트
+### 설계 기준 27개 항목 점검·보완 내역 및 `61 passed` 회귀 테스트
 
-`Codex`와 `Gemini` 상호 레드팀 감사에서 도출된 주요 쟁점의 수용 및 기각(과잉 규율 배제) 판단 근거는 다음과 같다.
+`v0.2.0` 개편 과정에서 27개 검증 항목의 반례를 점검하고, 실제 결함 보완과 과잉 규율 배제를 가른 판단 근거는 다음과 같다.
 
-| 검토 항목 (`ID`) | 핵심 쟁점 및 제안 내용 | 최종 판정 | 엔지니어링 판단 근거 |
+| 검토 항목 (`ID`) | 핵심 쟁점 및 검토 내용 | 반영 결과 | 엔지니어링 판단 근거 |
 | :--- | :--- | :--- | :--- |
-| **중복 YAML 키 및 중복 ID (`R-05`)** | 같은 YAML 파일 내 중복 키나 파일 간 동일 ID가 조용히 덮어써짐 | **수용** | `UniqueKeyLoader`와 `_insert` 중복 검사로 즉시 로딩 에러 처리 |
-| **사전조건 `dict` 우회 (`R-06`)** | `PreconditionSpec` 실패 시 임의 `Dict`로 폴백되어 오타(`ruel:`) 통과 | **수용** | `OntologyModel(extra="forbid")` 및 `rule`/`rule_id`/`expression` 필수 검증 강제 |
-| **Action 최상위 경로 및 `Link.through` (`RT-1`, `RT-2`)** | `request_schema`, `stats_service` 및 다대다 조인 객체(`through`) 누락 | **수용** | `lint`와 `trace` 양쪽 모두에서 최상위 경로와 조인 객체를 동일하게 추적 |
-| **로컬 `precondition.id` 외래키 강제 (`R-16`)** | 모든 `precondition.id`와 자연어 규칙을 전역 `rules/` ID로 강제 검사하자는 제안 | **기각** | 액션 고유의 인라인 조건 설명(`id`, `rule`)과 전역 불변식 참조(`rule_id`)는 역할이 다름. `rule_id`만 외래 참조로 검사 |
-| **엔드포인트·라우트·`TD-4` 파일화 (`R-17`)** | `POST /api/...`, UI `route`, 기술 부채 ID(`TD-4`)까지 로컬 파일로 검사하자는 제안 | **기각** | HTTP/RPC 프로토콜 선언과 화면 경로, 이슈 식별자(`[A-Z]+-\d+`)는 파일이 아님. 파일 실존 검사와 프로토콜 선언을 분리 |
-| **외부 심볼릭 링크 전면 차단 (`R-14`)** | 저장소 루트 밖을 가리키는 모든 symlink를 경로 탈출 에러로 막자는 제안 | **수정 수용** | `../`와 절대 경로는 `ERROR`로 차단하되, 멀티 레포를 묶는 TRPG 허브의 명시적 symlink는 허용하고 소유권 미검증 `WARNING`(`external`) 부여 |
-| **메타 저장소와의 강제 통합 (`R-01`)** | 설계 방법론 저장소(`ontology-workbench`)와 `repo-ontology`를 하나로 합치자는 제안 | **기각** | 도메인 온톨로지 설계 프레임워크와 개별 저장소의 코드 바인딩 CLI(`code_specification`)는 책임 경계가 다르므로 분리 유지 |
+| **중복 YAML 키 및 중복 ID (`R-05`)** | 같은 YAML 파일 내 중복 키나 파일 간 동일 ID가 조용히 덮어써짐 | **반영** | `UniqueKeyLoader`와 `_insert` 중복 검사로 즉시 로딩 에러 처리 |
+| **사전조건 `dict` 우회 (`R-06`)** | `PreconditionSpec` 실패 시 임의 `Dict`로 폴백되어 오타(`ruel:`) 통과 | **반영** | `OntologyModel(extra="forbid")` 및 `rule`/`rule_id`/`expression` 필수 검증 강제 |
+| **Action 최상위 경로 및 `Link.through` (`RT-1`, `RT-2`)** | `request_schema`, `stats_service` 및 다대다 조인 객체(`through`) 누락 | **반영** | `lint`와 `trace` 양쪽 모두에서 최상위 경로와 조인 객체를 동일하게 추적 |
+| **로컬 `precondition.id` 외래키 강제 (`R-16`)** | 모든 `precondition.id`와 자연어 규칙을 전역 `rules/` ID로 강제 검사하는 방안 | **제외** | 액션 고유의 인라인 조건 설명(`id`, `rule`)과 전역 불변식 참조(`rule_id`)는 역할이 다름. `rule_id`만 외래 참조로 검사 |
+| **엔드포인트·라우트·`TD-4` 파일화 (`R-17`)** | `POST /api/...`, UI `route`, 기술 부채 ID(`TD-4`)까지 로컬 파일로 검사하는 방안 | **제외** | HTTP/RPC 프로토콜 선언과 화면 경로, 이슈 식별자(`[A-Z]+-\d+`)는 파일이 아님. 파일 실존 검사와 프로토콜 선언을 분리 |
+| **외부 심볼릭 링크 전면 차단 (`R-14`)** | 저장소 루트 밖을 가리키는 모든 symlink를 경로 탈출 에러로 막는 방안 | **조건부 반영** | `../`와 절대 경로는 `ERROR`로 차단하되, 멀티 레포를 묶는 TRPG 허브의 명시적 symlink는 허용하고 소유권 미검증 `WARNING`(`external`) 부여 |
+| **메타 저장소와의 강제 통합 (`R-01`)** | 설계 방법론 저장소(`ontology-workbench`)와 `repo-ontology`를 하나로 합치는 방안 | **제외** | 도메인 온톨로지 설계 프레임워크와 개별 저장소의 코드 바인딩 CLI(`code_specification`)는 책임 경계가 다르므로 분리 유지 |
 
 이 결정들은 깨진 파이썬 문법 파일 검출, `otlg new` 경로 탈출(`../Escape`) 및 YAML 예약어(`false`, `null`, `yes`) 이스케이프, 줄바꿈 인젝션 차단, `intake` 디렉토리 쓰기 실패 종료 코드(`1`) 검증을 포함한 **61개(`61 passed`)** 회귀 테스트로 고정되었다.
 
-[4편 본문으로 돌아가기](/tag-ontology-engineering/4-zero-lint-error-illusion-and-v020/)
+[3편 본문으로 돌아가기](/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/)
 
 ---
 
@@ -447,4 +446,4 @@ def test_refund_rejects_overpayment():
 
 각 계약 케이스 리포트는 `mapping`(정적 마커 존재), `collection`(`pytest` 수집 성공), `execution`(실제 통과 및 스냅샷 해시 일치), `semantics`(`not_assessed`, 단언문의 비즈니스 의미는 인간·리뷰어 감사 영역으로 분리) 4단계로 투명하게 보고된다.
 
-[5편 본문으로 돌아가기](/tag-ontology-engineering/5-three-graphs-and-tdd-contract-v030/)
+[4편 본문으로 돌아가기](/tag-ontology-engineering/4-three-graphs-and-tdd-contract-v030/)

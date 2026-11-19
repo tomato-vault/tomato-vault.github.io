@@ -283,7 +283,7 @@ npm run test:run    # 슬라이스 내부에 콜로케이션(Foo.tsx -> Foo.test
 달력 주기(일·주·월)에 맞춰 기계적으로 실행하던 요식행위를 폐기하고, 저장소 사건 패킷(`repo-work-pack/1`) 인수와 기록 생성에 반응하도록 재편한 3대 정제 스킬, 블로그 초안 파이프라인(`vault blog-pack/draft/gate`), 글로벌 스킬 컴파일의 상세 프로토콜이다.
 
 1. **1차 인수 및 정제 (`vault work-intake` & `experience-distill`)**
-   - 코드 저장소에서 추출한 사건 패킷(`otlg work-pack`, 5분류 편차 및 ADR 5축 상태 분리)을 `.vault-work/evidence`에 보존하고, 새 문서를 무분별하게 늘리는 대신 프로젝트별 기존 `Case`와 `Learnings` 문서를 우선 보강한다.
+   - 코드 레포지토리에서 추출한 사건 패킷(`otlg work-pack`, 5분류 편차 및 ADR 5축 상태 분리)을 `.vault-work/evidence`에 보존하고, 새 문서를 무분별하게 늘리는 대신 프로젝트별 기존 `Case`와 `Learnings` 문서를 우선 보강한다.
 2. **2차 범용 지식 승격 및 산출물 컴파일 (`knowledge-elevate` · `blog-draft` · `build_skill_runtime.py`)**
    - 여러 프로젝트에서 반복 검증된 교훈을 보편 기술 개념(`200 Dev KB`), 타협 불가 실천 규율(`299 Principles`), 대안 비교 의사결정(`400 Logic Forge`)으로 승격한다.
    - 승격된 정본 지식은 두 갈래로 컴파일된다. 첫째, `vault blog-pack` 5채널 근거 패킷과 `blog-gate`를 거쳐 비공개 근거와 분리된 `330 Blog` 단일 초안이 된다. 둘째, `build_skill_runtime.py`를 통해 글로벌 에이전트 런타임 스킬(`principles-audit` 등)로 빌드되어 다음 코딩 세션의 하네스에 즉시 장착된다.

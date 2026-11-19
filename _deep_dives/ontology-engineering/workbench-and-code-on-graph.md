@@ -1,10 +1,10 @@
 ---
 layout: page
 title: "심화 | Workbench와 Code-on-Graph"
-description: "4대 도메인 Crosswalk와 ontology-workbench의 6단계 메타 프로토콜·Negative Gate, 적대적 검수 6대 원칙, 그리고 Code-on-Graph(arXiv:2606.03705v1) 수리 원리와 5-State Result Envelope·BubbleTap FDE 검수 청사진 상세 레퍼런스"
+description: "3대 도메인 Crosswalk와 ontology-workbench의 6단계 메타 프로토콜·Negative Gate, 6가지 설계 원칙, 그리고 Code-on-Graph(arXiv:2606.03705v1) 수리 원리와 5-State Result Envelope 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/workbench-and-code-on-graph/
 deep_dive_for: ontology-engineering
-related_main_orders: [8, 9]
+related_main_orders: [7, 8]
 published: true
 ---
 
@@ -13,24 +13,24 @@ published: true
 
 ---
 
-## 4대 도메인 Crosswalk와 6단계 메타 프로토콜·Negative Gate·적대적 검수 6원칙 {#negative-gate}
+## 3대 도메인 Crosswalk와 6단계 메타 프로토콜·Negative Gate·설계 6원칙 {#negative-gate}
 
-### 4대 도메인 Crosswalk 비교표 전문
+### 3대 도메인 Crosswalk 비교표 전문
 
-서로 다른 도메인의 온톨로지를 한자리에 모아 비교할 때 가장 먼저 경계해야 할 함정은 '단어의 표면적 유사성'에 속아 넘어가는 일이다. `Vault Ontology`에도 `type`이라는 필드가 있고 `TRPG Ontology`나 `AI Safety`에도 아이템이나 단서의 `type`이 존재하며, 네 도메인 모두 `Action`이나 `Rule`이라는 어휘를 사용한다. 그러나 같은 문자열을 쓴다고 해서 그 뒤에 숨은 의미론적 계약(Semantic Contract)까지 같다고 착각하면 아키텍처는 순식간에 오염된다. `ontology-workbench`의 정본 문서(`crosswalk.md`)는 네 도메인의 비교 기준과 절대 섞어서는 안 될 경계를 아래와 같이 규정한다.
+서로 다른 도메인의 온톨로지를 한자리에 모아 비교할 때 가장 먼저 경계해야 할 함정은 '단어의 표면적 유사성'에 속아 넘어가는 일이다. `Vault Ontology`에도 `type`이라는 필드가 있고 `TRPG Ontology`에도 아이템이나 단서의 `type`이 존재하며, 세 도메인 모두 `Action`이나 `Rule`이라는 어휘를 사용한다. 그러나 같은 문자열을 쓴다고 해서 그 뒤에 숨은 의미론적 계약(Semantic Contract)까지 같다고 착각하면 아키텍처는 순식간에 오염된다. `ontology-workbench`의 정본 문서(`crosswalk.md`)는 세 도메인의 비교 기준과 절대 섞어서는 안 될 경계를 아래와 같이 규정한다.
 
-| 비교 축 | Vault (`vault-ontology`) | Repository (`repo-ontology`) | TRPG (`trpg-ontology`) | AI Safety (`BubbleTap FDE`) |
-| :--- | :--- | :--- | :--- | :--- |
-| **핵심 목적** | 문서의 의미·관계 정의와 생성 규율 | 실제 소스 코드에 연결한 도메인 문맥 | 캠페인 기억 보존과 라이브 상태 변이 | 멀티모달 그레이존 정책 검증과 제재 집행 |
-| **운영 Regime** | `curation` + 좁은 생성 게이트 | `code_specification` | `curation` + `live_state` | `curation` + `live_state` |
-| **안정 ID 체계** | 문서 식별자 및 경로 정책 | `object` / `action` / `rule` ID | `actor` / `item` / `event` 도메인 ID | `CharacterRevision` / `Evidence` / `Rule` ID |
-| **진실의 정본 (SSOT)** | Markdown 본문 및 Frontmatter | `.ontology/` YAML + 실제 소스 코드 | YAML/JSON 상태 + 불변 이벤트 원장 | 불변 스냅샷 + CVT 단서 + 홀드아웃 골드 코퍼스 |
-| **변경(Mutation) 방식** | `vault new` 및 스키마 검증 게이트 | 명세를 읽고 개발자·에이전트가 코드 수정 | 등록된 핸들러 및 트랜잭션 실행 엔진 | Shadow 골드셋 통과 후 Outbox 제재 핸들러 집행 |
-| **조회(Retrieval) 도구** | `vault q path/near` + 의미 검색(`vv`) | `otlg trace` / `brief` (0.01초 문맥 복원) | `scene` / `trace` / `context` / `canon` | CVT 서브그래프 슬라이스 및 정책 DAG 평가 |
-| **핵심 검증 대상** | 필수 필드·화이트리스트 태그·관계 방향 | 파일 경로·코드 심볼(AST)·선언 정합성 | 사전조건·상태 변이·이벤트·실행 테스트 | 동일 인물·장면 CVT 결합·미판독(`unknown`) 분리 |
-| **절대 섞으면 안 될 것** | 문서 분류 `type`과 런타임 엔티티 `type` | 코드 심볼의 존재와 런타임 동작 보증 | GM의 서사적 판단과 실제 수치(HP 등) 변경 | 시뮬레이션 제안(`Proposal`)과 실제 제재 집행 |
+| 비교 축 | Vault (`vault-ontology`) | Repository (`repo-ontology`) | TRPG (`trpg-ontology`) |
+| :--- | :--- | :--- | :--- |
+| **핵심 목적** | 문서의 의미·관계 정의와 생성 규율 | 실제 소스 코드에 연결한 도메인 문맥 | 캠페인 기억 보존과 라이브 상태 변이 |
+| **운영 Regime** | `curation` + 좁은 생성 게이트 | `code_specification` | `curation` + `live_state` |
+| **안정 ID 체계** | 문서 식별자 및 경로 정책 | `object` / `action` / `rule` ID | `actor` / `item` / `event` 도메인 ID |
+| **진실의 정본 (SSOT)** | Markdown 본문 및 Frontmatter | `.ontology/` YAML + 실제 소스 코드 | YAML/JSON 상태 + 불변 이벤트 기록 |
+| **변경(Mutation) 방식** | `vault new` 및 스키마 검증 게이트 | 명세를 읽고 개발자·에이전트가 코드 수정 | 등록된 핸들러 및 트랜잭션 실행 엔진 |
+| **조회(Retrieval) 도구** | `vault q path/near` + 의미 검색(`vv`) | `otlg trace` / `brief` (0.01초 문맥 복원) | `scene` / `trace` / `context` / `canon` |
+| **핵심 검증 대상** | 필수 필드·화이트리스트 태그·관계 방향 | 파일 경로·코드 심볼(AST)·선언 정합성 | 사전조건·상태 변이·이벤트·실행 테스트 |
+| **절대 섞으면 안 될 것** | 문서 분류 `type`과 런타임 엔티티 `type` | 코드 심볼의 존재와 런타임 동작 보증 | GM의 서사적 판단과 실제 수치(HP 등) 변경 |
 
-`TRPG`의 체력(`HP`) 차감 및 주사위 판정 모델, `Vault`의 읽기 전용 태그 화이트리스트와 `builds_on` 상한(최대 3개), `Repository`의 프론트엔드·백엔드·모바일 심볼 바인딩 구조, 그리고 `AI Safety`의 멀티모달 CVT 결합과 홀드아웃 골드셋 Shadow 검증은 오직 해당 도메인 안에서만 유의미한 고유 계약이다. 만능 런타임 추출을 보류하고 각 도메인의 계약을 독립적으로 유지한 이유가 바로 여기에 있다.
+`TRPG`의 체력(`HP`) 차감 및 주사위 판정 모델, `Vault`의 읽기 전용 태그 화이트리스트와 `builds_on` 상한(최대 3개), 그리고 `Repository`의 프론트엔드·백엔드·모바일 심볼 바인딩 구조는 오직 해당 도메인 안에서만 유의미한 고유 계약이다. 만능 런타임 추출을 보류하고 각 도메인의 계약을 독립적으로 유지한 이유가 바로 여기에 있다.
 
 ### 새 도메인에 온톨로지를 세우는 6단계 메타 프로토콜과 Negative Gate
 
@@ -64,29 +64,29 @@ $ uv run scripts/validate_blueprint.py examples/declined-gpu-reservation.bluepri
 $ uv run scripts/validate_blueprint.py examples/incident-retrospective.blueprint.json --ready
 ```
 
-### 4대 프로젝트 적대적 검수 결과 요약 및 6대 엔지니어링 원칙 상세
+### 4대 프로젝트 설계 기준 점검 결과 요약 및 6대 엔지니어링 원칙 상세
 
-| 프로젝트 | 초기 상태 및 숨겨진 결함 | 적대적 검수(Red-teaming)를 통한 핵심 돌파 | 최종 검증 상태 |
+| 프로젝트 | 초기 상태 및 숨겨진 결함 | 반례 점검을 통한 설계 보강 | 최종 검증 상태 |
 | :--- | :--- | :--- | :--- |
 | **Vault Ontology** | 466개 테스트 통과 상태였으나, 볼트 외부 경로 쓰기, 자기 파일 삭제, 한글 Git 경로 파싱 누락 등 운영 경계 허점 존재 | 읽기 전용 SQLite authorizer 적용, 임시 DB 교체 원자화, `git -z` 원경로 보존, 동명이인 섹션 링크 폴더 명시 강제 | **523 passed** (`vault/vo` v0.1.1 전역 반영) |
 | **Repo Ontology** | 18개 테스트 및 `lint --strict` 통과 상태였으나, `sitemap` 린트 누락(19개 구경로 방치), 주석 문자열 매칭 착시, `trace` 탐색 폭발 존재 | Python AST 스코프별 실제 심볼 선언 검사, `trace` 1-hop 시드 고정 및 상한 제어, 교육 관리 SaaS 오결합(`AcademyGrades`) 교정 | **97 passed** (`otlg` v0.3.0, 3-Graph 확장 포함) |
 | **TRPG Ontology** | 서사 기억과 런타임 수치 변이가 혼재될 위험, 실패한 액션이나 동시 수정 시 상태 오염 가능성 | 등록 핸들러만 실행 허용, `expected_revision` 및 `idempotency_key` 강제, 불변 연대기(`chronicle`) 저널 트랜잭션 격리 | **322 passed** (런타임 Action 엔진 검증 완료) |
-| **Meta Workbench** | 초기 `v0.1.0`에서 빈 `operations=[]`나 가짜 `runtime=verified`, 실패 케이스를 제외한 체리피킹 보고(`M-20`)가 그대로 통과됨 | `use_simpler_model` 네거티브 게이트 도입, 타깃의 모든 acceptance 사례(positive+negative) 통과 강제(`E_REPORT`) | **52 passed** (`v0.3.0`에서 `BubbleTap FDE` 포함 `55 passed`) |
+| **Meta Workbench** | 초기 `v0.1.0`에서 빈 `operations=[]`나 가짜 `runtime=verified`, 실패 케이스를 제외한 체리피킹 보고(`M-20`)가 그대로 통과됨 | `use_simpler_model` 네거티브 게이트 도입, 타깃의 모든 acceptance 사례(positive+negative) 통과 강제(`E_REPORT`) | **52 passed** |
 
-이 적대적 검수 루프(`독립 탐색 -> 실제 반례 재현 -> 상호 반박 -> 수용·수정 수용·기각 결정 -> 코드 및 자료 보정 -> 재실행 -> 남은 한계 보존`)를 통해 확립한 6대 원칙의 세부 내역은 다음과 같다.
+세 도메인과 메타 워크벤치를 운영하며 확립한 6대 원칙의 세부 내역은 다음과 같다.
 
 - **원칙 1. 필드·문서·기능 이름이 있다고 커버했다고 믿지 마라**: `Meta Workbench` 초기 버전에는 `CQ.required_terms=[]`로 빈 역량 질문이 통과하거나 빈 `operations=[]`가 허용되는 허점이 있었고, `Repo Ontology`에도 파이썬 주석 문자열만 보고 실제 메서드가 선언되었다고 오판하던 구멍이 있었다. 라벨의 존재와 실제 근거 구조의 존재를 엄격히 구분해야 한다.
 - **원칙 2. 검사 통과(`0 errors`)를 내용의 진실성으로 둔갑시키지 마라**: `Repo Ontology` 초기 버전에서 `sitemap` 바인딩 누락으로 19개 구경로가 방치되었던 사례, 그리고 `Meta Workbench`에서 실패한 케이스(`reported_fail`)만 `verification_refs`에서 제외해 `reported_verified`를 우회 통과하던 체리피킹(`M-20`) 반례를 통해, 모든 연결 인수 사례(`positive` + `negative`)의 전수 통과(`E_REPORT`)를 강제했다.
-- **원칙 3. 못 본 값을 추론이나 기본값으로 메우지 마라 (`unknown`과 `partial`의 보존)**: `TRPG`에서 아직 조사하지 않은 시설(`facilities`)이나 자연어 서식지 문장뿐인 생물 115종, `Repo`에서 인덱싱 범위 밖인 심볼, `BubbleTap FDE`에서 비전/텍스트 검출기가 판독하지 못한 단서를 억지 추론이나 기본값으로 메우지 않고, 미확인(`unknown`)과 부분 확인(`incomplete`) 상태로 일관되게 보존했다.
-- **원칙 4. 강한 차단을 무조건 늘리는 것은 실력이 아니다 (과잉 규율 기각의 기술)**:
-  - `Vault Ontology`: 요약문(`summary`) 속 예시 링크까지 에러로 막자는 제안과 `900 Archive` 노트 수천 개를 현역 그래프에 편입시키자는 제안을 기각하고, 실제 관계 필드·본문 링크만 검사하되 아카이브는 경로 상태만 구분하도록 절충했다.
-  - `Repo Ontology`: `otlg trace` 결과 외 파일의 읽기·수정을 하드 락으로 막자는 제안을 기각하여 미등록 유틸리티 탐색의 유연성을 지켰다.
-  - `TRPG Ontology`: 해시 봉인 도입 전에 기록된 과거 전투 사건 2건을 현재 해시로 소급 위조하자는 제안을 기각하고, 미봉인 역사적 사실로 정직하게 분리 보존했다.
-  - `Meta Workbench`: 미배포 초안 단계의 자동 마이그레이션 변환기 강제(`M-07`), 읽기 전용 모델의 트랜잭션 필드에 `'N/A'` 문자열 복붙 강제(`M-10`), 청사진 문서 내 파일 해시 핀 고정(`M-08`)을 기각하고 `null` 허용과 Git 이력 보존으로 갈음했다.
-- **원칙 5. AI 두 개가 동의했다고 정답으로 취급하지 마라**: 두 모델의 합의 대신 `/tmp` 격리 환경에서의 반례 재현 스크립트, 원본 바이트(SHA256 및 JSON/Git 경로) 대조, 인간 엔지니어의 운영 정책 결정, 회귀 테스트 재실행 결과만을 최종 판단 근거로 삼았다.
+- **원칙 3. 못 본 값을 추론이나 기본값으로 메우지 마라 (`unknown`과 `partial`의 보존)**: `TRPG`에서 아직 조사하지 않은 시설(`facilities`)이나 자연어 서식지 문장뿐인 생물 115종, `Repo`에서 인덱싱 범위 밖인 심볼을 억지 추론이나 기본값으로 메우지 않고, 미확인(`unknown`)과 부분 확인(`incomplete`) 상태로 일관되게 보존했다.
+- **원칙 4. 강한 차단을 무조건 늘리는 것은 실력이 아니다 (과잉 규율 배제의 원칙)**:
+  - `Vault Ontology`: 요약문(`summary`) 속 예시 링크까지 에러로 막자는 제안과 `900 Archive` 노트 수천 개를 현역 그래프에 편입시키자는 제안을 제외하고, 실제 관계 필드·본문 링크만 검사하되 아카이브는 경로 상태만 구분하도록 절충했다.
+  - `Repo Ontology`: `otlg trace` 결과 외 파일의 읽기·수정을 하드 락으로 막자는 제안을 제외하여 미등록 유틸리티 탐색의 유연성을 지켰다.
+  - `TRPG Ontology`: 해시 봉인 도입 전에 기록된 과거 전투 사건 2건을 현재 해시로 소급 위조하자는 제안을 제외하고, 미봉인 역사적 사실로 정직하게 분리 보존했다.
+  - `Meta Workbench`: 미배포 초안 단계의 자동 마이그레이션 변환기 강제(`M-07`), 읽기 전용 모델의 트랜잭션 필드에 `'N/A'` 문자열 복붙 강제(`M-10`), 청사진 문서 내 파일 해시 핀 고정(`M-08`)을 제외하고 `null` 허용과 Git 이력 보존으로 갈음했다.
+- **원칙 5. 그럴듯한 설명이나 추측을 검증의 대체재로 삼지 마라**: 구두 설명이나 추론 대신 `/tmp` 격리 환경에서의 반례 재현 스크립트, 원본 바이트(SHA256 및 JSON/Git 경로) 대조, 운영 정책 결정, 회귀 테스트 재실행 결과만을 최종 판단 근거로 삼았다.
 - **원칙 6. 테스트 통과 숫자를 도메인 완성률처럼 포장하지 마라**: `Vault` 523 passed와 기존 볼트 문서 린트 위반 919건, `Repo` 정적 통과와 JS/Dart 미지원 경고 22건, `TRPG` 도구 테스트 통과와 캠페인 설정의 미확인 영역을 철저히 분리해 보고했다.
 
-- [8편 본문으로 돌아가기](/tag-ontology-engineering/8-meta-ontology-workbench-and-redteam/)
+- [7편 본문으로 돌아가기](/tag-ontology-engineering/7-meta-ontology-workbench-and-redteam/)
 
 ---
 
@@ -97,8 +97,7 @@ $ uv run scripts/validate_blueprint.py examples/incident-retrospective.blueprint
 | 실무 도메인 | 데이터 규모 및 다중 모달리티 복잡도 | 대표적 복합 질의 및 창발 검증 요구사항 | 고정 CLI 및 Text-in-Context 방식의 한계 |
 | :--- | :--- | :--- | :--- |
 | **TRPG 세계관 및 캠페인**<br>(`trpg-ontology`) | 418개 세계관 문서 + 1,478개 글뤼엔 연금술 아카이브 (`~7.5MB`) + 라이브 파티 상태 | *"현재 소지 재료와 현지 채집·거래만으로 다음 보스의 핵심 기믹을 파훼하고 30라운드 내에 생존할 수 있는가?"* | 7.5MB 원문을 프롬프트에 넣으면 컨텍스트가 폭발하며, 정적 스키마 검사만으로는 보스 드랍 순환 잠금이나 승률을 알 수 없음 |
-| **AI 캐릭터 자동 검수**<br>(`BubbleTap FDE`) | 공개/비공개 설정 5~6칸 + 동적 키워드북 수십 개 + 감정·상황 이미지 수십 장 + 주간 그레이존 정책 | *"선언 등급은 전체 이용가인데, 동일 인물의 비공개 키워드북 트리거와 특정 상황 이미지 단서가 결합해 불변식을 위반하는가?"* | 키워드북이 늘어날수록 중간에 숨긴 탈옥·성적 트리거를 놓치거나, 서로 다른 등장인물의 나이·성적 단서를 잘못 결합해 오탐 발생 |
-| **지식 볼트 및 코드 저장소**<br>(`vault` / `repo`) | 4,400+ 마크다운 노트, 39만 줄 풀스택 코드베이스 3-Graph | *"볼트 전체를 중복 스캔하지 않고 스키마·태그 위반을 사전 진단하거나, 3-Graph의 스키마 클래스 스텁만 노출해 문맥을 조립할 수 있는가?"* | CLI 호출 실패마다 쉘 명령을 재조립하며 턴을 낭비하거나, 거대 그래프 원문을 프롬프트에 직접 부어 토큰 예산 초과 |
+| **지식 볼트 및 코드 레포지토리**<br>(`vault` / `repo`) | 4,400+ 마크다운 노트, 39만 줄 풀스택 코드베이스 3-Graph | *"볼트 전체를 중복 스캔하지 않고 스키마·태그 위반을 사전 진단하거나, 3-Graph의 스키마 클래스 스텁만 노출해 문맥을 조립할 수 있는가?"* | CLI 호출 실패마다 쉘 명령을 재조립하며 턴을 낭비하거나, 거대 그래프 원문을 프롬프트에 직접 부어 토큰 예산 초과 |
 
 ### Stage 1 / 2a / 2b / 3 파이프라인 상세와 CVT Reification 코드 스텁
 
@@ -129,7 +128,7 @@ class AssessmentRelation(TypedDict):
 
 ### Proposition 1: Token Utilization Rate (TUR) 수리 증명과 해석 경계
 
-프롬프트에 사실 트리플을 직접 나열하는 `Text-in-Context` 방식은 인스턴스 개수 $|I_t|$가 늘어날수록 필요한 프롬프트 토큰도 비례해서 늘어나므로 토큰당 활용 가능한 사실의 비율이 $\mathcal{O}(1)$ 상수에 갇힌다. 반면 `Schema-to-Class` 매핑을 쓰면 프롬프트에는 고정된 크기의 스키마 정의서 $|S_t|$만 들어가고 실제 연산은 메모리에 적재된 $|I_t|$ 전체 위에서 돌아가므로, 인스턴스 규모가 커질수록 토큰 활용 효율이 $\mathcal{O}(|I_t| / |S_t|)$로 선형 확장된다.
+프롬프트에 사실 트리플을 직접 나열하는 `Text-in-Context` 방식은 인스턴스 개수(`|I_t|`)가 늘어날수록 필요한 프롬프트 토큰도 비례해서 늘어나므로 토큰당 활용 가능한 사실의 비율이 `O(1)` 상수에 갇힌다. 반면 `Schema-to-Class` 매핑을 쓰면 프롬프트에는 고정된 크기의 스키마 정의서(`|S_t|`)만 들어가고 실제 연산은 메모리에 적재된 전체 인스턴스(`|I_t|`) 위에서 돌아가므로, 인스턴스 규모가 커질수록 토큰 활용 효율이 `O(|I_t| / |S_t|)`로 선형 확장된다.
 
 $$
 \text{TUR}_{\text{Text-in-Context}} = \mathcal{O}(1) \quad \text{vs.} \quad \text{TUR}_{\text{Schema-to-Class}} = \mathcal{O}\left(\frac{|I_t|}{|S_t|}\right)
@@ -137,15 +136,15 @@ $$
 
 논문이 `GrailQA`, `CWQ`, `WebQSP` 벤치마크에서 보고한 **`40.7x ~ 47.6x`의 `TUR` 수치**는 '프롬프트 토큰 1개당 접근 및 연산 가능한 그래프 사실(Fact)의 이론적·벤치마크 비율'을 뜻하는 것이지, 실제 런타임 실행 시간(Latency)이 47배 빨라진다거나 CLI 도구가 실측한 속도 배수가 아니다. 코드 합성과 자가 교정 루프가 추가되면서 질의당 소요 시간은 소폭 증가할 수 있으나, 기존 방식이 컨텍스트 한계로 잘라버리던 수만 개의 사실 집합을 누락 없이 전수 연산 범위 안으로 끌어올렸다는 데 핵심 공학적 가치가 있다.
 
-- [9편 본문으로 돌아가기](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)
+- [8편 본문으로 돌아가기](/tag-ontology-engineering/8-code-on-graph-and-epilogue/)
 
 ---
 
-## 5-State Result Envelope와 Wave 1 4대 도메인 업그레이드·BubbleTap FDE 청사진 {#result-envelope}
+## 5-State Result Envelope와 Wave 1 3대 도메인 업그레이드 {#result-envelope}
 
 ### 5-State Result Envelope JSON 규격과 상태 정의
 
-학술 벤치마크와 달리 현실 운영 도메인에서는 "정책 위반 근거가 0건임"처럼 빈 결과 자체가 정답인 경우(`empty_valid`)와 검출기 판독 실패(`unknown`), 출력 예산 절단(`incomplete`)을 엄격히 구분해야 한다. 모든 CLI와 추론 출력 봉투는 아래 규격을 따른다.
+현실 운영 도메인에서는 "경계 위반이 0건임"처럼 빈 결과 자체가 정답인 경우(`empty_valid`)와 판독 실패(`unknown`), 출력 예산 절단(`incomplete`)을 엄격히 구분해야 한다. 모든 CLI와 추론 출력 봉투는 아래 규격을 따른다.
 
 ```json
 {
@@ -166,26 +165,16 @@ $$
 - **`incomplete`**: 출력 예산 제한(`limit`), 텍스트 절단, 또는 어댑터·바인딩 미비로 전체 집합 중 일부만 확인됨
 - **`failed`**: 스키마 계약 위반, 참조 무결성 깨짐, 또는 허용된 실행 예산을 초과한 명시적 실패
 
-### Wave 1 4대 도메인 업그레이드 상세 비교표
+### Wave 1 3대 도메인 업그레이드 상세 비교표
 
 | 도메인 및 버전 | 핵심 CoG 이식 메커니즘 | 무변이 사전검사 및 실행 경계 | 검증 결과 (`pytest` / Checks) |
 | :--- | :--- | :--- | :--- |
-| **`ontology-workbench v0.3.0`**<br>(`BubbleTap FDE` 청사진) | `CharacterRevision` -> `Evidence` -> CVT `AssessmentRelation` -> `PolicyRule` DAG -> `ActionProposal` 및 `PolicyChangeProposal` 명세 | 교복 등 단서 단독 미성년 확정 금지, `empty_valid` vs 검출기 `unknown` 분리, 보류 골드셋 Shadow 검증 후 정책 발행 | `55 contract tests passed`<br>(`--ready` 통과) |
 | **`vault-ontology v0.2.0`**<br>& **`vault-vector v0.1.0`** | `vault schema --json`, `vault tags --json`, `vault new --dry-run --json`, `vault ask --json`, `vault q sql --json --limit` | 단일 `scan_vault` 스냅샷 공유 무변이 사전검사 + 실제 쓰기 시 원자적 `no-clobber` 재검증, SQLite instruction 예산 제한 | `531 passed` (`vault-ontology`)<br>`57 passed` (`vault-vector`) |
 | **`repo-ontology v0.3.1`** | `otlg schema --class-stubs --json` 읽기 전용 3-Graph 투영 (`schema_hash`, `dataset_revision`, `coverage`, `unknowns`) | Pydantic 기반 `class-stub` 요약만 노출, 기존 `lint`/`impact`/`brief`/`contracts` 결정론적 게이트 불변 유지 | `100 passed`<br>(에듀테크 B2B SaaS 실증) |
 | **`trpg-ontology v0.13.0`**<br>(`F14` 1차 업그레이드) | `trpg draft check DRAFT_ID --json`, `trpg draft promote --expected-revision HASH`, `trpg context --include-codex --perspective pc` | 미확인 스탯·HP·외형 자동 창작 금지, 리비전 해시 잠금 트랜잭션 승격, PC 시점 비공개 원문 해시 노출 차단 | `328 passed`<br>(strict lint `0 violations`) |
 
-### BubbleTap FDE 캐릭터 검수 청사진 상세와 Wave 1 통합 검증 CLI
-
-`ontology-workbench v0.3.0`(`55 passed`)의 `examples/character-moderation.blueprint.json`은 멀티모달 AI 캐릭터 검수 파이프라인을 `--ready` 단계의 청사진으로 정의한다.
-
-- **멀티모달 CVT 결합(`AssessmentRelation`)**: 캐릭터 불변 스냅샷인 `CharacterRevision`에서 텍스트 span, 이미지 바운딩 박스(`image_bbox`), OCR 결과를 `Evidence`로 추출한 뒤, CVT 구조체 `AssessmentRelation`을 통해 **동일 인물(`subject_id`), 동일 장면(`scene_id`), 동일 시점(`time_basis`)**에 속하는 근거들만 하나로 묶는다. 이를 통해 A 캐릭터 이미지의 교복 단서와 B 캐릭터 설정의 성인 묘사가 교차 결합되어 오탐을 일으키는 현상을 차단하며, 교복 등 복장 단서 단독으로는 미성년을 확정하지 못하도록 제한한다.
-- **결정론적 제재 집행과 Outbox 계약**: `CoG` 추론의 결과는 `ActionProposal`로만 도출되며, 실제 제재 액션(`ExecuteModerationAction`)은 `expected_revision`과 멱등성 키(`idempotency_key`), 트랜잭션 아웃박스(Outbox) 계약을 갖춘 등록 핸들러만 수행한다.
-- **Holdout Gold Corpus 기반 Shadow 검증**: 주간 운영 중 새롭게 발견된 그레이존 정책 후보(`PolicyChangeProposal`)는 즉시 프로덕션에 반영되지 않고, 보류된 골드 평가셋(Holdout Gold Corpus)에 대한 Shadow 실행 검증을 통과해야만 정식 `PolicyRule`로 승격된다.
-
 ```bash
-# Wave 1: 4대 온톨로지 공통 CoG 사전검사 및 읽기 전용 스키마 투영 검증 CLI
-$ uv run scripts/validate_blueprint.py examples/character-moderation.blueprint.json --ready
+# Wave 1: 3대 온톨로지 공통 CoG 사전검사 및 읽기 전용 스키마 투영 검증 CLI
 $ vault schema --json && vault tags --json
 $ vault new --type concept --title Example --dir notes --summary short --body body --mkdir --dry-run --json
 $ vault q sql "SELECT path, type FROM nodes WHERE type = 'learning'" --json --limit 100
@@ -194,4 +183,4 @@ $ trpg draft check DRAFT_ID --json
 $ trpg context --include-codex --perspective pc --json
 ```
 
-- [9편 본문으로 돌아가기](/tag-ontology-engineering/9-code-on-graph-and-epilogue/)
+- [8편 본문으로 돌아가기](/tag-ontology-engineering/8-code-on-graph-and-epilogue/)

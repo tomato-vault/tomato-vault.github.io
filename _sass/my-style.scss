@@ -933,17 +933,20 @@ body.dark-mode {
 table:not(.rouge-table) {
   display: table;
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
 
   th,
   td {
     word-break: keep-all;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     vertical-align: middle;
-  }
 
-  th:first-child,
-  td:first-child {
-    min-width: 9.5rem;
+    code {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      white-space: normal;
+    }
   }
 
   &.roadmap-table,

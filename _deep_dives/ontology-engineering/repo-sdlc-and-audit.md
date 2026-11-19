@@ -4,15 +4,14 @@ title: "심화 | Repo의 SDLC 하네스와 의미 감사"
 description: "팔란티어 AIP Action과 SDLC 하네스(spoke-guard·TDD·Playwright)의 분업, 4단계 Living Wiki 자가 갱신 루프, 그리고 Semantic Modeling for Data 기반 Repo Ontology v0.5.0 의미 모형 감사(RC-01~11) 상세 레퍼런스"
 permalink: /tag-ontology-engineering/deep-dive/repo-sdlc-and-audit/
 deep_dive_for: ontology-engineering
-related_main_orders: [6, 10]
+related_main_orders: [5, 9]
 published: true
 ---
 
 - table of contents
 {:toc}
 
-> 이 문서는 **[[6편] 아무리 똑똑한 알바생이라도 금고 열쇠를 통째로 맡기는 사장님은 없다](/tag-ontology-engineering/6-sdlc-harness-and-living-wiki/)**와 **[[10편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)**에서 분리된 엔지니어링 심화 레퍼런스다. `repo-ontology`의 물리적 실행 하네스(`spoke-guard`), 『개발 규율집 v2.2』 5대 정본 거버넌스, 그리고 『Semantic Modeling for Data』를 바탕으로 수행한 `v0.5.0` 의미 모형 감사(`RC-01`~`RC-11`)의 전수 반례와 이행 계약을 담고 있다.
-{:.lead}
+본 문서는 **[[5편] 매뉴얼만으로는 창고를 지킬 수 없다: 코딩 에이전트를 통제하는 실행 하네스와 Living Wiki](/tag-ontology-engineering/5-sdlc-harness-and-living-wiki/)**와 **[[9편] 의미가 스스로를 증명하기까지: 성찰 컴파일러, 3대 의미 모형 감사, 그리고 에필로그](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)**에서 분리된 엔지니어링 심화 레퍼런스다. `repo-ontology`의 물리적 실행 하네스(`spoke-guard`), 『개발 규율집 v2.2』 5대 정본 거버넌스, 그리고 『Semantic Modeling for Data』를 바탕으로 수행한 `v0.5.0` 의미 모형 감사(`RC-01`~`RC-11`)의 전수 반례와 이행 계약을 담고 있다.
 
 ---
 
@@ -103,24 +102,25 @@ project-root/
 
 ```mermaid
 flowchart TB
-    subgraph KERNEL ["Traditional OS (ext4 저널링)"]
-        direction TB
-        K1["파일 데이터 블록 쓰기 완료"] --> K2["저널 영역에 메타데이터 기록 (JBD2)"]
-        K2 --> K3["디스크 inode & 디렉터리 메타데이터 갱신"]
-        K3 --> K4["트랜잭션 커밋 완료"]
+    subgraph S1 ["1단계: 데이터 쓰기와 구현 검증"]
+        direction LR
+        K1["<b>ext4</b><br/>파일 데이터 블록 쓰기 완료"] --- A1["<b>Living Wiki (In-flight)</b><br/>코드 구현 & 행동 검증 (TDD / Playwright)"]
     end
-    subgraph AGENT_OS ["Living Wiki 퇴장 환류 절차 (Post-flight -> Release Gate)"]
-        direction TB
-        A1["In-flight: 코드 구현 & 행동 검증 (TDD / Playwright)"] --> A2["Post-flight 1~2: 온톨로지 계약 동기화 및 검증 (otlg lint --strict)"]
-        A2 --> A3["Post-flight 3~4: 구조(arc42 §11 포함)·ADR·보류 정본 및 WORKLOG 갱신"]
-        A3 --> A4["Release Gate: 센티넬 파일 (SPOKE_DONE) 발행 및 허브 독립 인수"]
+    subgraph S2 ["2단계: 메타데이터 저널과 계약 동기화"]
+        direction LR
+        K2["<b>ext4</b><br/>저널 영역에 메타데이터 기록 (JBD2)"] --- A2["<b>Living Wiki (Post-flight 1~2)</b><br/>온톨로지 계약 동기화 & 검증 (otlg lint --strict)"]
     end
-    K1 <===> A1
-    K2 <===> A2
-    K3 <===> A3
-    K4 <===> A4
-    classDef kStyle fill:#f1f5f9,stroke:#475569,stroke-width:1.5px
-    classDef aStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px
+    subgraph S3 ["3단계: inode 갱신과 정본 문서 반영"]
+        direction LR
+        K3["<b>ext4</b><br/>디스크 inode & 디렉터리 갱신"] --- A3["<b>Living Wiki (Post-flight 3~4)</b><br/>arc42(§11 포함)·ADR·보류 정본 & WORKLOG 갱신"]
+    end
+    subgraph S4 ["4단계: 트랜잭션 커밋과 인수 완료"]
+        direction LR
+        K4["<b>ext4</b><br/>트랜잭션 커밋 완료"] --- A4["<b>Living Wiki (Release Gate)</b><br/>SPOKE_DONE 발행 & 허브 독립 인수"]
+    end
+    S1 --> S2 --> S3 --> S4
+    classDef kStyle fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#1e293b
+    classDef aStyle fill:#e0f2fe,stroke:#0284c7,stroke-width:1.5px,color:#0c4a6e
     class K1,K2,K3,K4 kStyle
     class A1,A2,A3,A4 aStyle
 ```
@@ -132,7 +132,7 @@ flowchart TB
 | **Post-flight (퇴장 저널링)** | 5대 정본 동기화 (세부 4단계) | `Spoke Agent` (`otlg lint --strict`) | 1) `.ontology/` YAML 및 `contracts.yml` 동기화<br>2) `otlg lint --strict`로 `ERROR`·`WARNING` 해소 및 `info`/`trace`/`translate` 확인<br>3) `arc42`(§11 기술 부채 Fowler 4분면 포함)·`ADR`·`deferred-watchlist.md` 라우팅<br>4) `WORKLOG.md`에 작업 ID와 검증 결과 기록 (커밋 메시지 `Refs: F12` 연동) |
 | **Release Gate (독립 인수)** | 완료 인계 및 메인 병합 | `Spoke` 발행 -> `Hub` 독립 검증·인수 | `.spoke/SPOKE_DONE` 확인, 제출 커밋 `SHA`에서 테스트 러너·스냅샷 독립 재검증 후 병합 |
 
-> [6편 본문으로 돌아가기](/tag-ontology-engineering/6-sdlc-harness-and-living-wiki/)
+> [5편 본문으로 돌아가기](/tag-ontology-engineering/5-sdlc-harness-and-living-wiki/)
 
 ---
 
@@ -140,29 +140,29 @@ flowchart TB
 
 ### 감사 배경과 P1 · P2 · P3 공통 판단 기준
 
-Panos Alexopoulos의 『Semantic Modeling for Data』를 바탕으로 수립한 `ontology-critique-practices v1.0.0` 스킬을 적용하여, `repo-ontology v0.4.0`과 실제 에듀테크 B2B SaaS 프로덕트의 `.ontology/` 코퍼스를 대상으로 2차 의미 모형 감사를 수행했다. `Antigravity`가 구조적 취약점 후보를 발제하고, `Codex`가 디스크 변경 없이 메모리 모델·mock·조회 CLI로 최소 반례를 재현한 뒤 기술 합의를 거쳐 `v0.5.0`에 이행했다.
+Panos Alexopoulos의 『Semantic Modeling for Data』를 바탕으로 수립한 `ontology-critique-practices v1.0.0` 스킬을 적용하여, `repo-ontology v0.4.0`과 실제 에듀테크 B2B SaaS 프로덕트의 `.ontology/` 코퍼스를 대상으로 2차 의미 모형 감사를 수행했다. 구조적 취약점 후보를 먼저 도출한 뒤, 디스크 변경 없이 메모리 모델·mock·조회 CLI로 최소 반례를 재현하여 실제 왜곡 여부를 확인하고 `v0.5.0` 설계에 반영했다.
 
-| 관점 | 핵심 감사 질문 | `repo-ontology v0.5.0` 판정 원칙 |
+| 관점 | 핵심 감사 질문 | `repo-ontology v0.5.0` 설계 원칙 |
 | :--- | :--- | :--- |
 | **P1 의미 명시성 (Expressiveness, E)** | 원래 선언된 관계·ID·상태·범위가 조회와 검증에서도 손실 없이 보존되는가 | 참조 무결성, 방향·술어·수명주기(`lifecycle`) 보존, 계약 영수증 필수값 강제를 우선한다 |
 | **P2 의미 공유성 (Sharedness, S)** | 서로 다른 의미를 같은 필드처럼 다루거나 미해석(`unknown`)·절단을 성공으로 읽게 하지 않는가 | DB 외래키(`storage_ref`)·코드 보조모델(`code_ref`)·도메인 객체(`object_ref`), 그리고 정적 매핑·검증·실행 통과를 엄격히 구분한다 |
 | **P3 실용성 (Practicality, P)** | 실제 개발 질문(`CQ`)을 더 정확히 답하는 최소한의 구조 변화인가 | 얇은 정규화 투영과 경계가 명확한(bounded) 조회를 지지하며, 무거운 OWL/BFO 상위 온톨로지나 별도 그래프 DB 전환은 배제한다 |
 
-### 최초 후보의 수용·반론과 RC-01~11 최소 반례 전수 표
+### 점검 후보의 반례 검증과 RC-01~11 보완 내역 전수 표
 
-감사 과정에서 확인한 후보들의 수용·기각 경계와 메모리/실코퍼스 최소 반례(`RC-01` ~ `RC-11`) 전수 목록이다.
+감사 과정에서 확인한 후보들의 반영·제외 경계와 메모리/실코퍼스 최소 반례(`RC-01` ~ `RC-11`) 전수 목록이다.
 
-| 추적 ID | 감사 후보 및 입력·조건 | 관측된 의미 왜곡 (수정 전 `v0.4.0`) | `v0.5.0` 합의 및 이행 경계 |
+| 추적 ID | 점검 항목 및 입력·조건 | 관측된 의미 왜곡 (수정 전 `v0.4.0`) | `v0.5.0` 보완 및 이행 경계 |
 | :--- | :--- | :--- | :--- |
-| **`RC-01` / `RC-01-P`** | `relationships.profile.model`과 `related_objects.Child.binding`에 존재하지 않는 파일 경로 지정 | `strict lint` 이슈가 빈 목록(`0건`)으로 통과함. 반면 DB FK나 보조 모델을 무조건 `Object`로 승격하자는 초안은 가짜 객체 오염을 유발함 | 명시적 코드 경로는 검사하되 가짜 `Object` 승격은 기각. 원문·selector를 보존하며 **`object_ref` / `code_ref` / `storage_ref` 3종으로 분리** |
+| **`RC-01` / `RC-01-P`** | `relationships.profile.model`과 `related_objects.Child.binding`에 존재하지 않는 파일 경로 지정 | `strict lint` 이슈가 빈 목록(`0건`)으로 통과함. 반면 DB FK나 보조 모델을 무조건 `Object`로 승격하자는 초안은 가짜 객체 오염을 유발함 | 명시적 코드 경로는 검사하되 가짜 `Object` 승격은 배제. 원문·selector를 보존하며 **`object_ref` / `code_ref` / `storage_ref` 3종으로 분리** |
 | **`RC-02-P`** | 실제 코퍼스 `otlg brief FeeInvoice` (수강료 청구서 객체 조회) | `preconditions: 0` 반환. 해당 객체를 타깃으로 삼는 액션의 `PAID_AMOUNT_POSITIVE` 등 필수 계약 3건이 통째로 누락됨 | 객체(`Object`) 조회 시 **그 객체를 `target`으로 삼는 `Action`의 사전조건과 계약**을 양방향으로 보완 |
 | **`RC-02-T`** | 실제 코퍼스 `otlg brief CloseMonthlySnapshot` (액션 조회) | `transitions: 0` 반환. 타깃 객체의 `CLOSE` 상태 전이 관련 필수 계약 2건이 누락됨 | 액션(`Action`) 조회 시 **타깃 `Object`의 해당 상태 전이(`state_transition`)와 계약**을 선택 집합에 포함 |
 | **`RC-03` / `RC-03-P`** | `a.py`에 객체 A 바인딩, `A -> Link -> B`(`b.py` 바인딩) 구조에서 `otlg impact a.py` 실행 | `impact`의 `related` 목록에 중간 `Link`만 나오고 상대 객체 `B`와 `b.py`가 단절됨 | 정규 방향 간선(`domain_edges`)과 이웃 캐시를 분리하고, **`Link`의 두 구현 홉을 의미론적 1홉(semantic 1-hop)으로 투영**하여 상대 객체 바인딩까지 도달 |
 | **`RC-04-U` / `T` / `I`** | `ANALYSIS001` 경고 주입, `trace FeeInvoice --limit 1`, `fee_invoice.py`의 `impact` 조회 | 하위 projection은 `incomplete`이거나 `omitted=17`, `omitted_importers=2`가 발생했음에도 상위 공통 봉투는 `status: ok`, `complete: true`, `exit 0`으로 보고함 | 정책 심각도와 완결성을 분리. `ANALYSIS001` 또는 하위 절단 발생 시 상위 봉투까지 **`status=incomplete`, `completeness.complete=false`, `exit 2`**로 전파 |
 | **`RC-05-P`** | 미등록 `domain`, 존재하지 않는 `Action.target`·`Link` 양끝·`Rule.scope` 입력 | `lint`는 `ERROR` 5개를 잡지만, `validate_registry`는 빈 목록을 반환하고 `brief`는 `ok`로 출력함 | 모든 읽기 명령(`brief`, `trace`, `impact`, `translate` 등)에 **동일한 공통 레지스트리 참조 무결성 게이트** 적용 |
-| **`RC-06a`** | `Function` 엔티티의 그래프 연결성 및 거버넌스 감사 | `records`/`bindings`/`trace`/`View`에는 이미 포함되므로 '완전 고립' 주장은 부분 반박. 단, 거버넌스와 명시적 의존성 표현이 부족함 | 실행형 호스트를 추가하지 않고, `Function`에 **`governance`와 명시적 `depends_on`** 및 선택적 계약 연결을 지원 |
+| **`RC-06a`** | `Function` 엔티티의 그래프 연결성 및 거버넌스 점검 | `records`/`bindings`/`trace`/`View`에는 이미 포함되어 완전 고립 상태는 아님을 확인. 단, 거버넌스와 명시적 의존성 표현이 부족함 | 실행형 호스트를 추가하지 않고, `Function`에 **`governance`와 명시적 `depends_on`** 및 선택적 계약 연결을 지원 |
 | **`RC-06b` / `RC-11`** | `Actor`에 `role=ADMIN`과 `roles=[STUDENT]`, 조건에 `rule: x>0`과 `expression: x<0` 동시 입력 | 서로 모순된 동의어(alias) 필드가 충돌 검사 없이 동시에 모델을 통과함 | `role -> roles`, `effect -> effects`, `rule -> expression`으로 정규화하되, **동시 입력된 값이 상충하면 즉시 거부**. 자연어 `effect`를 임의 실행 코드로 추정하지 않음 |
-| **`RC-06c`** | `contracts` 증거 스냅샷과 `work-pack` 스냅샷의 해시 대상 비교 | 두 해시의 입력 파일 집합이 다름 | 서로 다른 목적과 범위의 리비전이므로 억지 동일화는 기각. 대신 **용도 호환 불가(교환 금지) 경계를 명시** |
+| **`RC-06c`** | `contracts` 증거 스냅샷과 `work-pack` 스냅샷의 해시 대상 비교 | 두 해시의 입력 파일 집합이 다름 | 서로 다른 목적과 범위의 리비전이므로 억지 동일화는 배제. 대신 **용도 호환 불가(교환 금지) 경계를 명시** |
 | **`RC-06d` / `RC-06d-P`** | 21개 ADR을 포함한 스냅샷에서 `work-pack` 자동 수집 실행 | 최대 20개 상한에서 조용히 잘린 채 `excerpts: 20`, `status: answered`, `capture_eligible: true`를 반환하고 설정 파일의 `adr_dir`을 무시함 | `config.governance.adr_dir`을 존중하고, 자동 수집 20개 초과 시 **`adr_coverage` 절단 진단과 함께 `capture_eligible=false`, `incomplete`**로 판정 |
 | **`RC-07` / `RC-07-E`** | 실제 코퍼스 `otlg brief FeeInvoice` 실행 (같은 청구 도메인 안에 월별 스냅샷 객체가 공존) | `scope=[FeeMonthlySnapshot]`으로 한정된 `MONTHLY_SNAPSHOT_CLOSED_IMMUTABILITY`(`applicability: scoped`) 규칙이 `FeeInvoice` 브리핑에 과잉 포함됨 | 도메인 분류를 `applicability=domain`과 동일시하지 않음. `scoped` 규칙은 **`scope` 일치 또는 명시적 참조 시에만 포함**하고 모든 규칙에 **`inclusion_reason`** 출력 |
 | **`RC-08`** | 금지(`prohibition`) 및 은퇴(`deprecated`) 규칙과 상태기계 보유 객체를 `trace`로 조회 | 출력 투영에서 규칙의 `kind`/`forbidden`/`applicability`/`lifecycle`과 객체의 `state_machine`/`constraints`/`lifecycle`이 탈락함 | `trace` 투영 시 객체·규칙·액션·함수의 **금지 조건, 제약, 수명주기(`lifecycle`) 전체 선언을 보존** (조회 포함을 현행 승격으로 오독 방지) |
@@ -219,6 +219,6 @@ flowchart TD
   - 프로덕트 코퍼스의 경로 포함 심볼 126개 중 인덱싱 범위 내 `resolved` 18개, `out_of_scope` 108개, `missing` 0개, `unknown` 0개로 분리 집계.
   - 아직 인덱서가 지원하지 않는 Dart 심볼 참조 및 경로 없는 모델 이름 선언 1건에 대해 `strict lint`가 경고 11건을 숨기지 않고 `ERROR 0, ANALYSIS001 WARNING 11`, `status=incomplete`(`exit 2`)로 정직하게 보고함 확인.
 - **측정하지 않은 지표의 정직한 보류**:
-  - 독립 주석자 간 합의도($\kappa$)나 골드 질문셋 기반 정밀도·재현율을 별도로 측정하지 않았으므로 **`E/S/P` 정량 점수 및 `ESBI`는 `N/A`**로 유지하며, 테스트 통과 개수를 의미 품질 점수로 둔갑시키지 않는다.
+  - 독립 주석자 간 합의도(κ)나 골드 질문셋 기반 정밀도·재현율을 별도로 측정하지 않았으므로 **`E/S/P` 정량 점수 및 `ESBI`는 `N/A`**로 유지하며, 테스트 통과 개수를 의미 품질 점수로 둔갑시키지 않는다.
 
-> [10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
+> [9편 본문으로 돌아가기](/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/)

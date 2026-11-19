@@ -59,7 +59,7 @@ ontology-engineering:
   title: "온톨로지 엔지니어링: 지식 그래프에서 AI Agent OS까지"
   slug: "ontology-engineering"
   url: "/tag-ontology-engineering/"
-  description: "개인 지식 볼트(Vault)와 실무 코드베이스(Repo)에서 출발해 캠페인 런타임(TRPG), AI 안전 검수(BubbleTap FDE), 메타 청사진(Workbench)까지 4대 세계에 온톨로지를 세우고 적대적 검수로 다듬어낸 실전 기록"
+  description: "개인 지식 볼트(Vault)와 실무 코드베이스(Repo)에서 출발해 캠페인 런타임(TRPG), 메타 워크벤치(Workbench)까지 세 세계에 온톨로지를 세우고 다듬어낸 실전 기록"
   posts:
     - order: 0
       title: "[0편] 개념 공부를 넘어 실전으로, 네 개의 도메인에 온톨로지를 구축하기까지"
@@ -68,32 +68,29 @@ ontology-engineering:
       title: "[1편] 온톨로지가 없는 AI는 현학적인 수다쟁이일 뿐이다"
       url: "/tag-ontology-engineering/1-palantir-3rd-generation-platform/"
     - order: 2
-      title: "[2편] 4,400개의 흩어진 생각에 척추를 세우고 도구의 착각까지 도려내다"
+      title: "[2편] 개인 지식 베이스에 온톨로지를 심다: 스키마 설계부터 도구의 자기 검증까지"
       url: "/tag-ontology-engineering/2-vault-knowledge-ontology/"
     - order: 3
       title: "[3편] 문서는 명사로 정리되지만 코드는 동사로 움직인다"
       url: "/tag-ontology-engineering/3-nouns-to-verbs-paradigm-shift/"
     - order: 4
-      title: "[4편] 린트 에러 0개의 거짓말, 내가 만든 온톨로지를 의심하기까지"
-      url: "/tag-ontology-engineering/4-zero-lint-error-illusion-and-v020/"
+      title: "[4편] 오픈소스와 논문에서 찾은 해답: 도메인·아키텍처·TDD를 하나로 묶는 코드 온톨로지"
+      url: "/tag-ontology-engineering/4-three-graphs-and-tdd-contract-v030/"
     - order: 5
-      title: "[5편] 오픈소스와 논문에서 길어 올린 온톨로지 컴파일러, 3-Graph와 TDD 증거 봉인"
-      url: "/tag-ontology-engineering/5-three-graphs-and-tdd-contract-v030/"
+      title: "[5편] 매뉴얼만으로는 창고를 지킬 수 없다: 코딩 에이전트를 통제하는 실행 하네스와 Living Wiki"
+      url: "/tag-ontology-engineering/5-sdlc-harness-and-living-wiki/"
     - order: 6
-      title: "[6편] 아무리 똑똑한 알바생이라도 금고 열쇠를 통째로 맡기는 사장님은 없다"
-      url: "/tag-ontology-engineering/6-sdlc-harness-and-living-wiki/"
+      title: "[6편] 주사위는 거짓말을 하지 않는다, TRPG에서 비로소 도달한 진짜 Action Layer"
+      url: "/tag-ontology-engineering/6-trpg-kinetic-action-layer/"
     - order: 7
-      title: "[7편] 주사위는 거짓말을 하지 않는다, TRPG에서 비로소 도달한 진짜 Action Layer"
-      url: "/tag-ontology-engineering/7-trpg-kinetic-action-layer/"
+      title: "[7편] 언제 온톨로지를 쓰고 언제 멈출 것인가: 메타 워크벤치와 6가지 설계 원칙"
+      url: "/tag-ontology-engineering/7-meta-ontology-workbench-and-redteam/"
     - order: 8
-      title: "[8편] 네 개의 온톨로지를 만들고 나서야 알게 된 것, 메타 청사진과 과잉 규율의 경계"
-      url: "/tag-ontology-engineering/8-meta-ontology-workbench-and-redteam/"
+      title: "[8편] 고정된 CLI를 넘어 코드를 합성하는 그래프로, Code-on-Graph와 어제의 내가 내일의 에이전트에게 남기는 약속"
+      url: "/tag-ontology-engineering/8-code-on-graph-and-epilogue/"
     - order: 9
-      title: "[9편] 고정된 CLI를 넘어 코드를 합성하는 그래프로, Code-on-Graph와 어제의 내가 내일의 에이전트에게 남기는 약속"
-      url: "/tag-ontology-engineering/9-code-on-graph-and-epilogue/"
-    - order: 10
-      title: "[10편] 경험이 글이 되고 의미가 스스로를 증명하기까지, 지식·성찰 컴파일러와 3대 의미 모형 감사"
-      url: "/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/"
+      title: "[9편] 의미가 스스로를 증명하기까지: 성찰 컴파일러, 3대 의미 모형 감사, 그리고 에필로그"
+      url: "/tag-ontology-engineering/9-knowledge-blog-compiler-and-semantic-critique/"
 
 vault-os:
   featured: true
