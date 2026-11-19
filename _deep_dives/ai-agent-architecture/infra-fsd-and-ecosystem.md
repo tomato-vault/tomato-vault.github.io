@@ -11,7 +11,7 @@ published: true
 - table of contents
 {:toc}
 
-본 문서는 **1인 개발자의 프로덕션 엔지니어링 운영체계** 시리즈의 후반부([[8편]](/tag-ai-agent-architecture/8-cloud-infra-evolution/) ~ [[11편]](/tag-ai-agent-architecture/11-external-workflow-and-ai-os/)) 본문에서 호흡 조절을 위해 분리한 **상세 인프라 코드, 프론트엔드 `FSD` 슬라이스 스캐폴딩 규격, `Obsidian Vault` 9대 공간 및 신진대사 프로토콜, 그리고 외부 에이전트 워크플로우 비교 매트릭스**를 수록한 기술 레퍼런스다.
+본 문서는 **1인 팀의 프로덕션 엔지니어링 운영체계** 시리즈의 후반부([[8편]](/tag-ai-agent-architecture/8-cloud-infra-evolution/) ~ [[11편]](/tag-ai-agent-architecture/11-external-workflow-and-ai-os/)) 본문에서 호흡 조절을 위해 분리한 **상세 인프라 코드, 프론트엔드 `FSD` 슬라이스 스캐폴딩 규격, `Obsidian Vault` 9대 공간 및 신진대사 프로토콜, 그리고 외부 에이전트 워크플로우 비교 매트릭스**를 수록한 기술 레퍼런스다.
 
 ---
 
@@ -239,38 +239,38 @@ npm run test:run    # 슬라이스 내부에 콜로케이션(Foo.tsx -> Foo.test
 
 ---
 
-## Vault 9대 단일 책임 공간(000~900)과 3대 지식 신진대사 프로토콜 {#vault-os-architecture}
+## Vault 폴더의 역할 분리(000~900)와 3대 지식 신진대사 프로토콜 {#vault-os-architecture}
 
-[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tag-ai-agent-architecture/10-knowledge-ontology/)에서 다룬 `Obsidian Vault` 지식 온톨로지는 4,400여 개 문서와 2만 4천여 개 위키링크가 뒤엉키는 엔트로피를 물리적 공간 분리와 2계층 의미 관계망, 그리고 사건 기반 신진대사 루프로 통제한 시스템이다.
+[[10편] 기록의 악마는 고립된 노트의 꿈을 꾸지 않는다](/tag-ai-agent-architecture/10-knowledge-ontology/)에서 다룬 `Obsidian Vault` 지식 온톨로지는 4,400여 개 문서와 2만 4천여 개 위키링크가 뒤엉키는 엔트로피를 폴더별 역할 분리와 2계층 의미 관계망, 그리고 사건 기반 신진대사 루프로 통제한 시스템이다.
 
-### PARA를 넘어선 최상위 단일 책임 공간(`000`~`900`)과 시간축 분리
+### PARA를 넘어선 최상위 폴더 역할 분리(`000`~`900`)와 시간축 분리
 
 실행 가능성이라는 주관적 기준에 의존하다가 `Area`와 `Resource`의 모호함으로 6개월 만에 무너졌던 `PARA` 체계를 대체하기 위해, 도서관 십진분류법(`Johnny Decimal`)과 객체지향의 단일 책임 원칙(SRP)을 결합해 지식의 라이프사이클에 따른 공간 경계를 확립했다. 특히 과거 2,245개에 달하던 TRPG 룰북·시나리오 파일이 개발 지식 검색을 오염시키던 문제를 해결하기 위해 `800`번대 취미 서고를 별도 볼트로 완전히 분리(엑소더스)하고, 인간의 주관적 감정(`100 Private Log`)과 객관적 개발 작업 사실(`301 Day Notes`)을 물리적으로 격리했다.
 
 | 공간 번호 및 명칭 | 핵심 역할 (Single Responsibility) | AI 에이전트 접근 및 생명주기 규칙 |
 |---|---|---|
 | **`000 Index`** | 온톨로지 스키마 정본, 태그 화이트리스트, 시스템 메타 관제탑 | 전역 스키마 계약 및 `vault CLI` 기준점 참조 |
-| **`100 Private Log`** | 월간 일기(`102 Monthly Diary`) 및 내면 심리 디버거(`103 Debugger`) | **AI 에이전트 열람·요약·수정 절대 금지 성역** (인간 고유 영역) |
+| **`100 Private Log`** | 월간 일기(`102 Monthly Diary`) 및 내면 심리 디버거(`103 Debugger`) | `vault.mind_sources` 선택기로 `Harvest`(AI 요약)를 배제한 순수 개인 발화만 `Mind Compiler` 연결에 참조 (임의 요약·수정 절대 금지) |
 | **`200 Dev Knowledge Base`** | 프로젝트 독립적인 보편 컴퓨터 공학 원리 및 `299 Principles`(48개 실천 철칙) | 에이전트의 설계·코드 감사(`principles-audit`) 기준 원천 |
 | **`300 Runtime`** | 현재 진행 중인 프로젝트(`302`, `303`), `301 Day Notes` 작업대, `330 Blog` | 활성 작업 공간. 프로젝트 종료 시 핵심 교훈만 승격 후 즉시 퇴역 |
 | **`400 Logic Forge`** | 아키텍처 의사결정(`Decision Node`)과 대안 비교(`Trade-offs`)의 1:1 대칭 쌍 | 과거 기각된 대안을 에이전트가 재도입하는 헛발질 차단 |
-| **`500 Mind Compiler`** | 파인만 질문법을 계승한 핵심 가치 성찰 질문(`_Question.md`)과 인사이트 | 응답 없이 AI가 임의로 결론을 확정하지 못함 (`reflection-weave` 연동) |
-| **`600 Content Observatory`** | 외부 도서, 논문, 강연 필사(`capture`) 및 비판적 리뷰(`review`) | 내 질문과 원칙을 지지하거나 반증하는 외부 근거 관측소 |
+| **`500 Mind Compiler`** | 삶의 아홉 가지 화두(`Q1`~`Q9`, `Q3` 결번 보존) 질문(`_Question.md`)과 인사이트 | 응답 없이 AI가 임의로 결론을 확정하지 못함 (`.vault-mind/ledger.json` + `SHA-256` 영수증 `apply --receipt` 봉인) |
+| **`600 Content Observatory`** | 외부 도서 아카이브(`ext:repo:books-notes:<path>#<heading>`) 앵커 참조 및 비판적 리뷰(`review`) | 도서 챕터 요약 본문은 외부 아카이브로 격리하고 볼트 내부 노트에서는 `ext:` URI로 연결 (`builds_on`에는 `ext:` 불허) |
 | **`700 Life Stack`** | 세무, 건강, 생활 인프라 등 비개발 일상 데이터 격리 구역 | 개발 지식 검색(`200`~`400`)과 섞이지 않도록 분리 |
-| **`900 Archive`** | 임무를 마친 프로젝트와 구버전 프로세스의 영구 보관소 (`status: archived`) | 활성 그래프 추론에서는 제외하되 파일 실존 및 계보 추적은 유지 |
+| **`900 Archive`** | 임무를 마친 프로젝트와 구버전 프로세스의 영구 보관소 (`status: archived`) | 활성 그래프 추론에서는 제외하되 파일 실존 및 `*_archived` 계보 추적은 유지 |
 
-### 2계층 관계망(구조 2종·의미 7종) 시험 문장과 `vault CLI` 검증 스펙
+### 2계층 관계망(구조 1종·의미 7종) 시험 문장과 `vault CLI` 검증 스펙
 
-문서 간 연결의 맥락을 기계와 인간 모두가 오해 없이 판독할 수 있도록 정의한 구조 관계(`builds_on`)의 3대 통과 테스트와 의미 관계 7종의 시험 문장(Test Sentence) 판정 기준은 다음과 같다.
+문서 간 연결의 맥락을 기계와 인간 모두가 오해 없이 판독할 수 있도록 정의한 구조 관계(`builds_on`, 과거 대체 간선 `supersedes`는 `v0.4.0`에서 은퇴)의 3대 통과 테스트와 의미 관계 7종의 시험 문장(Test Sentence) 판정 기준은 다음과 같다.
 
 - **`builds_on` 3대 통과 기준**:
   1. **막힘 테스트**: "B를 모르면 A를 아예 읽을 수 없는가?" (단순 참고 수준이면 본문 일반 위키링크로 처리)
   2. **비대칭 테스트**: "`B builds_on A`가 성립하지 않는가?" (양방향이 모두 성립하면 선후 관계가 아니라 대등 연관 개념)
-  3. **직계 부모 불변식**: A가 B를 필요로 하고 B가 C를 필요로 할 때 A에는 직계 부모인 B만 기입하며(최대 3개), 조상 노드는 `SQLite` 재귀 `CTE` 이행 폐쇄(`vault q path`, 0.5ms)로 자동 추론한다.
+  3. **직계 부모 및 내부 학습 불변식**: A가 B를 필요로 하고 B가 C를 필요로 할 때 A에는 볼트 내부의 직계 부모인 B만 기입하며(최대 3개, 외부 `ext:` URI 불허), 조상 노드는 `SQLite` 재귀 `CTE` 이행 폐쇄(`vault q path`, 0.5ms)로 자동 추론한다.
 
 | 의미 관계 | 시험 문장 (소리 내어 읽어 참일 때만 선언) | 인접 관계 타이브레이커 및 실전 용례 |
 |---|---|---|
-| **`derived_from`** | **"A는 B에서 나왔다"** | B가 없었으면 A가 탄생할 수 없었던 직접 출처 (실전 장애 `case`, 도서 `capture`) |
+| **`derived_from`** | **"A는 B에서 나왔다"** | B가 없었으면 A가 탄생할 수 없었던 직접 출처 (실전 장애 `case`, 외부 도서 `ext:`, 미문서화 경험 `experience` 센티넬) |
 | **`informed_by`** | **"A는 B의 영향을 받았다"** | 직접 근거는 아니나 사고의 틀에 영감을 준 자료 (`W3C PROV-O` `prov:wasInfluencedBy` 방향 준수) |
 | **`contradicts`** | **"A와 B는 둘 다 참일 수 없다"** | 한 시스템 안에서 동시에 양립할 수 없는 배타적 설계 충돌 |
 | **`diverges_from`** | **"A는 B를 바탕으로 삼되 일부를 바꿨다"** | 표준 패턴이나 오픈소스를 우리 환경의 제약에 맞게 변형한 결정 |
@@ -280,27 +280,23 @@ npm run test:run    # 슬라이스 내부에 콜로케이션(Foo.tsx -> Foo.test
 
 ### 사건 기반(Event-driven) 3대 지식 신진대사 루프 프로토콜
 
-달력 주기(일·주·월)에 맞춰 기계적으로 실행하던 요식행위를 폐기하고, 실제 작업 사건과 기록 생성에 반응하도록 재편한 3대 정제 스킬과 글로벌 스킬 컴파일의 상세 프로토콜이다.
+달력 주기(일·주·월)에 맞춰 기계적으로 실행하던 요식행위를 폐기하고, 저장소 사건 패킷(`repo-work-pack/1`) 인수와 기록 생성에 반응하도록 재편한 3대 정제 스킬, 블로그 초안 파이프라인(`vault blog-pack/draft/gate`), 글로벌 스킬 컴파일의 상세 프로토콜이다.
+
+1. **1차 인수 및 정제 (`vault work-intake` & `experience-distill`)**
+   - 코드 저장소에서 추출한 사건 패킷(`otlg work-pack`, 5분류 편차 및 ADR 5축 상태 분리)을 `.vault-work/evidence`에 보존하고, 새 문서를 무분별하게 늘리는 대신 프로젝트별 기존 `Case`와 `Learnings` 문서를 우선 보강한다.
+2. **2차 범용 지식 승격 및 산출물 컴파일 (`knowledge-elevate` · `blog-draft` · `build_skill_runtime.py`)**
+   - 여러 프로젝트에서 반복 검증된 교훈을 보편 기술 개념(`200 Dev KB`), 타협 불가 실천 규율(`299 Principles`), 대안 비교 의사결정(`400 Logic Forge`)으로 승격한다.
+   - 승격된 정본 지식은 두 갈래로 컴파일된다. 첫째, `vault blog-pack` 5채널 근거 패킷과 `blog-gate`를 거쳐 비공개 근거와 분리된 `330 Blog` 단일 초안이 된다. 둘째, `build_skill_runtime.py`를 통해 글로벌 에이전트 런타임 스킬(`principles-audit` 등)로 빌드되어 다음 코딩 세션의 하네스에 즉시 장착된다.
+3. **내면 성찰 직조 (`reflection-weave` & `Mind Compiler`)**
+   - `100 Private Log`의 순수 개인 발화(`vault.mind_sources`로 AI 요약본인 `Harvest` 배제)를 `vv weave`와 `vault mind scan`으로 탐색해 삶의 아홉 가지 화두(`500 Mind Compiler`, `Q1`~`Q9`)와 연결 후보를 제안하고, 토마토의 직접 응답과 `SHA-256` 영수증(`vault mind apply --receipt`) 대조를 거쳐 인사이트를 갱신한다.
 
 ```mermaid
 flowchart TD
-    subgraph DISTILL ["1차 정제: experience-distill"]
-        RAW["작업 기록 · 트러블슈팅 패킷\n(Progress / Incident)"] -->|노이즈 제거 · 기존 문서 우선 보강| LEARN["프로젝트별 Learnings / Case\n(문제 ➔ 해결 패턴 ➔ 검증 근거)"]
-    end
-
-    subgraph ELEVATE ["2차 승격: knowledge-elevate"]
-        LEARN -->|프로젝트 횡단 비교 · 범용성 판정| GATE{"승격 후보 검토"}
-        GATE -->|보편 기술 개념·절차| KB["200 Dev KB (concept / procedure)"]
-        GATE -->|타협 불가 실천 규율| PRIN["299 Principles (principle)"]
-        GATE -->|대안 비교와 의사결정| FORGE["400 Logic Forge (decision / tradeoff)"]
-    end
-
-    subgraph WEAVE ["성찰 직조: reflection-weave & Mind Compiler"]
-        DIARY["개인 기록 · 사유 노트"] -->|vv weave 의미 검색| MC_Q["500 Mind Compiler 질문 매칭\n(Q1~Q7 고유 질문 식별)"]
-        MC_Q -->|근거 기반 질문 제안 ➔ 토마토 응답| INSIGHT["확정 답변 및 인사이트 갱신\n(미응답 시 자동 확정 금지)"]
-    end
-
-    KB & PRIN & FORGE -->|build_skill_runtime.py| SKILL["글로벌 에이전트 런타임 스킬 장착\n(principles-audit · steiger · CI Gate)"]
+    RAW["1. 사건 패킷 인수 (otlg work-pack)\n저장소 편차 · ADR · 검증 증거 수집"] --> LEARN["2. 1차 경험 정제 (experience-distill)\n프로젝트별 Case & Learnings 보강"]
+    LEARN --> ELEVATE["3. 2차 범용 지식 승격 (knowledge-elevate)\n200 Dev KB · 299 Principles · 400 Logic Forge"]
+    ELEVATE --> BLOG["4A. 블로그 초안 컴파일 (vault blog-pack / gate)\n330 Blog 단일 초안 + 비공개 근거 분리"]
+    ELEVATE --> SKILL["4B. 에이전트 런타임 스킬 장착 (build_skill_runtime.py)\n다음 개발 세션의 감사·검증 하네스로 환류"]
+    DIARY["개인 기록 · 사유 노트 (100 Private Log)"] -.->|"reflection-weave & 영수증 승인"| MIND["500 Mind Compiler (Q1~Q9 인사이트 직조)"]
 ```
 
 - [10편 본문으로 돌아가기](/tag-ai-agent-architecture/10-knowledge-ontology/)
@@ -328,10 +324,10 @@ flowchart TD
 |---|---|---|---|---|
 | **오케스트레이션 및 격리 단위** | 단일 세션 반복 루프 (`--max-iterations` 제어, 수동 worktree 병행) | 역할별 프롬프트/서브에이전트 전환 (주로 단일 작업 트리 공유) | 마스터 AI 총괄 + 그래프 분할 병렬 실행 | **허브(Master) + `cmux` 1:1:1:1 `git worktree` 물리 격리 + `spoke-guard` 훅** |
 | **기획 및 스코프 통제** | 프롬프트 내 완료 조건(`Success criteria`) 및 실패 표지판 튜닝 | 기획/설계 전용 역할 스킬을 통한 사전 계획 문서 생성 | 마스터 선제 기획 및 닫힌 형태의 **`Do & Don't` 명세표** 하달 | **선제 `Do & Don't` 명세 + 3종 경계 정합성 표 + `SPOKE_DECISION_NEEDED` 에스컬레이션** |
-| **도메인 지식 주입 및 캐싱** | 매 루프마다 `PROMPT.md` 및 파일 재탐색 | 글로벌/로컬 스킬 및 규칙 문서(`AGENTS.md`) 로드 | **공통 `Seed AI` 세션 Fork**를 통한 프롬프트 캐시 적중률(75~90%) 확보 | **`.ontology/`(`otlg`) 0.01초 코드 바인딩 조회 + `vault CLI` 그래프 질의 + Seed 캐싱** |
+| **도메인 지식 주입 및 캐싱** | 매 루프마다 `PROMPT.md` 및 파일 재탐색 | 글로벌/로컬 스킬 및 규칙 문서(`AGENTS.md`) 로드 | **공통 `Seed AI` 세션 Fork**를 통한 프롬프트 캐시 적중률(75~90%) 확보 | **`.ontology/`(`otlg v0.5.0`) 3-Graph·양방향 `brief` 0.01초 조회 + `vault CLI`(`v0.6.0`) 그래프 질의 + Seed 캐싱** |
 | **구현 및 교차 검수 규율** | 테스트 통과 시까지 루프 내 자율 디버깅 | 구현 에이전트와 리뷰 에이전트 페르소나 분리 | **`Codex`(구현) + `Claude`(읽기 전용 검수)** 이종 모델 무한 승인 루프 | **Kent Beck `TDD` + 객체 디자인 46규칙 + 독립 Critic 에이전트 교차 검수** |
-| **완료 판정 및 QA 증거** | `<promise>COMPLETE</promise>` 문자열 출력 매칭 | 린트/테스트 명령 실행 및 리뷰 스킬 승인 | TODO 완료 근거 기입 강제 + **`Playwright` 브라우저 조작 화면 캡처 증거** | **센티넬(`SPOKE_DONE`) + 허브 독립 테스트(`exit code 0`) + 핵심 여정 `Playwright` 스냅샷** |
-| **지식 영속화 및 거버넌스** | 별도 위키 계층 없음 (코드 및 README 중심) | 세션 로그 또는 작업 요약 마크다운 산출 | 개발 완료 직후 나무위키 스타일 마크다운 인덱스 위키 자동 갱신 | **`Living Wiki Engine` (`otlg lint --strict` + `.ontology/` + 부채·보류 대장 + `WORKLOG` 원자적 저널링)** |
+| **완료 판정 및 QA 증거** | `<promise>COMPLETE</promise>` 문자열 출력 매칭 | 린트/테스트 명령 실행 및 리뷰 스킬 승인 | TODO 완료 근거 기입 강제 + **`Playwright` 브라우저 조작 화면 캡처 증거** | **센티넬(`SPOKE_DONE`) + 허브 독립 테스트(`exit code 0` + `@pytest.mark.otlg_contract` 영수증) + 핵심 여정 `Playwright` 스냅샷** |
+| **지식 영속화 및 거버넌스** | 별도 위키 계층 없음 (코드 및 README 중심) | 세션 로그 또는 작업 요약 마크다운 산출 | 개발 완료 직후 나무위키 스타일 마크다운 인덱스 위키 자동 갱신 | **`Living Wiki Engine` (`otlg lint --strict` + 5대 정본 `.ontology/`·`arc42 §11`·`ADR`·`deferred-watchlist`·`WORKLOG` 원자적 저널링)** |
 
 ### 차세대 AI Agent OS 엔드투엔드 파이프라인 아키텍처
 
@@ -339,33 +335,22 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph Hub["Hub (Master Orchestrator)"]
-        H1["요구사항 스카웃 & 선제 기획"] --> H2["Do & Don't 명세표 확정"]
-        H2 --> H3["Seed Session 컨텍스트 준비"]
-        H3 --> H4["cmux worktree 물리 격리 스폰"]
-        H_DEC["허브 판단 / 사용자 협의"] -->|확정 결정 주입| S_RESUME["스포크 작업 재개"]
+    subgraph Hub ["1. Hub (Master Orchestrator)"]
+        H1["선제 기획 & Do/Don't 명세 확정"] --> H2["Seed Session 분기 & cmux worktree 격리 스폰"]
     end
 
-    subgraph Spoke["Spoke (Isolated Worktree Worker)"]
-        S1["Seed Context & 브리핑 수신"] --> S2["Specification Integrity 3종 표 확인"]
-        S2 --> S3["TDD 사이클 (RED ➔ GREEN ➔ REFACTOR)"]
-        S3 --> S_COND{"중대 미확정 결정 발생?"}
-        S_COND -- Yes --> S_BLOCK["SPOKE_DECISION_NEEDED 보고 & 일시정지"]
-        S_COND -- No --> S4["로컬 테스트 & 핵심 여정 Playwright 스냅샷"]
-        S_RESUME --> S4
-        S4 --> S5["Living Wiki 4단계 저널링 (otlg lint + 관리 문서)"]
-        S5 --> S6["touch SPOKE_DONE 센티넬 발행"]
+    subgraph Spoke ["2. Spoke (Isolated Worktree Worker)"]
+        S1["경계 정합성 3종 표 확인 & TDD (RED ➔ GREEN ➔ REFACTOR)"] --> S2["미확정 결정 발생 시 SPOKE_DECISION_NEEDED 에스컬레이션"]
+        S2 --> S3["로컬 테스트 & 핵심 여정 Playwright 스냅샷 검증"]
+        S3 --> S4["Living Wiki 4단계 저널링 (otlg lint + 5대 정본) & SPOKE_DONE 발행"]
     end
 
-    subgraph Verification["Acceptance & Ingestion Gate"]
-        V1["센티넬 & 커밋 SHA 확인"] --> V2["허브/CI 테스트 러너 독립 실행 (exit code 0)"]
-        V2 --> V3["Living Wiki diff 회수 & 브랜치 머지"]
-        V3 --> V4["Worktree Teardown & 리소스 해제"]
+    subgraph Gate ["3. Acceptance & Teardown Gate"]
+        V1["센티넬 · 커밋 SHA · 허브 독립 테스트(exit code 0) 검증"] --> V2["Living Wiki diff 회수 · 브랜치 머지 · Worktree Teardown"]
     end
 
-    H4 -->|Dispatch| S1
-    S_BLOCK -->|무언의 추측 차단 · 에스컬레이션| H_DEC
-    S6 -->|SIGCHLD 완료 통지| V1
+    H2 ==>|"브리핑 & 파일 소유권 주입"| S1
+    S4 ==>|"완료 통지"| V1
 ```
 
 특히 스포크가 구현 도중 명세에 없는 권한 정책이나 스키마 변경을 마주했을 때 임의로 추측(Guessing)해 코드를 짜는 대신 `SPOKE_DECISION_NEEDED` 신호를 올려 일시 정지하고 허브의 결정을 기다리는 에스컬레이션 프로토콜과, 퇴장 직전 `otlg lint --strict`로 코드와 도메인 온톨로지 명세의 정합성을 검증하는 저널링 관문이 결합되면서 에이전트의 속도와 엔지니어링의 엄밀함이 비로소 하나의 운영체제 안에서 양립할 수 있게 되었다.

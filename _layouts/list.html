@@ -56,10 +56,11 @@ layout: page
     {% assign s_posts = posts | where_exp:"item", "item.series_key == s_key" | sort:"series_order" %}
     {% if s_posts.size > 0 %}
       <section class="series-block mb-5" id="{{ s_key }}" style="margin-top: 2.5rem;">
+        {% assign s_deep_dives = site.deep_dives | where: "deep_dive_for", s_key | where_exp: "doc", "doc.published != false" %}
         <div class="hr-bottom pb-2 mb-3" style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
           <h2 class="h2 mb-0" style="margin-top: 0; border-bottom: none;">
             <a href="{{ s_meta.url | relative_url }}">{{ s_meta.title }}</a>
-            <span class="faded fine" style="font-size: 0.6em; vertical-align: middle;">({{ s_posts.size }}편)</span>
+            <span class="faded fine" style="font-size: 0.6em; vertical-align: middle;">({{ s_posts.size }}편{% if s_deep_dives.size > 0 %} · 심화 {{ s_deep_dives.size }}편{% endif %})</span>
           </h2>
           <a href="{{ s_meta.url | relative_url }}" class="fine" style="color: var(--accent-color, #4fb1ba); text-decoration: none;">시리즈 전체 모아보기 ➔</a>
         </div>
@@ -73,6 +74,19 @@ layout: page
             {% include components/post-list-item.html post=post format=list_entry %}
           {% endfor %}
         </ul>
+        {% if s_deep_dives.size > 0 %}
+          <div class="fine faded font-weight-bold mt-3 mb-2" style="letter-spacing: 0.04em; font-size: 0.82rem;">심화 자료 (Deep-Dive)</div>
+          <ul class="related-posts">
+            {% for dd in s_deep_dives %}
+              <li class="h4">
+                <a href="{{ dd.url | relative_url }}" class="flip-title"><span>{{ dd.title }}</span></a>
+                {% if dd.related_main_orders %}
+                  <span class="faded fine" style="margin-left: 0.4rem;">({{ dd.related_main_orders | join: "·" }}편)</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </section>
     {% endif %}
   {% endfor %}

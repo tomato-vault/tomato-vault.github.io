@@ -53,3 +53,18 @@ layout: page
   {% include components/post-list-item.html post=post format=list_entry %}
   {% if forloop.last %}</ul>{% endif %}
 {% endfor %}
+
+{% assign series_deep_dives = site.deep_dives | where: "deep_dive_for", page.slug | where_exp: "doc", "doc.published != false" %}
+{% if series_deep_dives and series_deep_dives.size > 0 %}
+  <h2 id="deep-dives-{{ page.slug }}" class="hr" style="margin-top: 2.5rem;">심화 자료 (Deep-Dive)</h2>
+  <ul class="related-posts">
+    {% for dd in series_deep_dives %}
+      <li class="h4">
+        <a href="{{ dd.url | relative_url }}" class="flip-title"><span>{{ dd.title }}</span></a>
+        {% if dd.related_main_orders %}
+          <span class="faded fine" style="margin-left: 0.4rem;">({{ dd.related_main_orders | join: "·" }}편)</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

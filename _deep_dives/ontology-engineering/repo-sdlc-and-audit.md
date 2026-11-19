@@ -71,7 +71,7 @@ fi
 project-root/
 ├── AGENTS.md                  # [1. 규범 (Norms)] 80줄 이내의 프로젝트 부트스트랩 및 행동 계약 정본
 ├── CLAUDE.md                  # AGENTS.md를 읽도록 지목하는 3줄짜리 얇은 어댑터 (Thin Adapter)
-├── WORKLOG.md                 # [5. 실행 기록 (Execution)] 당월 활성 작업·판단·검증 대장 (식별자 F1, X3 등)
+├── WORKLOG.md                 # [5. 실행 기록 (Execution)] 당월 활성 작업·판단·검증 기록 문서 (식별자 F1, X3 등)
 ├── .ontology/                 # [2. 도메인·코드·계약 정본 (Invariants)] docs/features/를 흡수한 단일 정본
 │   ├── objects/               # 도메인 명사 (Entity, 핵심 프로퍼티, 상태 Enum)
 │   ├── links/                 # 엔티티 간 구조적 관계 및 카디널리티

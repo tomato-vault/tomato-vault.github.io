@@ -287,11 +287,11 @@ def test_player_moves_left_good():
 
 #### 계약 표 (Contract Table: Default · 필수값 · Role 정합)
 
-| 엔드포인트 | 접근 Role | FE 호출 지점 | Query/Body 키 | BE 필수 여부 | FE 기본값 | 정합 판정 |
-|:---|:---|:---|:---|:---:|:---|:---:|
-| `GET /my/billing/list` | `student`, `parent` | `useBillingList` | `billing_month` | 필수 (`Query(...)`) | `filter.billing_month = ''` | 부적합 (`422` 충돌) |
-| `POST /my/discounts` | `admin`, `teacher` | `createDiscount` | `name`, `type`, `value` | 모두 필수 (`Body(...)`) | 폼 검증 통과 시만 전송 | 적합 |
-| `POST /admin/users/promote` | `admin` | `promoteUser` | `user_id`, `role` | 모두 필수 (`Body(...)`) | 폼 검증 통과 시만 전송 | 적합 |
+| 엔드포인트 (`Role`) | FE 호출 · 파라미터 | BE 필수 제약 | FE 기본값 | 판정 |
+|:---|:---|:---|:---|:---:|
+| `GET /my/billing/list`<br>(`student`, `parent`) | `useBillingList`<br>(`billing_month`) | 필수 (`Query(...)`) | `''` (빈 문자열) | 부적합 (`422`) |
+| `POST /my/discounts`<br>(`admin`, `teacher`) | `createDiscount`<br>(`name`, `type`, `value`) | 모두 필수 (`Body(...)`) | 폼 검증 시 전송 | 적합 |
+| `POST /admin/users/promote`<br>(`admin`) | `promoteUser`<br>(`user_id`, `role`) | 모두 필수 (`Body(...)`) | 폼 검증 시 전송 | 적합 |
 
 - **차단 규칙**: 정합 판정에 `부적합`이 단 한 줄이라도 있거나 `접근 Role` 칸이 비어 있으면 Phase 1(코드 구현) 진입을 금지한다.
 
@@ -336,7 +336,7 @@ def test_player_moves_left_good():
 |:---|:---:|:---|:---|
 | `dep-stub-for-query` | CRITICAL | 질의(Query) 의존성에는 스텁/가짜만 사용 | 조회 메서드에 `assert_called_once()`나 `call_count`를 단언하면 즉시 제거 |
 | `dep-mock-for-command` | CRITICAL | 명령(Command) 의존성에는 목/스파이로 부수효과 검증 | 외부 상태를 바꾸는 명령 의존성에 단순 스텁만 물려두고 호출 여부·인자를 검증하지 않는 누락 교정 |
-| `dep-mock-tautology` | CRITICAL | Mock 동어반복 원천 금지 | `mock.return_value = X` 설정 직후 단순 위임 함수를 거쳐 `assert result == X`를 단언하는 가짜 테스트 삭제 또는 실DB 통합 이관 |
+| `dep-mock-tautology` | CRITICAL | Mock 동어반복 원천 금지 | `mock.return_value = X` 설정 직후 단순 위임 함수를 거쳐 `assert result == X`를 단언하는 가짜 테스트 삭제 또는 실제 DB 통합 이관 |
 | `dep-system-boundary-only` | HIGH | 테스트 대역은 오직 시스템 경계(외부 IO)에서만 사용 | 내부 도메인 객체(`Entity`, `Value Object`)나 순수 계산 서비스를 `Mock`으로 대체하는 행위 금지 |
 | `dep-domain-abstraction` | MEDIUM | 저수준 인프라가 아닌 도메인 인터페이스를 대역화 | 테스트가 `requests`, `urllib`, `sqlalchemy.Session` 내부 메서드를 직접 `@patch`하는 결합 제거 |
 | `dep-single-return-type` | MEDIUM | 질의 반환 타입 단일화 검증 | 테스트 코드 내부에 `if result is not None:` 같은 조건 분기가 들어가면 질의 계약 재설계 |
@@ -423,13 +423,13 @@ def test_quantity_addition_preserves_immutability() -> None:
 |:---|:---:|:---|:---|
 | **Domain (`Entity`, `Value Object`, 순수 함수)** | 순수 단위 (주력) | **대역 절대 금지** (100% 실제 객체) | 산식·분기·상태 전이 규칙 변형 `N`개는 전부 이곳에서 초고속 검증 |
 | **Application Service (유스케이스 조율)** | 단위 | 시스템 경계 인터페이스를 `Fake`/`Stub`(Query) 및 `Spy`(Command)로 대체 | 비즈니스 계산이 섞여 있으면 `IO-Pure-IO`에 따라 순수 함수로 추출 후 단위 이전 |
-| **CRUD / Repository / SQL 쿼리** | 실DB 통합 | **Mock 절대 금지** (`Mock` 사용 시 동어반복 판정으로 삭제) | `PostgreSQL` RLS 격리, `UNIQUE`/`CHECK` 제약, 실제 쿼리 동작만 실DB 컨테이너로 검증 |
-| **API Router / Controller** | 통합 (계약당 1건) | 실제 서비스·실DB 연결 원칙(외부 서드파티 결제·메일 API만 인메모리 격리) | 도메인 규칙 변형을 API 통합 테스트로 중복 나열 금지(배선·인증·응답 셰이프만 1건 검증) |
+| **CRUD / Repository / SQL 쿼리** | 실제 DB 통합 | **Mock 절대 금지** (`Mock` 사용 시 동어반복 판정으로 삭제) | `PostgreSQL` RLS 격리, `UNIQUE`/`CHECK` 제약, 실제 쿼리 동작만 실제 DB 컨테이너로 검증 |
+| **API Router / Controller** | 통합 (계약당 1건) | 실제 서비스·실제 DB 연결 원칙(외부 서드파티 결제·메일 API만 인메모리 격리) | 도메인 규칙 변형을 API 통합 테스트로 중복 나열 금지(배선·인증·응답 셰이프만 1건 검증) |
 | **Frontend UI (`React` 컴포넌트·훅)** | 사용자 관점 통합 (주력) | **네트워크 경계(`MSW`)만 허용**. 내부 스토어·셀렉터·프레임워크 훅 목킹 금지 | 스냅샷 남용, 단순 렌더 확인, 내부 `state` 직접 접근 테스트는 전수 삭제 |
 
 ### Playwright 브라우저 E2E QA 게이트 검증 프로토콜
 
-단위 테스트, 실DB 통합 테스트, `/test-harden` 감사까지 모두 통과한 후 최종 머지 게이트(및 `hub-orchestrate` Phase 5)에서 수행하는 **실제 브라우저 기반 E2E 검증 계약**이다. 에이전트의 텍스트 보고(`"구현 완료했습니다"`)는 증거로 인정하지 않으며, 아래 4단계 물리적 영수증이 모두 확보되어야만 작업이 종결된다.
+단위 테스트, 실제 DB 통합 테스트, `/test-harden` 감사까지 모두 통과한 후 최종 머지 게이트(및 `hub-orchestrate` Phase 5)에서 수행하는 **실제 브라우저 기반 E2E 검증 계약**이다. 에이전트의 텍스트 보고(`"구현 완료했습니다"`)는 증거로 인정하지 않으며, 아래 4단계 물리적 영수증이 모두 확보되어야만 작업이 종결된다.
 
 1. **실제 런타임 기동 및 시드 데이터 주입**:
    - 로컬 테스트 DB(`alembic upgrade head` 반영 완료)와 백엔드(`FastAPI`), 프론트엔드 개발 서버를 실제로 띄운다.

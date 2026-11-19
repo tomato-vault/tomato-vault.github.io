@@ -11,7 +11,7 @@ published: true
 - table of contents
 {:toc}
 
-본 문서는 **1인 개발자의 프로덕션 엔지니어링 운영체계** 시리즈의 [[5편]](/tag-ai-agent-architecture/5-cmux-parallel-worktree/), [[6편]](/tag-ai-agent-architecture/6-repo-governance/), [[7편]](/tag-ai-agent-architecture/7-rule-pruning/) 본문에서 분량 관계상 생략하거나 요약한 상세 쉘 스크립트, 브리핑 및 저장소 문서 템플릿, `spoke-guard` 하드 바운더리 훅, Teardown 6단계 회수 프로토콜, 그리고 64개 규칙 전수 구조조정(Rule Pruning) 분류표를 수록한 심화 레퍼런스다.
+본 문서는 **1인 팀의 프로덕션 엔지니어링 운영체계** 시리즈의 [[5편]](/tag-ai-agent-architecture/5-cmux-parallel-worktree/), [[6편]](/tag-ai-agent-architecture/6-repo-governance/), [[7편]](/tag-ai-agent-architecture/7-rule-pruning/) 본문에서 분량 관계상 생략하거나 요약한 상세 쉘 스크립트, 브리핑 및 저장소 문서 템플릿, `spoke-guard` 하드 바운더리 훅, Teardown 6단계 회수 프로토콜, 그리고 64개 규칙 전수 구조조정(Rule Pruning) 분류표를 수록한 심화 레퍼런스다.
 
 ---
 
@@ -201,16 +201,16 @@ exit 0
 repo-root/
 ├── AGENTS.md                        # 에이전트 헌법 (착수 순서, 정본 경로, 금지·강제 규칙)
 ├── CLAUDE.md                        # AGENTS.md를 로드하는 얇은 런타임 어댑터
-├── WORKLOG.md                       # 당월 활성 작업 이력 및 검증 증거 대장
+├── WORKLOG.md                       # 당월 활성 작업 이력 및 검증 증거 기록 문서
 ├── .ontology/                       # 기계 가독형 도메인 온톨로지 정본 (repo-ontology)
 │   ├── objects/                     # 도메인 엔티티 및 소스코드 Model/Schema 바인딩
 │   ├── actions/                     # 상태 전이 트랜잭션, 사전 불변식(preconditions)
 │   └── rules/                       # 멀티테넌시 격리 등 전역 비즈니스 규칙
 └── docs/
     ├── deferred-watchlist.md        # 미착수·보류(Blocker)·스코프 밖(Out of Moat) 단일 정본
-    ├── tech-debt.md                 # 기술 부채 4분면 분류 및 상환 트리거 대장
+    ├── tech-debt.md                 # 기술 부채 4분면 분류 및 상환 트리거 기록 문서
     ├── worklog/
-    │   └── 2026-08.md               # 월별 아카이빙된 과거 작업 대장 (컨텍스트 비대화 방지)
+    │   └── 2026-08.md               # 월별 아카이빙된 과거 작업 이력 기록 문서 (컨텍스트 비대화 방지)
     ├── adr/
     │   ├── 0001-record-architecture-decisions.md
     │   └── 0017-save-time-hitl-tagging.md  # Nygard 5부 형식의 아키텍처 결정 기록 (append-only)
@@ -260,7 +260,7 @@ repo-root/
   - 감수할 비용: 쿠키 만료 주기와 학습 세션 갱신 주기를 동기화하는 미들웨어 로직이 추가된다.
 ```
 
-#### 보류 대장 (`docs/deferred-watchlist.md`) 및 기술 부채 (`docs/tech-debt.md`) 엔트리 규격
+#### 보류 항목 기록 문서 (`docs/deferred-watchlist.md`) 및 기술 부채 기록 문서 (`docs/tech-debt.md`) 엔트리 규격
 
 ```markdown
 ### docs/deferred-watchlist.md (차단 분류 및 복원 신뢰도 포함)
@@ -325,6 +325,8 @@ repo-root/
 | **`/implement-feature`** | 신규 기능 개발 시 | ① 요구사항·도메인 결정 -> ② Clean Architecture 순서(`Domain -> Infrastructure -> Application -> Presentation -> Frontend`) 구현 -> ③ 단위·통합·E2E 테스트 통과 -> ④ 완료 시 자동으로 `docs/features/{도메인}/{기능}.md` 생성 및 `index.md` 갱신을 강제한다. |
 | **`/modify-feature`** | 기존 기능 변경 시 | ① 기존 명세 스냅샷 확인 -> ② 코드 수정 및 회귀 테스트 통과 -> ③ 변경 규모(`Major`: v1.0->v2.0 / `Minor`: v1.0->v1.1 / `Patch`: v1.0->v1.0.1) 분류 -> ④ 문서 버전·현재 명세·마이그레이션 가이드·영향받는 타 기능 목록을 동시 갱신한다. |
 
+이후 『개발 규율집 v2.2』와 `repo-ontology`(`otlg v0.5.0`)가 도입되면서, 위 수기 기능 명세(`docs/features/`)는 AST 심볼과 3-Graph(`Domain`·`Architecture`·`Contract`)를 기계적으로 검증하는 `.ontology/`로 흡수되었고, `docs/tech-debt.md`는 `docs/architecture/11-risks-and-technical-debt.md`(`arc42 §11`)로 일원화되어 **5대 정본(`AGENTS.md`, `.ontology/`, `docs/architecture/`, `docs/adr/`, `WORKLOG.md`+`deferred-watchlist.md`) 기반 `Living Wiki`** 체제로 승화되었다(상세 규격은 [심화 \| Repo의 SDLC 하네스와 의미 감사](/tag-ontology-engineering/deep-dive/repo-sdlc-and-audit/#living-wiki) 참조).
+
 - [6편 본문으로 돌아가기](/tag-ai-agent-architecture/6-repo-governance/)
 
 ---
@@ -335,25 +337,44 @@ repo-root/
 
 『개발 규율집(Project Discipline Bible)』 v1.0의 64개 조항을 상시 시스템 프롬프트에 통째로 주입했을 때와, 이를 **헌법(`AGENTS.md`/`CLAUDE.md`) · 온디맨드 절차(`SKILL`) · 결정론적 강제(`Hook`/`Linter`)**의 3계층으로 분리·프루닝한 이후의 컨텍스트 예산 및 준수율 변화는 다음과 같다.
 
-| 측정 항목 | 개편 전 (64개 조항 단일 상시 주입) | 개편 후 (3계층 분리 및 Rule Pruning) | 비고 |
-| :--- | :--- | :--- | :--- |
-| **세션 시작 시 상시 프롬프트 분량** | 64개 조항 전문 (약 18,500 토큰, 컨텍스트의 35~40% 잠식) | 핵심 헌법 6개 조항 (약 1,200 토큰, 컨텍스트의 3% 미만) | 가용 추론 컨텍스트 95%+ 확보 |
-| **상황별 절차 로드 방식** | DB 작업이 없어도 DB·배포·리뷰 규칙을 매 턴 상시 로드 | `/tdd-plan`, `/go`, `/design`, `/sweep` 호출 시에만 JIT 로드 | 불필요한 주의력 분산(Lost in the Middle) 제거 |
-| **물리적 경계 위반율 (허브 직접 수정 등)** | 자연어 `MUST NOT` 강조에도 약 15~20% 빈도로 자기합리화 우회 발생 | `spoke-guard.sh` (`exit 2`) 및 `otlg lint --strict` 도입 후 **0%** | 기계가 막는 규칙은 프롬프트에서 완전 삭제 |
-| **테스트 설계 세부 규칙(30+개) 검증** | 구현 프롬프트에 혼재되어 `RED-GREEN` 속도 저하 유발 | 구현 완료 후 `/test-harden` Critic 서브에이전트로 격리 배출 | 메인 세션 컨텍스트 오염 0줄 |
+| 측정 항목 | 개편 전 (64개 조항 상시 주입) | 개편 후 (3계층 분리 및 달성 효과) |
+| :--- | :--- | :--- |
+| **상시 프롬프트 분량** | 64개 조항 전문 (약 18,500 토큰, 컨텍스트의 35~40% 잠식) | 핵심 헌법 6개 조항 (약 1,200 토큰, 3% 미만)으로 축소해 **가용 추론 컨텍스트 95%+ 확보** |
+| **상황별 절차 로드** | DB 작업이 없어도 DB·배포·리뷰 규칙을 매 턴 상시 로드 | `/tdd-plan`, `/go`, `/design`, `/sweep` 호출 시에만 JIT 로드해 **주의력 분산(Lost in the Middle) 제거** |
+| **물리적 경계 위반율** | 자연어 `MUST NOT` 강조에도 약 15~20% 빈도로 자기합리화 우회 발생 | `spoke-guard.sh`(`exit 2`) 및 `otlg lint --strict` 도입 후 **위반 0%** (기계가 막는 규칙은 프롬프트에서 삭제) |
+| **테스트 규칙(30+개) 검증** | 구현 프롬프트에 혼재되어 `RED-GREEN` 속도 저하 유발 | 구현 완료 후 `/test-harden` Critic 서브에이전트로 격리 배출해 **메인 세션 컨텍스트 오염 0줄** 달성 |
 
-### 64개 규칙 클러스터별 전수 감사 및 통폐합(Rule Pruning) 분류표
+### 64개 규칙 클러스터별 전수 감사 및 통폐합(Rule Pruning) 내역
 
-2026년 6월 수립했던 6개 클러스터, 총 64개 조항의 규율집을 전수 감사하여 ① **상시 헌법 잔류(`AGENTS.md`)**, ② **하네스 훅/린터 승격 후 프롬프트 삭제(`Hook/CLI`)**, ③ **온디맨드 스킬 흡수(`SKILL`)**, ④ **상위 원칙 포섭 및 Forces 소멸 숙청(`Pruned`)**의 네 갈래로 구조조정한 상세 내역은 아래와 같다.
+2026년 6월 수립했던 6개 클러스터, 총 64개 조항의 규율집을 전수 감사하여 ① **상시 헌법 잔류(`AGENTS.md`)**, ② **하네스 훅/린터 승격 후 프롬프트 삭제(`Hook/CLI`)**, ③ **온디맨드 스킬 흡수(`SKILL`)**, ④ **상위 원칙 포섭 및 Forces 소멸 숙청(`Pruned`)**의 네 갈래로 구조조정했다. 클러스터별 판정 요약과 세부 이관 내역은 다음과 같다.
 
-| 클러스터 (원본 조항 번호) | 원본 규칙 요약 (64개 조항) | 프루닝 및 이관 판정 | 최종 라우팅 위치 및 통폐합 방식 |
-| :--- | :--- | :--- | :--- |
-| **Cluster 1: 작업 공간 및 브랜치 격리**<br/>(규율 01 ~ 11) | 01. 1슬라이스 1브랜치 1워크트리 원칙<br/>02. 허브 세션 직접 코드 편집 금지<br/>03. 마이그레이션 인라인 수정 금지<br/>04. 크로스스택(BE+FE) 동시 수정 금지<br/>05. 6개 초과 파일 수정 시 워크트리 분리<br/>06. `origin/dev` 기준 분기 강제<br/>07. `node_modules` APFS COW 클론<br/>08. `.venv` 심링크 금지<br/>09. `.gitignore` 관리 문서 시드 복사<br/>10. 무인 스포크 `AskUserQuestion` 금지<br/>11. 공유 라우터 파일 주변 포맷팅 금지 | **Hook 승격 (02~09)**<br/>**SKILL 흡수 (01, 10, 11)** | - 규율 02~05는 `spoke-guard.sh` (`PreToolUse` 훅)가 결정론적으로 차단하므로 상시 프롬프트에서 **완전 삭제**.<br/>- 규율 06~09는 `worktree-from-dev.sh` 초기화 스크립트로 자동화하여 프롬프트에서 **삭제**.<br/>- 규율 01, 10, 11은 `/hub-orchestrate` 및 스포크 브리핑 템플릿으로 흡수. |
-| **Cluster 2: TDD 및 객체지향 설계**<br/>(규율 12 ~ 24) | 12. `RED-GREEN-REFACTOR` 순서 엄수<br/>13. 테스트 없는 프로덕션 코드 작성 금지<br/>14. 3계층 테스트(Unit/Integration/E2E) 분리<br/>15. 경계 정합성 표 3종 사전 작성<br/>16. 원시 타입 래핑(Value Object)<br/>17. `CQS` 조회·변경 분리<br/>18. 생성자 내 I/O 금지<br/>19~24. 세부 네이밍·Mock 남용 금지·단언문 규칙 등 6개 조항 | **헌법 잔류 (12)**<br/>**SKILL 흡수 (13~15)**<br/>**상위 포섭·외부 격리 (16~24)** | - 규율 12(선 테스트·선 계약)만 `AGENTS.md` 핵심 원칙 1줄로 잔류.<br/>- 규율 13~15는 `/tdd-plan` 및 `/go` 스킬 내부 테이블로 흡수.<br/>- 규율 16~24는 『Object Design Style Guide』 상위 원칙으로 포섭하여 `/object-design-practices`와 `/test-harden` Critic 서브에이전트로 **격리 배출**. |
-| **Cluster 3: API·DB·프론트엔드 경계 정합성**<br/>(규율 25 ~ 36) | 25. FE 초기 마운트 파라미터와 BE 스키마 1:1 대조 (422 방지)<br/>26. FK 필드는 표시명(`resolved`) 동반 반환<br/>27. Enum 문자열 하드코딩 금지<br/>28. Pydantic 응답 스키마 분리<br/>29. N+1 쿼리 방지 및 인덱스 명시<br/>30. 멀티테넌시 `tenant_id` 조건 강제<br/>31. 행 잠금(`SELECT FOR UPDATE`) 순서 고정<br/>32~36. FSD 슬라이스 import 규칙 및 레거시 폴더 확장 금지 | **온톨로지 정본 이관 (26, 30, 31)**<br/>**SKILL 흡수 (25, 28, 29, 32~36)**<br/>**Forces 소멸 삭제 (27)** | - 규율 26, 30, 31은 `.ontology/`의 `Rules`와 `Actions.preconditions` 계약으로 정형화하고 `otlg lint --strict` 및 행동 테스트로 검증.<br/>- 규율 25, 28, 29는 `/fastapi-api-patterns` 및 `/backend-db-practices` 스킬로 이관.<br/>- 규율 32~36은 `/fsd-slice` 스킬 및 ESLint 경계 규칙으로 이관 후 프롬프트에서 **삭제**.<br/>- 규율 27은 OpenAPI 타입 자동 생성기 도입으로 발생 조건(Forces)이 소멸하여 **영구 숙청**. |
-| **Cluster 4: 저장소 거버넌스 및 문서 동기화**<br/>(규율 37 ~ 48) | 37. 5대 정본(규범·계약·구조·결정·기록) 경로 준수<br/>38. 인라인 `// TODO` 주석 금지 (`watchlist` 일원화)<br/>39. 관리 문서 완료 행 임의 삭제 금지 (취소선 보존)<br/>40. 작업 고유 식별자(`F<n>`, `TD-<n>`) 커밋 명시<br/>41. `ADR` `append-only` 원칙<br/>42. 기술 부채 4분면 및 상환 트리거 명시<br/>43~46. `docs/features/` 수기 명세 작성 및 목차 갱신 4개 조항<br/>47. `WORKLOG.md` 월별 아카이빙<br/>48. `arc42`·`C4` 다이어그램 현행화 | **헌법 잔류 (37~41)**<br/>**온톨로지 통폐합 숙청 (43~46)**<br/>**SKILL 흡수 (42, 47, 48)** | - 규율 37~41은 `AGENTS.md`의 정본 위치 및 기록 원칙(약 15줄)으로 압축 잔류.<br/>- **규율 43~46(`docs/features/` 수기 기능 명세 4개 조항)은 `.ontology/`(`repo-ontology`)의 `Objects`·`Actions`·`code_binding`이 완전 대체함에 따라 전면 폐지(Pruning)**.<br/>- 규율 42, 47, 48은 작업 종료 시점의 4단계 환류 체크리스트로 통합. |
-| **Cluster 5: 완료 판정 및 Teardown 인수**<br/>(규율 49 ~ 56) | 49. 터미널 텍스트 자기보고 신뢰 금지<br/>50. 화면 해시 diff 기반 Liveness 판정<br/>51. `SPOKE_DONE` + 커밋 누적 + 종료 코드 0 3중 검증<br/>52. CLI `WARNING` 종료 코드 0 착시 경계 (`0 violations` 확인)<br/>53. 워크트리 삭제 전 `.gitignore` 문서 `append` 회수<br/>54. 스포크 세션 조기 종료 금지 (UI 스팟체크 대기)<br/>55. Alembic 다중 헤드 `align_migrations` 선형화<br/>56. 통합 브랜치 게이트 통과 후 `worktree remove` | **헌법 잔류 (51, 52)**<br/>**SKILL 및 스크립트 흡수 (49, 50, 53~56)** | - 규율 51, 52(검증 증거 및 `0 violations` 완료 조건)만 `AGENTS.md` 완료 게이트에 명시.<br/>- 규율 49, 50, 53~56은 `/hub-orchestrate` 스킬의 Phase 5~6 및 Teardown 쉘 스크립트로 코드화하여 상시 프롬프트에서 **삭제**. |
-| **Cluster 6: 코드베이스 감량 및 리팩터링 안전망**<br/>(규율 57 ~ 64) | 57. 400줄 초과 비대 파일 분할<br/>58. 상위 중복 통합 테스트 프루닝(Kent Beck Tidy First)<br/>59. 미사용 `import`·의존성·환경변수 정리<br/>60. 죽은 코드(Dead Code) 및 주석 처리된 구형 코드 즉시 삭제<br/>61. 의미 없는 Pass-through 래퍼 계층 인라인화<br/>62. 레이어 바이패스(Controller->DB 직결) 금지<br/>63. 대규모 파일 분해 시 메서드 시그니처 계약서 동결<br/>64. 월간 Git Churn 비율 점검 | **SKILL 흡수 (57~64 전항)** | - 평시 기능 구현 프롬프트에서는 **64개 조항 중 Cluster 6 전체를 완전 제거**하여 구현 속도와 추론 집중력 보호.<br/>- 정기 건강검진 시 호출하는 `/sweep` 스킬(12개 진단 축)과 대규모 리팩터링 전용 `/safe-decompose` 스킬 내부 체크리스트로 100% 이관. |
+| 클러스터 (원본 조항) | 다루는 영역 | 구조조정 판정 요약 |
+| :--- | :--- | :--- |
+| **Cluster 1** (규율 01 ~ 11) | 작업 공간 및 브랜치 격리 | **Hook 승격** (02~09) · **SKILL 흡수** (01, 10, 11) — 상시 프롬프트 잔류 0개 |
+| **Cluster 2** (규율 12 ~ 24) | TDD 및 객체지향 설계 | **헌법 잔류** (12) · **SKILL 흡수** (13~15) · **상위 원칙 포섭 및 격리** (16~24) |
+| **Cluster 3** (규율 25 ~ 36) | API·DB·프론트엔드 경계 정합성 | **온톨로지 정본 이관** (26, 30, 31) · **SKILL 흡수** (25, 28, 29, 32~36) · **영구 숙청** (27) |
+| **Cluster 4** (규율 37 ~ 48) | 저장소 거버넌스 및 문서 동기화 | **헌법 잔류** (37~41) · **온톨로지 통폐합 폐지** (43~46) · **SKILL 흡수** (42, 47, 48) |
+| **Cluster 5** (규율 49 ~ 56) | 완료 판정 및 Teardown 인수 | **헌법 잔류** (51, 52) · **SKILL 및 쉘 스크립트 흡수** (49, 50, 53~56) |
+| **Cluster 6** (규율 57 ~ 64) | 코드베이스 감량 및 리팩터링 안전망 | **SKILL 흡수** (57~64 전항 `/sweep` 및 `/safe-decompose`로 완전 이관) |
+
+1. **Cluster 1: 작업 공간 및 브랜치 격리 (규율 01 ~ 11)**
+   - **원본 조항**: 1슬라이스 1브랜치 1워크트리 원칙(01), 허브 직접 코드 편집 금지(02), 마이그레이션 인라인 수정 금지(03), 크로스스택(BE+FE) 동시 수정 금지(04), 6개 초과 파일 수정 시 워크트리 분리(05), `origin/dev` 기준 분기(06), `node_modules` APFS COW 클론(07), `.venv` 심링크 금지(08), `.gitignore` 관리 문서 시드 복사(09), 무인 스포크 `AskUserQuestion` 금지(10), 공유 라우터 주변 포맷팅 금지(11).
+   - **통폐합 및 라우팅**: 규율 02~05는 `spoke-guard.sh`(`PreToolUse` 훅)가 결정론적으로 차단하고, 규율 06~09는 `worktree-from-dev.sh` 초기화 스크립트가 자동 수행하므로 상시 프롬프트에서 **완전 삭제**했다. 규율 01, 10, 11은 `/hub-orchestrate` 및 스포크 브리핑 템플릿으로 흡수했다.
+2. **Cluster 2: TDD 및 객체지향 설계 (규율 12 ~ 24)**
+   - **원본 조항**: `RED-GREEN-REFACTOR` 순서 엄수(12), 테스트 없는 프로덕션 코드 금지(13), 3계층 테스트 분리(14), 경계 정합성 표 3종 사전 작성(15), 원시 타입 래핑(16), `CQS` 조회·변경 분리(17), 생성자 내 I/O 금지(18), 세부 네이밍·Mock 남용 금지·단언문 규칙 등 6개 조항(19~24).
+   - **통폐합 및 라우팅**: 규율 12(선 테스트·선 계약)만 `AGENTS.md` 핵심 원칙 1줄로 남기고, 규율 13~15는 `/tdd-plan` 및 `/go` 스킬 내부 절차로 흡수했다. 규율 16~24는 『Object Design Style Guide』 상위 원칙으로 포섭해 `/object-design-practices`와 `/test-harden` Critic 서브에이전트로 **격리 배출**했다.
+3. **Cluster 3: API·DB·프론트엔드 경계 정합성 (규율 25 ~ 36)**
+   - **원본 조항**: FE 초기 마운트 파라미터와 BE 스키마 1:1 대조(25), FK 필드 표시명(`resolved`) 동반 반환(26), Enum 문자열 하드코딩 금지(27), Pydantic 응답 스키마 분리(28), N+1 쿼리 방지 및 인덱스 명시(29), 멀티테넌시 `tenant_id` 조건 강제(30), 행 잠금(`SELECT FOR UPDATE`) 순서 고정(31), FSD 슬라이스 import 규칙 및 레거시 폴더 확장 금지(32~36).
+   - **통폐합 및 라우팅**: 규율 26, 30, 31은 `.ontology/`의 `Rules`와 `Actions.preconditions` 계약으로 정형화해 `otlg lint --strict`로 검증한다. 규율 25, 28, 29는 `/fastapi-api-patterns`·`/backend-db-practices` 스킬로, 규율 32~36은 `/fsd-slice` 스킬과 ESLint 경계 규칙으로 이관했다. 규율 27은 OpenAPI 타입 자동 생성기 도입으로 발생 조건(Forces)이 소멸해 **영구 숙청**했다.
+4. **Cluster 4: 저장소 거버넌스 및 문서 동기화 (규율 37 ~ 48)**
+   - **원본 조항**: 5대 정본 경로 준수(37), 인라인 `// TODO` 주석 금지(38), 관리 문서 완료 행 임의 삭제 금지 및 취소선 보존(39), 작업 고유 식별자(`F<n>`, `TD-<n>`) 커밋 명시(40), `ADR` `append-only` 원칙(41), 기술 부채 4분면 및 상환 트리거 명시(42), `docs/features/` 수기 명세 작성 및 목차 갱신 4개 조항(43~46), `WORKLOG.md` 월별 아카이빙(47), `arc42`·`C4` 다이어그램 현행화(48).
+   - **통폐합 및 라우팅**: 규율 37~41은 `AGENTS.md`의 정본 위치 및 기록 원칙(약 15줄)으로 압축 잔류시켰다. **규율 43~46(`docs/features/` 수기 기능 명세 4개 조항)은 `.ontology/`(`repo-ontology`)의 `Objects`·`Actions`·`code_binding`이 완전 대체함에 따라 전면 폐지**했고, 규율 42, 47, 48은 작업 종료 시점의 4단계 환류 체크리스트로 통합했다.
+5. **Cluster 5: 완료 판정 및 Teardown 인수 (규율 49 ~ 56)**
+   - **원본 조항**: 터미널 텍스트 자기보고 신뢰 금지(49), 화면 해시 diff 기반 Liveness 판정(50), `SPOKE_DONE` + 커밋 누적 + 종료 코드 0 3중 검증(51), CLI `WARNING` 종료 코드 0 착시 경계(52), 워크트리 삭제 전 `.gitignore` 문서 `append` 회수(53), 스포크 세션 조기 종료 금지(54), Alembic 다중 헤드 선형화(55), 통합 브랜치 게이트 통과 후 `worktree remove`(56).
+   - **통폐합 및 라우팅**: 규율 51, 52(검증 증거 및 `0 violations` 완료 조건)만 `AGENTS.md` 완료 게이트에 명시하고, 규율 49, 50, 53~56은 `/hub-orchestrate` 스킬의 Phase 5~6 및 Teardown 쉘 스크립트로 코드화해 상시 프롬프트에서 **삭제**했다.
+6. **Cluster 6: 코드베이스 감량 및 리팩터링 안전망 (규율 57 ~ 64)**
+   - **원본 조항**: 400줄 초과 비대 파일 분할(57), 상위 중복 통합 테스트 프루닝(58), 미사용 `import`·의존성·환경변수 정리(59), 죽은 코드 및 주석 처리된 구형 코드 즉시 삭제(60), 의미 없는 Pass-through 래퍼 인라인화(61), 레이어 바이패스 금지(62), 대규모 파일 분해 시 메서드 시그니처 계약서 동결(63), 월간 Git Churn 비율 점검(64).
+   - **통폐합 및 라우팅**: 평시 기능 구현 프롬프트에서는 **Cluster 6 전체를 완전 제거**해 구현 속도와 추론 집중력을 보호하고, 정기 건강검진 시 호출하는 `/sweep` 스킬(12개 진단 축)과 대규모 리팩터링 전용 `/safe-decompose` 스킬 내부 체크리스트로 100% 이관했다.
 
 ### 개편 후 루트 `AGENTS.md` 최소 헌법 구조
 

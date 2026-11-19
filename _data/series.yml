@@ -10,13 +10,13 @@ ai-agent-architecture:
   featured: true
   featured_order: 2
   badge: "SERIES 01 · AI AGENT OS"
-  title: "1인 개발자의 프로덕션 엔지니어링 운영체계"
+  title: "1인 팀의 프로덕션 엔지니어링 운영체계"
   slug: "ai-agent-architecture"
   url: "/tag-ai-agent-architecture/"
-  description: "사수 없는 환경에서 TDD 품질 엔진부터 클라우드 인프라, 병렬 에이전트와 저장소 거버넌스까지 구축해낸 1인 풀사이클 실전 기록"
+  description: "사수 없는 환경에서 TDD 품질 엔진부터 클라우드 인프라, 병렬 에이전트와 저장소 거버넌스까지 구축해낸 1인 팀 풀사이클 실전 기록"
   posts:
     - order: 0
-      title: "[0편] 1인 개발자는 어떻게 자신만의 운영체계를 만드는가"
+      title: "[0편] 1인 팀은 어떻게 자신만의 운영체계를 만드는가"
       url: "/tag-ai-agent-architecture/0-engineering-os/"
     - order: 1
       title: "[1편] AI에게 욕하던 신입이 선생님을 위한 규칙을 만들기까지"
@@ -62,7 +62,7 @@ ontology-engineering:
   description: "개인 지식 볼트(Vault)와 실무 코드베이스(Repo)에서 출발해 캠페인 런타임(TRPG), AI 안전 검수(BubbleTap FDE), 메타 청사진(Workbench)까지 4대 세계에 온톨로지를 세우고 적대적 검수로 다듬어낸 실전 기록"
   posts:
     - order: 0
-      title: "[0편] 내가 사랑하는 네 개의 세계에 온톨로지를 이식하기까지"
+      title: "[0편] 개념 공부를 넘어 실전으로, 네 개의 도메인에 온톨로지를 구축하기까지"
       url: "/tag-ontology-engineering/0-ontology-engineering-intro/"
     - order: 1
       title: "[1편] 온톨로지가 없는 AI는 현학적인 수다쟁이일 뿐이다"

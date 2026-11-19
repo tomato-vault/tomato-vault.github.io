@@ -59,6 +59,7 @@ layout: base
             {% assign s_meta = series_item[1] %}
             {% if s_meta.featured and s_meta.featured_order == target_order %}
               {% assign s_posts = site.posts | where_exp:"item", "item.series_key == s_key" | sort:"series_order" %}
+              {% assign s_deep_dives = site.deep_dives | where: "deep_dive_for", s_key | where_exp: "doc", "doc.published != false" %}
               {% if s_posts.size > 0 %}
                 {% assign first_post = s_posts | first %}
                 <article class="series-showcase-card">
@@ -76,7 +77,7 @@ layout: base
 
                   <div class="series-card-footer">
                     <a href="{{ first_post.url | relative_url }}" class="series-action-primary">처음부터 정주행</a>
-                    <a href="{{ s_meta.url | relative_url }}" class="series-action-secondary">전체 목록 ({{ s_posts.size }}편) &rarr;</a>
+                    <a href="{{ s_meta.url | relative_url }}" class="series-action-secondary">전체 목록 ({{ s_posts.size }}편{% if s_deep_dives.size > 0 %} · 심화 {{ s_deep_dives.size }}편{% endif %}) &rarr;</a>
                   </div>
                 </article>
               {% endif %}

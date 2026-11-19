@@ -53,5 +53,22 @@
       </li>
     {% endfor %}
   </ol>
+  {% assign series_deep_dives = site.deep_dives | where: "deep_dive_for", series_key | where_exp: "doc", "doc.published != false" %}
+  {% if series_deep_dives and series_deep_dives.size > 0 %}
+    <div class="series-box-deep-dives" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed rgba(148, 163, 184, 0.35);">
+      <div class="fine faded font-weight-bold" style="font-size: 0.78rem; letter-spacing: 0.04em; margin-bottom: 0.4rem;">심화 자료 (DEEP-DIVE)</div>
+      <ul class="series-box-list" style="list-style: none; padding-left: 0; margin-bottom: 0;">
+        {% for dd in series_deep_dives %}
+          <li class="series-box-item" style="padding: 0.2rem 0;">
+            <span class="series-item-marker"></span>
+            <a href="{{ dd.url | relative_url }}" class="series-item-title-link">{{ dd.title }}</a>
+            {% if dd.related_main_orders %}
+              <span class="series-item-badge" style="opacity: 0.75; font-size: 0.72rem;">{{ dd.related_main_orders | join: "·" }}편</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 </aside>
 {% endif %}

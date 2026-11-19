@@ -190,7 +190,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 
 ### 저장소 패킷(`otlg work-pack`)의 5분류 편차와 ADR 5축 상태 계약
 
-코드 저장소(`repo-ontology v0.4.0`)와 지식 볼트(`vault-ontology v0.3.0 ~ v0.5.0`)는 각자의 정본(SSOT) 주권을 침범하지 않는다. 계획서(`docs/plans`), 아키텍처 결정(`docs/adr`), 실행 대장(`Worklog`), 소스 코드는 저장소가 정본을 쥐고, 볼트는 휴대용 JSON 패킷(`repo-work-pack/1`)을 인수해 사건(`Case`)과 교훈(`Learnings`), 범용 지식(`Principle`/`Decision`) 및 블로그 초안으로 정제한다.
+코드 저장소(`repo-ontology v0.4.0`)와 지식 볼트(`vault-ontology v0.3.0 ~ v0.5.0`)는 각자의 정본(SSOT) 주권을 침범하지 않는다. 계획서(`docs/plans`), 아키텍처 결정(`docs/adr`), 작업 이력 기록 문서(`WORKLOG.md`), 소스 코드는 저장소가 정본을 쥐고, 볼트는 휴대용 JSON 패킷(`repo-work-pack/1`)을 인수해 사건(`Case`)과 교훈(`Learnings`), 범용 지식(`Principle`/`Decision`) 및 블로그 초안으로 정제한다.
 
 이 과정에서 에이전트가 작업 결과를 과장하거나 왜곡하지 못하도록 두 가지 분류 계약을 강제한다.
 
@@ -222,7 +222,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 이어진 `v0.4.0`(`558 passed`)에서는 저장소와 볼트 사이의 이중 관리 부채를 걷어내는 **Knowledge Closure**를 단행했다.
 - **`supersedes` 완전 은퇴**: 새 문서 생성·이관·수정 시 빈 값을 포함한 모든 `supersedes` 입력을 거부하고 `SQLite`/`RDF`/`SPARQL`/`blog-pack`에서 대체 간선을 제거했다. 기존 볼트 문서 9개에 남아 있던 13개 대체 제목은 가짜 `derived_from`이나 외부 URI로 날조하지 않고 각 문서의 평문 `Changelog`에 이관했다.
 - **`Progress Note` 스테이징 폴더 은퇴**: 중간 복사본 폴더에 남아 있던 9개 파일을 실제 성격에 따라 역사적 저장소 산출물(4건), 미가용 저장소 계획 레퍼런스(1건), 사건 `Case`(1건), 벤치마크 레퍼런스(1건), 월간 로그(1건), 프로젝트 학습 노트(1건)로 정밀 분류해 이관하고 빈 폴더만 정리했다.
-- **실무 대장 정본 일원화 및 TDD `/go Step 7` 분리**: 두 실무 프로젝트의 볼트 대장과 저장소 대장을 행 단위로 전수 대조하여 볼트에만 있던 고유 기록(10행 및 1행)을 보존한 뒤 저장소 단일 정본으로 통합했다. 또한 TDD 워크플로우의 마지막 단계인 `Step 7 (Knowledge & Feature Closure)`은 코드 테스트 게이트 통과 여부와 독립적으로 동작하여, 지식 정리 미완료가 다음 코드 사이클 진입을 막거나 가짜 RED 테스트가 되지 않도록 분리했다.
+- **실무 기록 문서 정본 일원화 및 TDD `/go Step 7` 분리**: 두 실무 프로젝트의 볼트 기록 문서와 저장소 기록 문서를 행 단위로 전수 대조하여 볼트에만 있던 고유 기록(10행 및 1행)을 보존한 뒤 저장소 단일 정본으로 통합했다. 또한 TDD 워크플로우의 마지막 단계인 `Step 7 (Knowledge & Feature Closure)`은 코드 테스트 게이트 통과 여부와 독립적으로 동작하여, 지식 정리 미완료가 다음 코드 사이클 진입을 막거나 가짜 RED 테스트가 되지 않도록 분리했다.
 
 ### `vault blog-pack` 5채널 예산과 장르별(`A/E/C/G` 및 `C/study`) 검수 슬롯
 
@@ -322,7 +322,7 @@ def readonly_authorizer(action: int, arg1: str | None, arg2: str | None, dbname:
 
 ### `.vault-mind/ledger.json` 상태 전이와 `apply --receipt` SHA-256 봉인 규격
 
-`vault mind` CLI는 그 어떤 경우에도 마크다운 파일을 직접 수정하거나 개인의 성찰 결론을 지어내지 않는다. 모든 발견과 검토 상태는 볼트 루트에 바인딩된 비공개 대장(`.vault-mind/ledger.json`, 논블로킹 파일 락 및 원자적 교체 적용)에서 관리되며, 후보 ID는 `(source_path, heading, normalized_paragraph_hash, occurrence)`로 결정론적 식별성을 유지한다.
+`vault mind` CLI는 그 어떤 경우에도 마크다운 파일을 직접 수정하거나 개인의 성찰 결론을 지어내지 않는다. 모든 발견과 검토 상태는 볼트 루트에 바인딩된 비공개 상태 기록 파일(`.vault-mind/ledger.json`, 논블로킹 파일 락 및 원자적 교체 적용)에서 관리되며, 후보 ID는 `(source_path, heading, normalized_paragraph_hash, occurrence)`로 결정론적 식별성을 유지한다.
 
 ```mermaid
 stateDiagram-v2
@@ -351,7 +351,7 @@ stateDiagram-v2
 }
 ```
 
-`apply` 명령은 기본값이 `--dry-run`이며, 제출된 모든 항목의 원본 파일 64자리 소문자 `SHA-256` 해시, 이미 수정된 대상 마크다운 파일의 `SHA-256` 해시, 그리고 `accepted` 단계에 기록된 응답 문자열이 1바이트의 오차도 없이 일치할 때만 대장 상태를 `applied`로 전이한다.
+`apply` 명령은 기본값이 `--dry-run`이며, 제출된 모든 항목의 원본 파일 64자리 소문자 `SHA-256` 해시, 이미 수정된 대상 마크다운 파일의 `SHA-256` 해시, 그리고 `accepted` 단계에 기록된 응답 문자열이 1바이트의 오차도 없이 일치할 때만 기록 상태를 `applied`로 전이한다.
 
 [10편 본문으로 돌아가기](/tag-ontology-engineering/10-knowledge-blog-compiler-and-semantic-critique/)
 

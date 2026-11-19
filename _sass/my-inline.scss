@@ -690,10 +690,13 @@ body.dark-mode {
 }
 
 // ==========================================================================
-// Table Korean Typography & Layout Polish (단어 중간 줄바꿈 방지)
+// Table Korean Typography & Layout Polish (단어 중간 줄바꿈 방지 및 설명 열 가독성 확보)
 // ==========================================================================
 
 table:not(.rouge-table) {
+  display: table;
+  width: 100%;
+
   th,
   td {
     word-break: keep-all;
@@ -701,9 +704,47 @@ table:not(.rouge-table) {
     vertical-align: middle;
   }
 
-  th,
+  th:first-child,
   td:first-child {
-    white-space: nowrap;
+    min-width: 9.5rem;
+  }
+
+  &.roadmap-table,
+  &.deep-dive-table {
+    th {
+      white-space: nowrap;
+    }
+  }
+
+  &.roadmap-table {
+    th:first-child,
+    td:first-child {
+      width: 44%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 56%;
+    }
+  }
+
+  &.deep-dive-table {
+    th:first-child,
+    td:first-child {
+      width: 34%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 12%;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 54%;
+    }
   }
 }
 
